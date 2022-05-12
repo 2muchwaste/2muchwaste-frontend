@@ -8,8 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build:prod": "ng build --configuration production --base-href https://eliamarcantognini.github.io/2muchwaste/",
-    "test:headless": "ng test --watch=false --browsers=ChromeHeadless"
+    "build:prod": "ng deploy --repo=https://github.com/eliamarcantognini/2muchwaste.git --branch=gh-pages --name=\"eliamarcantognini\" --email=elia.marcantognini@gmail.com --base-href=/2muchwaste/\n"
   },
   "private": true,
   "dependencies": {
