@@ -9,6 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: cpina/github-action-push-to-another-repository@v1.4.2
+      - name: Push directory to another repository
+        with:
+          github_access_token: ${{ secrets.ACCESS_TOKEN }}
+          source-directory: 'dist/frontend'
+          destination-github-username: 'eliamarcantognini'
+          destination-repository-name: '2muchwaste'
+          user-email: ${{ secrets.USER_MAIL }}
+          target-branch: main
 #      - uses: actions/checkout@v2
 #      - name: All things angular
 #        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
@@ -18,12 +27,3 @@ jobs:
 #          base_href: /2muchwaste-frontend/
 #          deploy_branch: gh-pages
 #          angular_dist_build_folder: dist/frontend
-    - name: Push directory to another repository
-    - uses: cpina/github-action-push-to-another-repository@v1.4.2
-      with:
-        github_access_token: ${{ secrets.ACCESS_TOKEN }}
-        source-directory: 'dist/frontend'
-        destination-github-username: 'eliamarcantognini'
-        destination-repository-name: '2muchwaste'
-        user-email: ${{ secrets.USER_MAIL }}
-        target-branch: main
