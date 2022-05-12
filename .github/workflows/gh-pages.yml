@@ -1,35 +1,20 @@
-name: GitHub Pages
-
+name: Build and Deploy
 on:
   push:
     branches:
-      - main
-
+      - master
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+      - name: All things angular
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@[version] ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
         with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm run test:headless
-
-      - name: Build
-        run: npm run build:prod
-
-      - name: Deploy
-        if: success()
-        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/2muchwaste
-          enable_jekyll: true
+          github_access_token: ${{ secrets.ACCESS_TOKEN }}
+          build_configuration: "production"
+          base_href: /2muchwaste/
+          deploy_branch: main
+          angular_dist_build_folder: dist/frontend # The folder where your project is supposed to be after running ng build by the action.
