@@ -5,18 +5,19 @@ on:
       - master
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-      - uses: cpina/github-action-push-to-another-repository@v1.4.2
+      - uses: actions/checkout@v2
       - name: Push directory to another repository
+        uses: cpina/github-action-push-to-another-repository@v1.4.2
         with:
           github_access_token: ${{ secrets.ACCESS_TOKEN }}
           source-directory: 'dist/frontend'
           destination-github-username: 'eliamarcantognini'
           destination-repository-name: '2muchwaste'
           user-email: ${{ secrets.USER_MAIL }}
+          user-name: 'eliamarcantognini'
+          commit-message: Update
           target-branch: main
 #      - uses: actions/checkout@v2
 #      - name: All things angular
