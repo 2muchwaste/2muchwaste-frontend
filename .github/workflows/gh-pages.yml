@@ -28,7 +28,7 @@ jobs:
 
       - name: Deploy
         if: success()
-        uses: peaceiris/actions-gh-pages@v3
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist/2muchwaste
