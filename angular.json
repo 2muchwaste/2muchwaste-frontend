@@ -33,7 +33,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
             "scripts": [],
             "serviceWorker": true,
@@ -127,6 +128,7 @@
   },
   "defaultProject": "frontend",
   "cli": {
+    "analytics": "efdc2851-489e-4eb3-bf80-2f80288a7abb",
     "defaultCollection": "@angular-eslint/schematics"
   }
 }
