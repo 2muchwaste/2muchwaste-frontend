@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user";
 import {map} from "rxjs/operators";
+import {AppConstants} from "../utils/constants";
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,8 @@ export class SignupComponent implements OnInit {
 
   password: string = ''
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {  }
 
   ngOnInit(): void {
   }
@@ -23,7 +25,7 @@ export class SignupComponent implements OnInit {
   onSubmit(): void {
     console.log("Pressed")
     console.log(this.user.birthday)
-    this.http.post('http://localhost:3000/api/prova', this.user).pipe(map((responseData: any) => {
+    this.http.post(AppConstants.serverURL+'/api/prova', this.user).pipe(map((responseData: any) => {
       let dataObject: any = {}
       dataObject = responseData;
       return dataObject
