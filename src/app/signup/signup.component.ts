@@ -11,8 +11,8 @@ import {AppConstants} from "../utils/constants";
 })
 export class SignupComponent implements OnInit {
 
-  user = new User('', '', new Date(), '', '', ''
-    , '', '', '', '', '')
+  user = new User('', '', new Date(), '', '', 'via mengoli 15'
+    , 61122, 'Pesaro', 'customer', '')
 
   password: string = ''
 
@@ -24,13 +24,12 @@ export class SignupComponent implements OnInit {
 
   onSubmit(): void {
     console.log("Pressed")
-    console.log(this.user.birthday)
-    this.http.post(AppConstants.serverURL+'/api/prova', this.user).pipe(map((responseData: any) => {
+    this.http.post(AppConstants.serverURL+'/api/v1/customers/auth/signup', this.user).pipe(map((responseData: any) => {
       let dataObject: any = {}
       dataObject = responseData;
       return dataObject
     })).subscribe((response: any) => {
-      console.log(response)
+      console.log("response: " +response)
       //this.newMovie._id = response["_id"];
       /*console.log("newmovie");
       console.log(this.newMovie)
