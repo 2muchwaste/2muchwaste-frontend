@@ -6,11 +6,10 @@ export class User {
     public cf: string,
     public email: string,
     public address: string,
-    public zipcode: string,
+    public zipcode: number,
     public city: string,
     public role: string,
-    public passwordHash: string,
-    public passwordSalt: string
+    public password: string,
   ) {
   }
 }
