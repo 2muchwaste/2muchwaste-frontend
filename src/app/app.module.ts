@@ -11,13 +11,15 @@ import { HomeComponent } from './home/home.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { SignupComponent } from './signup/signup.component';
+import { SigninComponent } from './signin/signin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    SignupComponent
+    SignupComponent,
+    SigninComponent
   ],
     imports: [
         BrowserModule,
