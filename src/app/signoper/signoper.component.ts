@@ -4,18 +4,17 @@ import {User} from "../models/user";
 import {map} from "rxjs/operators";
 import {AppConstants} from "../utils/constants";
 
-@Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
-})
-export class SignupComponent implements OnInit {
 
-  user = new User('', '', new Date(), '', '', 'Via mengoli 15'
-    , 61122, 'Pesaro', 'customer', '')
+@Component({
+  selector: 'app-signoper',
+  templateUrl: './signoper.component.html',
+  styleUrls: ['./signoper.component.scss']
+})
+export class SignoperComponent implements OnInit {
+  user = new User('', '', new Date(), '', '', 'Via Roma 10'
+    , 63900, 'Fermo', 'customer', '')
 
   password: string = ''
-
 
   constructor(private http: HttpClient) {  }
 
@@ -24,17 +23,14 @@ export class SignupComponent implements OnInit {
 
   onSubmit(): void {
     console.log("Pressed")
-    this.http.post(AppConstants.serverURL+'/api/v1/customers/auth/signup', this.user).pipe(map((responseData: any) => {
+    this.http.post(AppConstants.serverURL+'/api/v1/customers/auth/signoper', this.user).pipe(map((responseData: any) => {
       let dataObject: any = {}
       dataObject = responseData;
       return dataObject
     })).subscribe((response: any) => {
       console.log("response: " +response)
-      //this.newMovie._id = response["_id"];
-      /*console.log("newmovie");
-      console.log(this.newMovie)
-      console.log("movie id");
-      console.log(response["_id"]);*/
+
     })
   }
+
 }
