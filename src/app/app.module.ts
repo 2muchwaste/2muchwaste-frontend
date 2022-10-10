@@ -13,6 +13,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignoperComponent } from './signoper/signoper.component';
+import { CustomerhomeComponent } from './customerhome/customerhome.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SignoperComponent } from './signoper/signoper.component';
     HomeComponent,
     SignupComponent,
     SigninComponent,
-    SignoperComponent
+    SignoperComponent,
+    CustomerhomeComponent
   ],
     imports: [
         BrowserModule,
