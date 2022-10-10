@@ -1,1 +1,30 @@
-<p>signin works!</p>
+<div class="row">
+  <form #signin="ngForm" class="col-12">
+    <h4>Signin</h4>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group row">
+          <label class="col-12" for="email">Indirizzo mail</label>
+          <input [(ngModel)]="this.email" #userEmail="ngModel" type="email" name="userEmail"
+                 id="email" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-12" for="userPassword">Password</label>
+          <input [(ngModel)]="this.password" #userPassword="ngModel" type="password" id="userPassword"
+                 class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12">
+            <button (click)="onSubmit()" type="submit" class="btn btn-primary">
+              Accedi
+            </button>
+            <!--        <a routerLink="../register" class="btn btn-link">Register</a>-->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>
