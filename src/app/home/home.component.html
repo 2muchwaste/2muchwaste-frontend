@@ -10,8 +10,9 @@
     </div>
   </div>
   <div class="row">
+    <!-- Check https://angular.io/guide/router#link-parameters-array -->
     <div class="col-md-6">
-      <button [routerLink]="'/signup'" type="button" class="btn btn-primary">Cliente</button>
+      <button [routerLink]="['/signin', {type:'op'}]" type="button" class="btn btn-primary">Cliente</button>
     </div>
     <div class="col-md-6">
       <button [routerLink]="'/signoper'" type="button" class="btn btn-primary">Operatore</button>
