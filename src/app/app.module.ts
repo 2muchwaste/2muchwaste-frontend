@@ -16,6 +16,7 @@ import {SignoperComponent} from './signoper/signoper.component';
 import {CustomerhomeComponent} from './customerhome/customerhome.component';
 import {MaterialExampleModule} from '../material.module';
 import {MatNativeDateModule} from '@angular/material/core';
+import { OperatorhomeComponent } from './operatorhome/operatorhome.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     SignupComponent,
     SigninComponent,
     SignoperComponent,
-    CustomerhomeComponent
+    CustomerhomeComponent,
+    OperatorhomeComponent
   ],
   imports: [
     BrowserModule,
