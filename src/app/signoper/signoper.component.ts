@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user";
 import {map} from "rxjs/operators";
 import {AppConstants} from "../utils/constants";
-
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-signoper',
@@ -14,11 +14,19 @@ export class SignoperComponent implements OnInit {
   user = new User('', '', new Date(), '', '', 'Via Roma 10'
     , 63900, 'Fermo', 'customer', '')
 
+  type: string = ''
+  email: string = ''
   password: string = ''
 
-  constructor(private http: HttpClient) {  }
 
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute,
+             private http: HttpClient) {  }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.type = params['type'];
+      console.log("type="+this.type);
+    });
   }
 
   onSubmit(): void {
