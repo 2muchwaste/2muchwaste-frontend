@@ -12,7 +12,6 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'signin', component: SigninComponent},
   {path: 'customerhome', component: CustomerhomeComponent},
-  // {path: 'movies', component: MoviesComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}
 ]
 
@@ -23,5 +22,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }
