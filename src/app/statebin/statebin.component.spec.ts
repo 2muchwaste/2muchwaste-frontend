@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmptydumpsterComponent } from './emptydumpster.component';
+import { StatebinComponent } from './statebin.component';
 
-describe('EmptydumpsterComponent', () => {
-  let component: EmptydumpsterComponent ;
-  let fixture: ComponentFixture<EmptydumpsterComponent >;
+describe('StatebinComponent', () => {
+  let component: StatebinComponent;
+  let fixture: ComponentFixture<StatebinComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EmptydumpsterComponent ]
+      declarations: [ StatebinComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmptydumpsterComponent);
+    fixture = TestBed.createComponent(StatebinComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -23,5 +23,3 @@ describe('EmptydumpsterComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
