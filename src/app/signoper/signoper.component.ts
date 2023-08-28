@@ -37,8 +37,6 @@ export class SignoperComponent implements OnInit {
       return dataObject
     })).subscribe((response: any) => {
       console.log("response: " +response)
-
     })
   }
-
 }

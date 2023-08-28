@@ -23,5 +23,3 @@ describe('EmptydumpsterComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
