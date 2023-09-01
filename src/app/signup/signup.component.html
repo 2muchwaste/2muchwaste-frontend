@@ -1,75 +1,114 @@
-<div class="row">
-  <form #signup="ngForm" class="col-12">
-    <h4>Signup</h4>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group row">
-          <!--        <div class="col">-->
-          <label class="col-12" for="email">Indirizzo mail</label>
-          <input [(ngModel)]="this.user.email" #userEmail="ngModel" type="email" name="userEmail"
-                 id="email" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-          <!--          <input [(ngModel)]="this.user.email" #userEmail="ngModel" type="email" name="userEmail"-->
-          <!--                 [class.is-invalid]="userEmail.invalid && userEmail.touched" required-->
-          <!--                 pattern="{2,4}$" id="email" class="form-control col-12"-->
-          <!--                 [ngModelOptions]="{standalone: true}"/>-->
-          <!--        <div>-->
-          <!--          <div *ngIf="f.username.errors.required">Username is required</div>-->
-          <!--        </div>-->
-          <!-- "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$" -->
-          <!--        </div>-->
-        </div>
+<form class="example-form" (ngSubmit)="onSubmit()">
+  <div class="row">
 
-        <div class="form-group row">
-          <label class="col-12" for="userName">Nome</label>
-          <input [(ngModel)]="this.user.name" #userName="ngModel" type="text" name="userName"
-                 id="userName" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-        </div>
+    <!------- NOME -------->
+    <mat-form-field class="col-12">
+      <mat-label>Nome</mat-label>
+      <input type="text" matInput [formControl]="nameFormControl">
+      <mat-error *ngIf="nameFormControl.hasError('required')">
+        Il nome è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <div class="form-group row">
-          <label class="col-12" for="userSurname">Cognome</label>
-          <input [(ngModel)]="this.user.surname" #userSurname="ngModel" type="text" name="userSurname"
-                 id="userSurname" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-        </div>
+    <!------- COGNOME -------->
+    <mat-form-field class="col-12">
+      <mat-label>Cognome</mat-label>
+      <input type="text" matInput [formControl]="surnameFormControl">
+      <mat-error *ngIf="surnameFormControl.hasError('required')">
+        Il cognome è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <div class="form-group row">
-          <label class="col-12" for="userBirthday">Data di nascita</label>
-          <input [(ngModel)]="this.user.birthday" #userBirthday="ngModel" type="date" name="userBirthday"
-                 id="userBirthday" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-        </div>
+    <!------- MAIL -------->
+    <mat-form-field class="col-12">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Inserire un indirizzo mail <strong>valido</strong>
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        L'indirizzo email è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <div class="form-group row">
-          <label class="col-12" for="userCF">Codice Fiscale</label>
-          <input [(ngModel)]="this.user.cf" #userCF="ngModel" type="text" name="userCF"
-                 id="userCF" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-        </div>
+    <!------- PASSWORD -------->
+    <mat-form-field class="col-12">
+      <mat-label>Password</mat-label>
+      <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="passwordFormControl.hasError('required')">
+        La password è <strong>richiesta</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <div class="form-group row">
-          <!--        <div class="col">-->
-          <label class="col-12" for="password">Password</label>
-          <input [(ngModel)]="this.password" type="password" id="password" class="form-control col-12"
-                 [ngModelOptions]="{standalone: true}"/>
-          <!--        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">-->
-          <!--          <div *ngIf="f.password.errors.required">Password is required</div>-->
-          <!--        </div>-->
-          <!--        </div>-->
-        </div>
+    <!------- DATA DI NASCITA -------->
+    <mat-form-field class="col-12">
+      <mat-label>Data di nascita</mat-label>
+      <input matInput [formControl]="birthdayFormControl" [matDatepicker]="picker">
+      <mat-error *ngIf="birthdayFormControl.hasError('required')">
+        La data di nascita è <strong>richiesta</strong>
+      </mat-error>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-        <div class="row">
-          <div class="col-12">
-            Gli altri campi sono per il momento di default.
-          </div>
-        </div>
+    <!------- CODICE FISCALE -------->
+    <mat-form-field class="col-12">
+      <mat-label>Codice Fiscale</mat-label>
+      <input type="text" matInput [formControl]="CFFormControl" placeholder="CNF...">
+      <mat-error *ngIf="CFFormControl.hasError('required')">
+        Il codice fiscale è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <div class="form-group row">
-          <div class="col-12">
-            <button (click)="onSubmit()" type="submit" class="btn btn-primary">
-              Registrati
-            </button>
-            <!--        <a routerLink="../register" class="btn btn-link">Register</a>-->
-          </div>
-        </div>
-        <p>{{this.user.email}}, {{this.password}}</p>
-      </div>
-    </div>
-  </form>
-</div>
+    <!------- INDIRIZZO -------->
+    <mat-form-field class="col-12">
+      <mat-label>Indirizzo</mat-label>
+      <input type="text" matInput [formControl]="addressFormControl" placeholder="Ex. Via Minetti, 23">
+      <mat-error *ngIf="cityFormControl.hasError('required')">
+        L'indirizzo è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!------- CITTÀ -------->
+    <mat-form-field class="col-12">
+      <mat-label>Città</mat-label>
+      <input type="text" matInput [formControl]="cityFormControl" placeholder="Ex. Milano">
+      <mat-error *ngIf="cityFormControl.hasError('required')">
+        La città è <strong>richiesta</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!------- CODICE POSTALE -------->
+    <mat-form-field class="col-12">
+      <mat-label>CAP</mat-label>
+      <input type="text" matInput [formControl]="zipCodeFormControl" placeholder="Ex. 65230">
+      <!--      <mat-error *ngIf="zipCodeFormControl.hasError('number') && !zipCodeFormControl.hasError('required')">-->
+      <!--        Inserire un CAP <strong>valido</strong>-->
+      <!--      </mat-error>-->
+      <mat-error *ngIf="zipCodeFormControl.hasError('required')">
+        Il CAP è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!------- RUOLO -------->
+
+    <mat-form-field class="col-12">
+      <mat-label>Ruolo</mat-label>
+      <mat-select [formControl]="roleFormControl">
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="customer">Cliente</mat-option>
+        <mat-option value="operator">Operatore</mat-option>
+      </mat-select>
+      <mat-error *ngIf="roleFormControl.hasError('required')">
+        Il ruolo è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <button class="col-12" mat-raised-button color="primary">Registrati</button>
+  </div>
+</form>
