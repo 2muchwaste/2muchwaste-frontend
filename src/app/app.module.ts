@@ -1,22 +1,25 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {environment} from '../environments/environment';
-import {NavbarComponent} from './navbar/navbar.component';
-import {HomeComponent} from './home/home.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
+import {MaterialExampleModule} from '../material.module';
+
+import {NavbarComponent} from './navbar/navbar.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {environment} from '../environments/environment';
+import {HomeComponent} from './home/home.component';
+
 import {SignupComponent} from './signup/signup.component';
-import {SigninComponent} from './signin/signin.component';
+import {SigninComponent, SigninErrorDialogComponent} from './signin/signin.component';
+
 import {SignoperComponent} from './signoper/signoper.component';
 import {CustomerhomeComponent} from './customerhome/customerhome.component';
-import {MaterialExampleModule} from '../material.module';
-import {MatNativeDateModule} from '@angular/material/core';
 import { OperatorhomeComponent } from './operatorhome/operatorhome.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { OperatorhomeComponent } from './operatorhome/operatorhome.component';
     HomeComponent,
     SignupComponent,
     SigninComponent,
+    SigninErrorDialogComponent,
     SignoperComponent,
     CustomerhomeComponent,
     OperatorhomeComponent
@@ -45,7 +49,6 @@ import { OperatorhomeComponent } from './operatorhome/operatorhome.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    MatNativeDateModule,
     MaterialExampleModule,
     ReactiveFormsModule
   ],

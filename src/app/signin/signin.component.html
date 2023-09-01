@@ -1,30 +1,53 @@
-<div class="row">
-  <form #signin="ngForm" class="col-12">
-    <h4>Signin</h4>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group row">
-          <label class="col-12" for="email">Indirizzo mail</label>
-          <input [(ngModel)]="this.email" #userEmail="ngModel" type="email" name="userEmail"
-                 id="email" class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-        </div>
+<form class="example-form" (ngSubmit)="checkAndSubmit()">
+  <div class="row">
 
-        <div class="form-group row">
-          <label class="col-12" for="userPassword">Password</label>
-          <input [(ngModel)]="this.password" #userPassword="ngModel" type="password" id="userPassword"
-                 class="form-control col-12" [ngModelOptions]="{standalone: true}"/>
-        </div>
+    <!------ MAIL ------>
 
-        <div class="form-group row">
-          <div class="col-12">
-            <button (click)="onSubmit()" type="submit" class="btn btn-primary">
-              Accedi
-            </button>
-            <!--        <a routerLink="../register" class="btn btn-link">Register</a>-->
-          </div>
-        </div>
+    <mat-form-field class="example-full-width col-12">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Inserire un indirizzo mail <strong>valido</strong>
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
-      </div>
-    </div>
-  </form>
-</div>
+    <!------ PASSWORD ------>
+
+    <mat-form-field class="col-12">
+      <mat-label>Password</mat-label>
+      <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl">
+      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide" >
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+
+      <mat-error *ngIf="passwordFormControl.hasError('required')">
+        La password è <strong>richiesta</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!------- RUOLO -------->
+
+    <mat-form-field class="col-12">
+      <mat-label>Ruolo</mat-label>
+      <mat-select [formControl]="roleFormControl">
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="customer">Cliente</mat-option>
+        <mat-option value="operator">Operatore</mat-option>
+      </mat-select>
+      <mat-error *ngIf="roleFormControl.hasError('required')">
+        Il ruolo è <strong>richiesto</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-error class="col-12" *ngIf="errorLogin">
+      <strong>Errore, credenziali errate</strong>
+    </mat-error>
+
+    <a routerLink='/signup' class="col-12">Non hai un account? Registrati qui!</a>
+    <button class="col-12" mat-raised-button color="primary" >Accedi</button>
+  </div>
+</form>
