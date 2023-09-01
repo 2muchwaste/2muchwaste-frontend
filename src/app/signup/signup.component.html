@@ -1,4 +1,4 @@
-<form class="example-form" (ngSubmit)="onSubmit()">
+<form class="example-form" (ngSubmit)="checkAndSubmit()">
   <div class="row">
 
     <!------- NOME -------->
@@ -35,7 +35,7 @@
     <mat-form-field class="col-12">
       <mat-label>Password</mat-label>
       <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl">
-      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
