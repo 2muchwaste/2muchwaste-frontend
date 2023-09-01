@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user";
 import {AppConstants} from "../utils/constants";
 import {FormControl, Validators} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +13,8 @@ import {FormControl, Validators} from "@angular/forms";
 
 export class SignupComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private dialog: MatDialog) {
   }
 
   roles: string[] = ['admin', 'user', 'operator']
@@ -93,8 +95,30 @@ export class SignupComponent implements OnInit {
         },
         error: (errorObject) => {
           console.log("Signup error")
+          console.log(errorObject)
+          console.log('errorObject.status')
+          console.log(errorObject.status)
+          console.log('errorObject.error')
           console.log(errorObject.error)
+          this.dialog.open(SignupErrorDialogComponent,{
+            data: {
+              statusCode: errorObject.status
+            }
+          });
+
         }
       })
+  }
+}
+
+@Component({
+  selector: 'app-signup-error-dialog',
+  templateUrl: 'signup-error-dialog.html',
+})
+export class SignupErrorDialogComponent {
+
+  emailAlreadyPresent = false
+  constructor(@Inject(MAT_DIALOG_DATA) public errorStatus: any) {
+    this.emailAlreadyPresent = true
   }
 }

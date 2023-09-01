@@ -13,7 +13,7 @@ import {AppComponent} from './app.component';
 import {environment} from '../environments/environment';
 import {HomeComponent} from './home/home.component';
 
-import {SignupComponent} from './signup/signup.component';
+import {SignupComponent, SignupErrorDialogComponent} from './signup/signup.component';
 import {SigninComponent, SigninErrorDialogComponent} from './signin/signin.component';
 
 import {SignoperComponent} from './signoper/signoper.component';
@@ -27,6 +27,7 @@ import { OperatorhomeComponent } from './operatorhome/operatorhome.component';
     NavbarComponent,
     HomeComponent,
     SignupComponent,
+    SignupErrorDialogComponent,
     SigninComponent,
     SigninErrorDialogComponent,
     SignoperComponent,
