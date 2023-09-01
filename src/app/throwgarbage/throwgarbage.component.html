@@ -1,14 +1,21 @@
 <h2>Cassonetti</h2>
 <ul>
     <li *ngFor="let cassonetto of cassonetti">
-        {{ cassonetto.nome }} - Capacità: {{ cassonetto.capacita }} kg - Riempimento: {{ cassonetto.riempimento }}%
+        {{ cassonetto.nome }} 
+        </li>
+        Capacità: {{ cassonetto.capacita }} kg 
+        </li>
+        Riempimento: {{ cassonetto.riempimento }}%
     </li>
 </ul>
 
 <h2>Utenti</h2>
 <ul>
     <li *ngFor="let utente of utenti">
-        {{ utente.nome }} (RFID: {{ utente.rfid }})
+        {{ utente.nome }} 
+        </li>
+        (RFID: {{ utente.rfid }})
+    </li>
     </li>
 </ul>
 

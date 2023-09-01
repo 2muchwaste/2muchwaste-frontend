@@ -1,0 +1,22 @@
+<div *ngIf="notifications !== undefined; else loading">
+  <div *ngIf="isDataLoaded">
+    <h1 id="titleNotifiche">Notifiche</h1>
+    <div id="containerCounter">
+      <h2 id="notReadCounter">Notifiche da leggere:</h2>
+      <p id="counter">{{ notRead }}</p>
+    </div>
+    <div id="containerNotification">
+      <app-notification
+        class="notificationElement"
+        *ngFor="let n of visibleItems"
+        [n]="n"
+      ></app-notification>
+    </div>
+    <div class="button-container">
+      <button class="prevnext" (click)="previous()" [disabled]="isFirstPage">Precedente</button>
+      <button class="prevnext" (click)="next()" [disabled]="isLastPage">Successivo</button>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+</ng-template>

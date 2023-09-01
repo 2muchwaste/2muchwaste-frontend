@@ -1,0 +1,19 @@
+    <div *ngIf="n !== undefined">
+      <div class="card flex justify-content-center">
+        <ngb-modal [size]="'lg'" [centered]="true" [(ngModel)]="visible" [keyboard]="false">
+          <ng-template ngbModalHeader>
+            Notifica
+          </ng-template>
+          <ng-template ngbModalContent>
+            <p>{{ n.text }}</p>
+          </ng-template>
+        </ngb-modal>
+      </div>
+      <div class="cards" (click)="reading(); visible = true;" [ngStyle]="{ backgroundColor: '#f9f5ba' }">
+      <template #title> Notifica <span v-if="n.isRead === false" class="subtitle">"!Da leggere"</span></template>
+      <template #content>
+        <p v-if="n.isRead === true" >
+          Notifica
+          <span *ngIf="n.isRead === false" class="subtitle">!Da leggere</span>
+          </div>
+    </div>
