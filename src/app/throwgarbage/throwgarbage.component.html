@@ -1,33 +1,35 @@
-<h2>Cassonetti</h2>
-<ul>
-    <li *ngFor="let cassonetto of cassonetti">
-        {{ cassonetto.nome }} 
+<div>
+    <h2>Cassonetti</h2>
+    <ul>
+        <li *ngFor="let cassonetto of cassonetti">
+            {{ cassonetto.nome }} 
+            Capacità: {{ cassonetto.capacita }} kg 
+            Riempimento: {{ cassonetto.riempimento }}%
         </li>
-        Capacità: {{ cassonetto.capacita }} kg 
-        </li>
-        Riempimento: {{ cassonetto.riempimento }}%
-    </li>
-</ul>
+    </ul>
+</div>
 
-<h2>Utenti</h2>
-<ul>
-    <li *ngFor="let utente of utenti">
-        {{ utente.nome }} 
+<div>
+    <h2>Utenti</h2>
+    <ul>
+        <li *ngFor="let utente of utenti">
+            {{ utente.nome }} 
+            (RFID: {{ utente.rfid }})
         </li>
-        (RFID: {{ utente.rfid }})
-    </li>
-    </li>
-</ul>
+    </ul>
+</div>
 
-<h2>Registra Rifiuti</h2>
-<form (ngSubmit)="registraRifiuti()" #rifiutiForm="ngForm">
-    <label for="rfid">RFID Utente:</label>
-    <input type="text" name="rfid" [(ngModel)]="rfid" required><br>
-    <label for="cassonetto_id">Cassonetto:</label>
-    <select name="cassonetto_id" [(ngModel)]="cassonettoId">
-        <option *ngFor="let cassonetto of cassonetti" [value]="cassonetto.id">{{ cassonetto.nome }}</option>
-    </select><br>
-    <label for="peso_rifiuti">Peso Rifiuti (kg):</label>
-    <input type="number" name="peso_rifiuti" step="0.01" [(ngModel)]="pesoRifiuti" required><br>
-    <button type="submit">Registra</button>
-</form>
+<div>
+    <h2>Registra Rifiuti</h2>
+    <form (ngSubmit)="registraRifiuti()" #rifiutiForm="ngForm">
+        <label for="rfid">RFID Utente:</label>
+        <input type="text" name="rfid" [(ngModel)]="rfid" required><br>
+        <label for="cassonetto_id">Cassonetto:</label>
+        <select name="cassonetto_id" [(ngModel)]="cassonettoId">
+            <option *ngFor="let cassonetto of cassonetti" [value]="cassonetto.id">{{ cassonetto.nome }}</option>
+        </select><br>
+        <label for="peso_rifiuti">Peso Rifiuti (kg):</label>
+        <input type="number" name="peso_rifiuti" step="0.01" [(ngModel)]="pesoRifiuti" required><br>
+        <button type="submit">Registra</button>
+    </form>
+</div>
