@@ -8,7 +8,7 @@ import {User} from "../models/user";
 })
 export class OperatorhomeComponent implements OnInit {
 
-  user = new User('', '', '', '', '', 'Via Roma 10', 63900, 'Fermo', 'customer', '')
+  user = new User('', '', '', '', '', 'Via Roma 10', 63900, 'Fermo', 'operator', '')
 
   garbagebin = 'carta'
 

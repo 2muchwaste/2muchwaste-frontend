@@ -12,7 +12,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SignoperComponent implements OnInit {
   user = new User('', '', '', '', '', 'Via Roma 10'
-    , 63900, 'Fermo', 'customer', '')
+    , 63900, 'Fermo', 'operator', '')
 
   type: string = ''
   email: string = ''
