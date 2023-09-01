@@ -11,7 +11,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./signoper.component.scss']
 })
 export class SignoperComponent implements OnInit {
-  user = new User('', '', new Date(), '', '', 'Via Roma 10'
+  user = new User('', '', '', '', '', 'Via Roma 10'
     , 63900, 'Fermo', 'customer', '')
 
   type: string = ''

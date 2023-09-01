@@ -8,7 +8,7 @@ import {User} from "../models/user";
 })
 export class CustomerhomeComponent implements OnInit {
 
-  user = new User('Angelo', '', new Date(), '', '', 'Via mengoli 15'
+  user = new User('Angelo', '', '', '', '', 'Via mengoli 15'
     , 61122, 'Pesaro', 'customer', '')
 
   rubbishThrowing = 12

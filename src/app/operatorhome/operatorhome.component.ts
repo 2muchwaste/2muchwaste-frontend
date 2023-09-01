@@ -8,10 +8,10 @@ import {User} from "../models/user";
 })
 export class OperatorhomeComponent implements OnInit {
 
-  user = new User('', '', new Date(), '', '', 'Via Roma 10', 63900, 'Fermo', 'customer', '')
+  user = new User('', '', '', '', '', 'Via Roma 10', 63900, 'Fermo', 'customer', '')
 
   garbagebin = 'carta'
-  
+
   constructor() { }
 
   ngOnInit(): void {
