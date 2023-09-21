@@ -17,44 +17,56 @@ import {SignupComponent, SignupErrorDialogComponent} from './signup/signup.compo
 import {SigninComponent, SigninErrorDialogComponent} from './signin/signin.component';
 
 import {SignoperComponent} from './signoper/signoper.component';
-import {CustomerhomeComponent} from './customerhome/customerhome.component';
-import { OperatorhomeComponent } from './operatorhome/operatorhome.component';
+import {
+    CustomerhomeComponent,
+    CustomerHomePositionErrorDialogComponent,
+    CustomerHomeThrowGarbageDialogComponent
+} from './customerhome/customerhome.component';
+import {OperatorhomeComponent} from './operatorhome/operatorhome.component';
+import {ElementstestComponent} from './elementstest/elementstest.component';
+import { SourcenotfoundComponent } from './sourcenotfound/sourcenotfound.component';
+import { ForbiddenresourceComponent } from './forbiddenresource/forbiddenresource.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    HomeComponent,
-    SignupComponent,
-    SignupErrorDialogComponent,
-    SigninComponent,
-    SigninErrorDialogComponent,
-    SignoperComponent,
-    CustomerhomeComponent,
-    OperatorhomeComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    MaterialExampleModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        HomeComponent,
+        SignupComponent,
+        SignupErrorDialogComponent,
+        SigninComponent,
+        SigninErrorDialogComponent,
+        SignoperComponent,
+        CustomerhomeComponent,
+        CustomerHomeThrowGarbageDialogComponent,
+        CustomerHomePositionErrorDialogComponent,
+        OperatorhomeComponent,
+        ElementstestComponent,
+        SourcenotfoundComponent,
+        ForbiddenresourceComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        MaterialExampleModule,
+        ReactiveFormsModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

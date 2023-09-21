@@ -40,3 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Angular
+package-lock.json
+
+# Angelo test
+*src/app/elementstest*

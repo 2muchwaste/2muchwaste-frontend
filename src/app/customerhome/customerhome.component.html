@@ -1,28 +1,33 @@
-<div class="container">
+<!--<div class="container" *ngIf="userObs | async as user; else loading">-->
+<div class="container" *ngIf="user && deposits">
   <div class="row">
-    <div class="col">
-      <h1>Bentornato {{this.user.name}}</h1>
-    </div>
+    <h1 class="col-12">Bentornato {{user.name}}</h1>
+  </div>
+  <div class="col-12 customer-name-surname">
+    {{user.name}} {{user.surname}}
   </div>
   <div class="row">
-    <div class="col">
-      <p>Questo mese hai scaricato {{this.rubbishThrowing}} volte i rifiuti.</p>
-    </div>
+    <p class="col-9">Scarichi effettuati questo mese:</p>
+    <p class="col-3">{{deposits.length}}</p>
   </div>
-  <div class="row">
-    <div class="col">
-      <p>Il debito attualmente accumulato è pari {{this.cumulativeDebt}}€</p>
-    </div>
-  </div>
+<!--  <div class="row">-->
+<!--    <p class="col-9">Debito attuale </p>-->
+<!--    <p class="col-3">{{this.cumulativeDebt}}€</p>-->
+<!--  </div>-->
+  <!--  <h2>{{data.x}}</h2>-->
   <div class="row">
     <div class="col">
       <button
         mat-fab
         color="primary"
         aria-label="Example icon button with a delete icon"
-        class="throwing">
+        class="throwing"
+        (click)="throwGarbage()">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
   </div>
 </div>
+<ng-template #loading>
+  <div> LOADING...</div>
+</ng-template>
