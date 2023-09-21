@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {AppConstants} from "../utils/constants";
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
+import {Router} from "@angular/router";
 
 /**
  * @title Input with error messages
@@ -25,6 +26,7 @@ export class SigninComponent implements OnInit {
   hide = true
 
   constructor(private http: HttpClient,
+              private router: Router,
               private dialog: MatDialog) {
   }
 
@@ -56,15 +58,23 @@ export class SigninComponent implements OnInit {
     }
 
     console.log('PRE richiesta POST')
+    let role = this.roleFormControl.value
 
-
-    let requestUrl: string = AppConstants.serverURL + '/api/v1/auth/' + this.roleFormControl.value + '/signin'
+    let requestUrl: string = AppConstants.serverURL + '/api/v1/auth/' + role + '/signin'
     console.log(requestUrl)
-    this.http.post(requestUrl, login)
+    this.http.post<{
+      id: string
+      token: string
+    }>(requestUrl, login)
       .subscribe({
         next: (res) => {
           console.log("Login effettuato con successo")
           console.log(res)
+          // console.log(res.token);
+          localStorage.setItem('id', res.id)
+          localStorage.setItem('type', role)
+          localStorage.setItem('token', res.token)
+          this.router.navigate(['/customerhome'])
         },
         error: (errorObject) => {
           console.log("Impossibile effettaure il login")
