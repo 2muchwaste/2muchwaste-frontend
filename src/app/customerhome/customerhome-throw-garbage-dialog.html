@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Elenco dei bidoni nelle vicinanze</h1>
+<div mat-dialog-content>
+  <p *ngFor="let dump of dumpsters">{{dump.address}}, {{dump.city}} - {{dump.type}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Chiudi</button>
+</div>
