@@ -2,20 +2,21 @@ import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {HttpHeaders} from "@angular/common/http";
+import {AppConstants} from "../utils/constants";
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthorizationnService {
+export class Authorizationservice {
   constructor(private router: Router) {
   }
 
   isTokenPresent() {
-    return localStorage.getItem('token') !== null
+    return localStorage.getItem(AppConstants.lSToken) !== null
   }
 
   isUserIDPresent() {
-    return localStorage.getItem('UserID') !== null
+    return localStorage.getItem(AppConstants.lSUserID) !== null
   }
 
   checkAuthDataORRedirect() {
@@ -43,7 +44,7 @@ export class AuthorizationnService {
   }
 
   getHeaderBearerToken(): HttpHeaders {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem(AppConstants.lSToken)
     // @ts-ignore
     return this.buildAuthorizationToken(token)
   }

@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AppConstants} from "../utils/constants";
 import {Observable, Subscriber} from "rxjs";
 import {Dumpster} from "../models/dumpster";
-import {AuthorizationnService} from "./authorizationn.service";
+import {Authorizationservice} from "./authorizationservice";
 import {HttpRequestService} from "./httprequestservice";
 
 @Injectable({
@@ -16,7 +16,7 @@ export class DumpsterService {
 
   constructor(
     // private http: HttpClient,
-    private authService: AuthorizationnService,
+    private authService: Authorizationservice,
     private httpRequestService: HttpRequestService
   ) {
   }

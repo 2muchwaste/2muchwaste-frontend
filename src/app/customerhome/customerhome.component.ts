@@ -5,7 +5,7 @@ import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import * as turf from '@turf/turf'
 import {Dumpster} from "../models/dumpster";
 import {Feature, Point, Properties} from "@turf/turf";
-import {AuthorizationnService} from "../services/authorizationn.service";
+import {Authorizationservice} from "../services/authorizationservice";
 import {Observable, of} from "rxjs";
 import {Deposit} from "../models/deposit";
 import {CustomerService} from "../services/customerservice";
@@ -26,7 +26,7 @@ export class CustomerhomeComponent implements OnInit {
   constructor(
     private customerHomeDialog: MatDialog,
     private customerService: CustomerService,
-    private authenticationService: AuthorizationnService,
+    private authenticationService: Authorizationservice,
   ) {
   }
 
