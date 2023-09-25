@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {AppConstants} from "../utils/constants";
-import {FormControl, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
+import {Component, OnInit} from '@angular/core'
+import {FormControl, Validators} from '@angular/forms'
+import {MatDialog} from '@angular/material/dialog'
+import {AuthenticationService} from "../services/authenticationservice"
+import {WebsiteRole} from "../models/role"
+import {AppConstants} from "../utils/constants"
 import {Router} from "@angular/router";
 
 /**
@@ -21,13 +22,13 @@ export class SigninComponent implements OnInit {
 
   formGroup = [this.emailFormControl, this.passwordFormControl, this.roleFormControl]
 
-  errorLogin: boolean = false
-
   hide = true
 
-  constructor(private http: HttpClient,
-              private router: Router,
-              private dialog: MatDialog) {
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private authenticationService: AuthenticationService
+  ) {
   }
 
   ngOnInit() {
@@ -49,54 +50,24 @@ export class SigninComponent implements OnInit {
     }
   }
 
-  submit(): void {
-    console.log("Submitted")
-    // this.logInfoSubmitted()
-    let login = {
-      "email": this.emailFormControl.value,
-      "password": this.passwordFormControl.value
-    }
-
-    console.log('PRE richiesta POST')
-    let role = this.roleFormControl.value
-
-    let requestUrl: string = AppConstants.serverURL + '/api/v1/auth/' + role + '/signin'
-    console.log(requestUrl)
-    this.http.post<{
-      id: string
-      token: string
-    }>(requestUrl, login)
+  submit() {
+    this.authenticationService.signin(this.emailFormControl.value, this.passwordFormControl.value, WebsiteRole.CUSTOMER)
+      .pipe()
       .subscribe({
         next: (res) => {
-          console.log("Login effettuato con successo")
           console.log(res)
-          // console.log(res.token);
-          localStorage.setItem('id', res.id)
-          localStorage.setItem('type', role)
-          localStorage.setItem('token', res.token)
+          localStorage.setItem(AppConstants.lSToken, res.token)
+          localStorage.setItem(AppConstants.lSUserID, res._id)
           this.router.navigate(['/customerhome'])
         },
-        error: (errorObject) => {
-          console.log("Impossibile effettaure il login")
-          console.log(errorObject.error)
+        error: (err) => {
+          console.log(err)
           this.dialog.open(SigninErrorDialogComponent)
+          // this.errorLogin=true
         }
       })
   }
 
-  logInfoSubmitted(): void {
-    console.log(this.checkValidity())
-    console.log('Email form control:')
-    console.log(this.emailFormControl)
-    console.log(this.emailFormControl.value)
-    console.log("Password form control:")
-    console.log(this.passwordFormControl)
-    console.log(this.passwordFormControl.value)
-    console.log("Role form control:")
-    console.log(this.roleFormControl)
-    console.log(this.roleFormControl.value)
-    console.log(this)
-  }
 }
 
 @Component({
