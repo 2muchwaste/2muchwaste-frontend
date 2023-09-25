@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {AppConstants} from "../utils/constants";
-import {AuthenticationService} from "./authenticationservice";
+import {AuthorizationnService} from "./authorizationn.service";
 import {HttpRequestService} from "./httprequestservice";
 import {User} from "../models/user";
 import {Observable} from "rxjs";

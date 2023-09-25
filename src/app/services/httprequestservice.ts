@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subscriber} from "rxjs";
-import {AuthenticationService} from "./authenticationservice";
+import {AuthorizationnService} from "./authorizationn.service";
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class HttpRequestService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthenticationService) {
+    private authService: AuthorizationnService) {
   }
 
   public getRequest<X>(information: string) {
@@ -64,5 +64,5 @@ export class HttpRequestService {
     };
   }
 
-  
+
 }

@@ -6,7 +6,7 @@ import {HttpHeaders} from "@angular/common/http";
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticationService {
+export class AuthorizationnService {
   constructor(private router: Router) {
   }
 
