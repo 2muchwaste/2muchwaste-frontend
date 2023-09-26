@@ -5,10 +5,10 @@ import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import * as turf from '@turf/turf'
 import {Dumpster} from "../models/dumpster";
 import {Feature, Point, Properties} from "@turf/turf";
-import {Authorizationservice} from "../services/authorizationservice";
+import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 import {Observable, of} from "rxjs";
 import {Deposit} from "../models/deposit";
-import {CustomerService} from "../services/customerservice";
+import {CustomerService} from "../services/backendcalls/customerservice";
 
 @Component({
   selector: 'app-customerhome',

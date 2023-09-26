@@ -3,7 +3,7 @@ import {User, UserBuilder} from "../models/user";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {WebsiteRole} from "../models/role";
-import {AuthenticationService} from "../services/authenticationservice";
+import {AuthenticationService} from "../services/backendcalls/authenticationservice";
 import {Router} from "@angular/router";
 import {AppConstants} from "../utils/constants";
 

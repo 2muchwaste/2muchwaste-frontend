@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HttpRequestService} from "./httprequestservice";
-import {AppConstants} from "../utils/constants";
-import {InvalidRoleError, WebsiteRole} from "../models/role";
-import {User} from "../models/user";
-import {SigninResponse} from "../models/signinresponse";
+import {AppConstants} from "../../utils/constants";
+import {InvalidRoleError, WebsiteRole} from "../../models/role";
+import {User} from "../../models/user";
+import {SigninResponse} from "../../models/signinresponse";
 
 
 @Injectable({

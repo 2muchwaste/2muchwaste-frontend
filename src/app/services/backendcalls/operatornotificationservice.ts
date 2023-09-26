@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 import {HttpRequestService} from "./httprequestservice";
-import {DumpsterErrorType} from "../models/dumpstererrortype";
-import {OperatorNotificationStatus} from "../models/operatornotificationstatus";
+import {DumpsterErrorType} from "../../models/dumpstererrortype";
+import {OperatorNotificationStatus} from "../../models/operatornotificationstatus";
 
 @Injectable({
   providedIn: 'root'

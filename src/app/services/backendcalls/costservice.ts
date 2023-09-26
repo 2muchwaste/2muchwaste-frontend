@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpRequestService} from "./httprequestservice";
-import {AppConstants} from "../utils/constants";
-import {Cost} from "../models/cost";
+import {AppConstants} from "../../utils/constants";
+import {Cost} from "../../models/cost";
 
 @Injectable({
   providedIn: 'root'

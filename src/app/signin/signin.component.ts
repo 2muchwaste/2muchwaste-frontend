@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {FormControl, Validators} from '@angular/forms'
 import {MatDialog} from '@angular/material/dialog'
-import {AuthenticationService} from "../services/authenticationservice"
+import {AuthenticationService} from "../services/backendcalls/authenticationservice"
 import {WebsiteRole} from "../models/role"
 import {AppConstants} from "../utils/constants"
 import {Router} from "@angular/router";

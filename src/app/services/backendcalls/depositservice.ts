@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 import {HttpRequestService} from "./httprequestservice";
-import {Deposit} from "../models/deposit";
+import {Deposit} from "../../models/deposit";
 
 @Injectable({
   providedIn: 'root'

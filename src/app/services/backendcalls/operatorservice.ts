@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 import {Authorizationservice} from "./authorizationservice";
 import {HttpRequestService} from "./httprequestservice";
-import {User} from "../models/user";
+import {User} from "../../models/user";
 import {Observable} from "rxjs";
-import {District} from "../models/district";
+import {District} from "../../models/district";
 
 @Injectable({
   providedIn: 'root',

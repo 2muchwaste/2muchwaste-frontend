@@ -1,4 +1,4 @@
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 import {HttpRequestService} from "./httprequestservice";
 import {Injectable} from "@angular/core";
 

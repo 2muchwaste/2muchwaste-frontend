@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core"
-import {AppConstants} from "../utils/constants"
+import {AppConstants} from "../../utils/constants"
 import {Observable} from "rxjs"
-import {User} from "../models/user"
+import {User} from "../../models/user"
 import {HttpRequestService} from "./httprequestservice"
 
 @Injectable({

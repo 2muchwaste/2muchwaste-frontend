@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 import {Observable, Subscriber} from "rxjs";
-import {Dumpster} from "../models/dumpster";
+import {Dumpster} from "../../models/dumpster";
 import {Authorizationservice} from "./authorizationservice";
 import {HttpRequestService} from "./httprequestservice";
 

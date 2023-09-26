@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {HttpHeaders} from "@angular/common/http";
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 
 @Injectable({
   providedIn: 'root',

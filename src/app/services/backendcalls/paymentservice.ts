@@ -1,6 +1,6 @@
-import {AppConstants} from "../utils/constants";
+import {AppConstants} from "../../utils/constants";
 import {HttpRequestService} from "./httprequestservice";
-import {Payment} from "../models/payment";
+import {Payment} from "../../models/payment";
 import {Injectable} from "@angular/core";
 
 @Injectable({
