@@ -4,6 +4,7 @@ import {AppConstants} from "../../utils/constants";
 import {InvalidRoleError, WebsiteRole} from "../../models/role";
 import {User} from "../../models/user";
 import {SigninResponse} from "../../models/signinresponse";
+import {UserResponse} from "../../models/userresponse";
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AuthenticationService {
   }
 
   signup(user: User, role: WebsiteRole) {
-    return this.httpReqService.postRequest<User>(
+    return this.httpReqService.postRequest<UserResponse>(
       this.authenticationBackendURL + role + '/signup',
       user
     )
