@@ -17,7 +17,7 @@ export class AuthenticationService {
   }
 
   signup(user: User, role: WebsiteRole) {
-    return this.httpReqService.postRequest(
+    return this.httpReqService.postRequest<User>(
       this.authenticationBackendURL + role + '/signup',
       user
     )
