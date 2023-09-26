@@ -6,6 +6,7 @@ import {WebsiteRole} from "../models/role";
 import {AuthenticationService} from "../services/backendcalls/authenticationservice";
 import {Router} from "@angular/router";
 import {AppConstants} from "../utils/constants";
+import {UserInformationService} from "../services/userinformationservice";
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +20,8 @@ export class SignupComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private userInfoService: UserInformationService
   ) {
     this.signupForm = this.fb.group({
       name: this.nameFormControl,
@@ -83,6 +85,7 @@ export class SignupComponent implements OnInit {
       this.authenticationService.signup(this.initUser(), this.roleFormControl.value)
         .subscribe({
           next: (res) => {
+            this.userInfoService.user = res
             this.doLogin()
           },
           error: (err) => {
