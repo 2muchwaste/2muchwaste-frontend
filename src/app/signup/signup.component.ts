@@ -1,9 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {User} from "../models/user";
-import {AppConstants} from "../utils/constants";
-import {FormControl, Validators} from "@angular/forms";
+import {User, UserBuilder} from "../models/user";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {WebsiteRole} from "../models/role";
+import {AuthenticationService} from "../services/authenticationservice";
+import {Router} from "@angular/router";
+import {AppConstants} from "../utils/constants";
 
 @Component({
   selector: 'app-signup',
@@ -13,11 +15,33 @@ import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 
 export class SignupComponent implements OnInit {
 
-  constructor(private http: HttpClient,
-              private dialog: MatDialog) {
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    this.signupForm = this.fb.group({
+      name: this.nameFormControl,
+      surname: this.surnameFormControl,
+      email: this.emailFormControl,
+      cf: this.CFFormControl,
+      password: this.passwordFormControl,
+      zipCode: this.zipCodeFormControl,
+      address: this.addressFormControl,
+      city: this.cityFormControl,
+      birthday: this.birthdayFormControl,
+      role: this.roleFormControl
+    })
+
+    for (const role in WebsiteRole) {
+      this.roles.push(role)
+    }
   }
 
-  roles: string[] = ['admin', 'user', 'operator']
+  private signupForm!: FormGroup
+
+  roles: string[] = []
 
   hide = true
 
@@ -32,83 +56,67 @@ export class SignupComponent implements OnInit {
   birthdayFormControl = new FormControl('', [Validators.required])
   roleFormControl = new FormControl('', [Validators.required])
 
-  formGroup = [
-    this.nameFormControl,
-    this.surnameFormControl,
-    this.emailFormControl,
-    this.CFFormControl,
-    this.passwordFormControl,
-    this.zipCodeFormControl,
-    this.cityFormControl,
-    this.birthdayFormControl
-  ]
-
-  // user = new User()
-
   ngOnInit(): void {
   }
 
   initUser(): User {
-    return new User(
-      this.nameFormControl.value,
-      this.surnameFormControl.value,
-      (
+    return new UserBuilder()
+      .setName(this.nameFormControl.value)
+      .setSurname(this.surnameFormControl.value)
+      .setBirthday(
         this.birthdayFormControl.value.getFullYear() + '-'
         + this.birthdayFormControl.value.getMonth() + '-'
         + this.birthdayFormControl.value.getDate()
-      ),
-      this.CFFormControl.value,
-      this.emailFormControl.value,
-      this.addressFormControl.value,
-      this.zipCodeFormControl.value,
-      this.cityFormControl.value,
-      this.roleFormControl.value,
-      this.passwordFormControl.value
-    )
+      )
+      .setCF(this.CFFormControl.value)
+      .setEmail(this.emailFormControl.value)
+      .setAddress(this.addressFormControl.value)
+      .setZipCode(this.zipCodeFormControl.value)
+      .setCity(this.cityFormControl.value)
+      .setRole(this.roleFormControl.value)
+      .setPassword(this.passwordFormControl.value)
+      .build()
   }
 
-  checkValidity(): boolean {
-    let valid = true
-    this.formGroup.forEach(form => {
-      if (valid && form.invalid) {
-        valid = false
-      }
-    })
-    return valid
-  }
-
-  checkAndSubmit() {
-    if (this.checkValidity()) {
-      this.submit()
+  submit() {
+    if (this.signupForm.valid) {
+      this.authenticationService.signup(this.initUser(), this.roleFormControl.value)
+        .subscribe({
+          next: (res) => {
+            this.doLogin()
+          },
+          error: (err) => {
+            this.dialog.open(SignupErrorDialogComponent, {
+              data: {
+                statusCode: err.status
+              }
+            })
+          }
+        })
     }
   }
 
-  submit(): void {
-    console.log("Pressed")
-    let user = this.initUser()
-    let requestUrl = AppConstants.serverURL + '/api/v1/auth/' + this.roleFormControl.value + '/signup'
-    this.http.post(requestUrl, user)
-      .subscribe({
-        next: (res) => {
-          console.log("Signup succes")
-          console.log(res)
-        },
-        error: (errorObject) => {
-          console.log("Signup error")
-          console.log(errorObject)
-          console.log('errorObject.status')
-          console.log(errorObject.status)
-          console.log('errorObject.error')
-          console.log(errorObject.error)
-          this.dialog.open(SignupErrorDialogComponent,{
-            data: {
-              statusCode: errorObject.status
-            }
-          });
-
-        }
-      })
+  private doLogin() {
+    this.authenticationService.signin(
+      this.emailFormControl.value,
+      this.passwordFormControl.value,
+      this.roleFormControl.value
+    ).subscribe({
+      next: (res) => {
+        localStorage.setItem(AppConstants.lSToken, res.token)
+        localStorage.setItem(AppConstants.lSUserID, res._id)
+        this.router.navigate(['/customerhome'])
+      },
+      error: (err) => {
+        this.dialog.open(SignupErrorDialogComponent, {
+          data: {
+            statusCode: err.status
+          }
+        })
+      }
+    })
   }
+
 }
 
 @Component({
@@ -118,6 +126,7 @@ export class SignupComponent implements OnInit {
 export class SignupErrorDialogComponent {
 
   emailAlreadyPresent = false
+
   constructor(@Inject(MAT_DIALOG_DATA) public errorStatus: any) {
     this.emailAlreadyPresent = true
   }
