@@ -1,4 +1,4 @@
-export class AppConstants{
+export class AppConstants {
   /**
    * Key for local storage to set and get user ID logged
    */
@@ -11,6 +11,16 @@ export class AppConstants{
    * Key for local storage to set and get logged user's token
    */
   static lSToken = "token";
-  public static get serverURL(): string { return "http://localhost:3456"}
-  public static get versionBackend(): string {return "/api/v1/"}
+  /**
+   * Key for local storage to set and get user object
+   */
+  static userObject = 'userObject';
+
+  public static get serverURL(): string {
+    return "http://localhost:3456"
+  }
+
+  public static get versionBackend(): string {
+    return "/api/v1/"
+  }
 }
