@@ -46,3 +46,4 @@ package-lock.json
 
 # Angelo test
 *src/app/elementstest*
+*src/app/maptest
