@@ -1,10 +1,13 @@
-import {Component, OnInit} from '@angular/core'
+import {AfterViewInit, Component, OnInit} from '@angular/core'
 import {FormControl, Validators} from '@angular/forms'
 import {MatDialog} from '@angular/material/dialog'
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
 import {WebsiteRole} from "../models/role"
 import {AppConstants} from "../utils/constants"
 import {Router} from "@angular/router";
+import {CustomerService} from "../services/backendcalls/customerservice";
+import {UserInformationService} from "../services/userinformationservice";
+import {SocketService} from "../services/notificationsservice";
 
 /**
  * @title Input with error messages
@@ -12,9 +15,9 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss']
+  styleUrls: ['./../app.component.scss', './signin.component.scss']
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, AfterViewInit {
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email])
   passwordFormControl = new FormControl('', [Validators.required])
@@ -24,14 +27,31 @@ export class SigninComponent implements OnInit {
 
   hide = true
 
+
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private customerService: CustomerService,
+    private userInfoService: UserInformationService,
+    private notificationService: SocketService,
   ) {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    // setTimeout(() =>
+    //   this.makeLogin('michirenati@gmail.com', 'carciofo', WebsiteRole.CUSTOMER),
+    //   1000
+    // )
+    //////////
+    //////////
+    // PER DEBUG E TEST
+    // PER DEBUG E TEST
+    //////////
+    //////////
   }
 
   checkValidity(): boolean {
@@ -51,23 +71,43 @@ export class SigninComponent implements OnInit {
   }
 
   submit() {
-    this.authenticationService.signin(this.emailFormControl.value, this.passwordFormControl.value, WebsiteRole.CUSTOMER)
-      .pipe()
+    this.makeLogin(this.emailFormControl.value, this.passwordFormControl.value, WebsiteRole.CUSTOMER);
+  }
+
+  private makeLogin(email: any, password: any, role: WebsiteRole) {
+    this.authenticationService.signin(email, password, role)
       .subscribe({
         next: (res) => {
           console.log(res)
           localStorage.setItem(AppConstants.lSToken, res.token)
-          localStorage.setItem(AppConstants.lSUserID, res._id)
-          this.router.navigate(['/customerhome'])
+          localStorage.setItem(AppConstants.lSUserID, res.id)
+          this.customerService.getCustomerByID(res.id).subscribe({
+            next: (res) => {
+              //console.log(res);
+              this.userInfoService.login2023_11_24_01(res)
+              // this.userInfoService.user = res
+              // this.userInfoService.user.notifications
+              //   = this.userInfoService.user.notifications
+              //   .map(noti => {
+              //     noti.date = new Date(noti.date);
+              //     return noti
+              //   })
+              localStorage.setItem(AppConstants.userObject, JSON.stringify(res))
+              // this.userInfoService.login(res)
+              // console.log(this.userInfoService);
+              this.router.navigate(['/customerhome'])
+            },
+            error: (err) => {
+              this.dialog.open(SigninErrorDialogComponent)
+            }
+          })
         },
         error: (err) => {
           console.log(err)
           this.dialog.open(SigninErrorDialogComponent)
-          // this.errorLogin=true
         }
       })
   }
-
 }
 
 @Component({
