@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "@angular/service-worker": "~13.3.0",
+    "@canvasjs/angular-charts": "^1.0.3",
     "@turf/turf": "^6.5.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
