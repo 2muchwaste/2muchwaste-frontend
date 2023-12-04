@@ -1,12 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+$darkgreen-application: #33402f;
+  ///* You can add global styles to this file, and also import other style files */
+//
+//html, body {
+//  height: 100%;
+//  //background-color: #0f1530;
+//  //color: #faded2;
+//}
+//
+//body {
+//  margin: 0;
+//  font-family: Roboto, "Helvetica Neue", sans-serif;
+//}
 
-html, body {
-  height: 100%;
-  //background-color: #0f1530;
-  //color: #faded2;
+body, .mat-paginator-container{
+  background-color: #fcfacf ;
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+// Color for notification number
+.mat-badge-content{
+  background : saddlebrown;
 }
+
+//.application-button{
+//  background-color: #40513B;
+//}
+
+button.application-button-primary {
+  background-color: #898d4e !important;
+  margin: 5px 0;
+}
+
+.dgreen-bground {
+  background-color: $darkgreen-application;
+}
+
+.dgreen-stroke{
+}
+
+.light-green-application-foreground {
+  color: #fcfacf;
+}
+
+/////////////////
+// Application Spinners
+////////////////
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: $darkgreen-application;
+}
+
+.payment-spinner{
+  margin: 0 auto;
+}
+
+
