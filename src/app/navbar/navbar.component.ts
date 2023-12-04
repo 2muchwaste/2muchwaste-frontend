@@ -1,16 +1,113 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterContentInit, AfterViewChecked, AfterViewInit,
+  Component,
+  DoCheck,
+  ElementRef, OnChanges, OnDestroy,
+  OnInit, SimpleChanges,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+import {UserInformationService} from "../services/userinformationservice";
+import {SocketService} from "../services/notificationsservice";
+import {UserNotification} from "../models/UserNotification";
+import {AppConstants} from "../utils/constants";
+import {CustomerService} from "../services/backendcalls/customerservice";
+import {Observable, Subscription} from "rxjs";
+import {UserResponse, UserResponseBuilder} from "../models/userresponse";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  private CLASS_TAG = "NavbarComponent:"
+  public notificationNotRead: UserNotification[] = []
+  private subscriptionUserReadNotification: Subscription
+  public isLogged = false
+  private subscriptionUser: Subscription
 
-  ngOnInit(): void {
-    //console.log()
+  constructor(
+    public userInfoService: UserInformationService,
+    private notificationService: SocketService,
+    private customerService: CustomerService,
+  ) {
+    this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
+      this.initializeUserAfterLogin2023_11_24_01(userResponse)
+    })
+
+    // Quando arriva una nuova notifica bisogna aggiornare l'array inerente della navbar
+    this.subscriptionUserReadNotification = this.userInfoService.userReadNotificationObservable.subscribe(userResponse => {
+      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, user arrived, OLD this.notificationNotRead: ", this.notificationNotRead);
+      this.notificationNotRead = userResponse.notifications.filter(noti => !noti.read)
+      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, this.notificationNotRead", this.notificationNotRead);
+    })
   }
+
+  @ViewChild('navbarbutton') navbarButton!: ElementRef<HTMLElement>
+
+  ngOnInit() {
+    let userIDStored = localStorage.getItem(AppConstants.lSUserID)
+    if (userIDStored && !this.userInfoService.user) this.restoreUser2023_11_24_01(userIDStored)
+  }
+
+  private restoreUser2023_11_24_01(userIDStored: string) {
+    this.customerService.getCustomerByID(userIDStored).subscribe({
+      next: (usrResponser) => {
+
+        localStorage.setItem(AppConstants.userObject, JSON.stringify(usrResponser))
+        localStorage.setItem(AppConstants.lSUserID, usrResponser._id)
+
+        console.log(this.CLASS_TAG, " Inizio collegamento socket")
+        this.initializeSocketNotifications(usrResponser)
+        this.userInfoService.setUser2023_11_24_01(usrResponser)
+        this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+        this.isLogged = true
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  private initializeUserAfterLogin2023_11_24_01(userResponse: UserResponse) {
+
+    localStorage.setItem(AppConstants.userObject, JSON.stringify(userResponse))
+    localStorage.setItem(AppConstants.lSUserID, userResponse._id)
+
+    // this.userInfoService.updateUser(usrResponser)
+    console.log(this.CLASS_TAG, " Inizio collegamento socket")
+    this.initializeSocketNotifications(userResponse);
+    this.isLogged = true
+    this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+  }
+
+
+  private initializeSocketNotifications(userResponse: UserResponse) {
+    this.notificationService.listen(userResponse._id).subscribe({
+      next: (newNotification) => {
+        this.userInfoService.addNotification2023_11_24_01(newNotification)
+        this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+      }
+    })
+    this.notificationService.listen('ZZZ').subscribe({
+      next: (newUser) => {
+        console.log(this.CLASS_TAG, ' listen ZZZ user:', newUser);
+      }
+    })
+  }
+
+  performBurgerButtonClick() {
+    let el: HTMLElement = this.navbarButton.nativeElement
+    el.click()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionUserReadNotification.unsubscribe()
+  }
+
 
 }

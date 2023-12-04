@@ -1,15 +1,70 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a routerLink="home" class="nav-link">Home</a>
-      </li>
-      <li>
-        <a routerLink="signup" class="nav-link">Signup</a>
-      </li>
-      <li>
-        <a routerLink="signoper" class="nav-link">Signoper</a>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-* navbar-light bg-light fixed-top">
+  <div class="container-fluid container-in-nav">
+
+    <a class="navbar-brand navbar-title" href="#">2MuchWaste</a>
+    <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
+            class="notification-icon-container ms-auto">
+      <mat-icon [matBadge]=notificationNotRead?.length>notifications</mat-icon>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <ul class="notifications-list" *ngIf="userInfoService.user">
+          <li *ngFor="let notification of (notificationNotRead| slice : 0 : 10)" class="notification-list-item">
+            <div class="notification-item-text">{{notification.text}}<br/></div>
+            <div class="notification-item-time">{{notification.date | date : "YYYY-MM-dd HH:mm" }}</div>
+            <mat-divider></mat-divider>
+          </li>
+          <li class="notification-list-item notification-list-excetera" *ngIf="notificationNotRead.length>10">
+            <mat-icon>more_horiz</mat-icon>
+            <mat-divider></mat-divider>
+          </li>
+          <li class="notification-list-item notification-all-list" routerLink="/usernotifications"
+              *ngIf="this.userInfoService.user.notifications.length>0">
+            <a href="#" routerLink="/usernotifications">Vedi tutte le notifiche</a>
+          </li>
+        </ul>
+      </mat-menu>
+    </button>
+    <button #navbarbutton class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-navbar">
+        <div *ngIf="isLogged; else notLoggedTemplate">
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+               routerLink='/customerhome'>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+               routerLink='/userinformation'>Dati personali</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+               routerLink='/depositsinformation'>Elenco depositi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+               routerLink='/monthlycost'>Grafico dei depositi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+               routerLink='/paymentStatus'>Pagamenti</a>
+          </li>
+        </div>
+        <ng-template #notLoggedTemplate>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page" routerLink='/signin'>Accedi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page" routerLink='/signup'>Registrati</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page" routerLink='/whoweare'>Chi
+              siamo</a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
   </div>
 </nav>

@@ -1,0 +1,85 @@
+$nav-z-index: 500;
+
+nav > * {
+  //background-color: #EDF1D6
+  background-color: #D8DEBF
+}
+
+nav {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+nav.navbar {
+  padding: 0;
+  z-index: $nav-z-index;
+}
+
+.container-in-nav {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.list-navbar > li > a, .navbar-title, .navbar-nav .nav-link.active, .navbar-nav .show > .nav-link {
+  color: #33402f;
+}
+
+a.navbar-title {
+  margin-left: 2%;
+}
+
+.navbar-toggler {
+  border: 0
+}
+
+.notification-icon-container.ms-auto {
+  //margin-right: 10px;
+  //margin-top: 5px;
+
+  background-color: transparent;
+  //box-shadow: 0 0 0 0 rgba(0, 0, 0, 0),0px 0px 0px 0px rgba(0, 0, 0, 0),0px 0px 0px 0px rgba(0, 0, 0, 0)
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.mat-menu-content {
+  padding-bottom: 0 !important;
+}
+
+ul.notifications-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.notification-list-item {
+  //margin: 10px 0;
+  //padding: 0 10px;
+  padding: 20px 10px 0 10px;
+}
+
+.notification-item-time {
+  margin: 5px 0;
+  color: gray;
+}
+
+.notification-all-list, .notification-list-excetera {
+  text-align: center;
+}
+
+.notification-all-list {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.notification-list-excetera > .mat-divider {
+  margin-top: 15px;
+}
+
+
+ul.notifications-list > li:hover {
+  background-color: rgba(200, 200, 200, .7);
+}
+
+.mat-menu-panel {
+  max-width: unset !important;
+}
