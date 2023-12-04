@@ -1,0 +1,27 @@
+<footer class="footer">
+  <div class="container">
+    <div class="row" *ngIf="userInfoService.user else notLoggedTemplate">
+      <div class="col-12">
+        <p class="copyright">&copy; 2023 2MuchWaste. All Rights Reserved.</p>
+      </div>
+    </div>
+    <ng-template #notLoggedTemplate>
+      <div class="row">
+
+        <div class="col-6 contatti">
+          <h3>Contattaci</h3>
+          <p>
+            2much@waste.com<br>
+            +39 321 123 4567<br>
+            Via dell'Università, 50, Cesena
+          </p>
+        </div>
+        <div class="col-6 chi-siamo">
+          <h3>
+            <a>Chi siamo</a>
+          </h3>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</footer>
