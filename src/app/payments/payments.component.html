@@ -1,0 +1,58 @@
+<!--<div *ngIf="totalDebit" class="container">-->
+<!--  &lt;!&ndash;  <ng-container *ngFor="let noti of (userInfoService.payments| slice: lowValue : highValue)">&ndash;&gt;-->
+<!--  <ng-container *ngFor="let payment of (userInfoService.payments)">-->
+<!--    <div class="row">-->
+<!--      <div class="col-4">{{payment.invoiceIssueDate | date : "YYYY-MM-dd HH:mm"}}</div>-->
+<!--      <div class="col-4">{{payment.status}}</div>-->
+<!--      <div class="col-4">{{payment.value}}€</div>-->
+<!--    </div>-->
+<!--  </ng-container>-->
+<!--</div>-->
+
+<!--<div *ngIf="userInfoService.user && userInfoService.user.notifications && notifications" class="container">-->
+
+
+<!--<div *ngIf="totalDebit" class="container">-->
+
+<ng-container *ngIf="totalDebit">
+
+  <div class="row debit align-items-center fs-2">
+    <div class="col-12 debit-header text-center">
+      <span>Debito attuale</span>
+    </div>
+    <div class="col-12 debit-value-col text-center">
+      <span class="debit-value">-{{(totalDebit - totalAlreadyPaid).toFixed(2)}}€</span>
+    </div>
+  </div>
+
+  <div class="d-none d-md-block">
+    <div class="row table-row-headers list-item-headers">
+      <div class="col-4 date-header">DATA</div>
+      <div class="col-4">STATO</div>
+      <div class="col-4 text-header">IMPORTO</div>
+    </div>
+  </div>
+
+  <!--  <ng-container *ngFor="let noti of (this.userInfoService.user.notifications | slice: lowValue : highValue)">-->
+  <ng-container *ngFor="let payment of (userInfoService.payments | slice: lowValue : highValue)">
+    <div class="row usernotification-list-item">
+      <div class="col-4 date-value">{{payment.invoiceIssueDate | date : "YYYY-MM-dd HH:mm" }}
+      </div>
+      <div class="col-4 type-value">{{payment.status}}</div>
+      <div class="col-4 type-value">{{payment.value}}€</div>
+      <mat-divider></mat-divider>
+    </div>
+
+  </ng-container>
+
+  <mat-paginator [length]="userInfoService.payments.length"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[10, 20, 30]"
+                 (page)="getPaginatorData($event)"
+                 color="warn"
+                 aria-label="Seleziona la pagina" *ngIf="totalDebit">
+  </mat-paginator>
+  <button class="col-12 application-button-primary" mat-raised-button color="primary"
+          (click)="payDebit(totalDebit-totalAlreadyPaid)">Salda il conto
+  </button>
+</ng-container>

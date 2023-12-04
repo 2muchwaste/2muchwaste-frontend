@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Pagamento</h1>
+<div mat-dialog-content>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        {{message}}
+
+      </div>
+      <div class="col-12">
+        <!--  Stai per effettuare un pagamento di {{amountToPay}}, sicurƏ di procedere?-->
+<!--        <mat-progress-spinner-->
+          <mat-progress-spinner *ngIf="paymentLoading"
+          class="example-margin dgreen-stroke payment-spinner"
+          mode="indeterminate"
+        >
+          <!--    color="warn"-->
+          <!--    [value]="value"-->
+        </mat-progress-spinner>
+      </div>
+      <div class="col-12" style="{text-align: center}">
+        <img src="assets/icons/green-check-icon.png" alt="" width="80px" height="auto">
+      </div>
+    </div>
+  </div>
+</div>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Annulla pagamento</button>
+  <button mat-button (click)="pay()">Paga</button>
+</mat-dialog-actions>

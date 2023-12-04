@@ -1,0 +1,21 @@
+.table-row-headers {
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  //text-align: center;
+  background-color: rgba(216, 222, 191, .3);
+  padding: 10px 0 10px;
+}
+
+.quantity-header, .quantity-value, .price-header, .price-value {
+  text-align: end;
+}
+
+.list-item-headers {
+}
+
+.debit > .col-12 {
+  height: 50px;
+}
+
+
