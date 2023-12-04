@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>Benvenuto in 2MatchWaste</h1>
+      <h1>Benvenuto in 2MuchhWaste</h1>
     </div>
   </div>
   <div class="row">
@@ -9,13 +9,18 @@
       Prima di procedere dire se sei un cliente o uno dei nostri operatori.
     </div>
   </div>
+  <!--  <div class="row">-->
+  <!--    &lt;!&ndash; Check https://angular.io/guide/router#link-parameters-array &ndash;&gt;-->
+  <!--    <div class="col-md-6">-->
+  <!--      <button [routerLink]="['/signin', {type:'op'}]" type="button" class="btn btn-primary">Cliente</button>-->
+  <!--    </div>-->
+  <!--    <div class="col-md-6">-->
+  <!--      <button [routerLink]="'/signoper'" type="button" class="btn btn-primary">Operatore</button>-->
+  <!--    </div>-->
+  <!--  </div>-->
   <div class="row">
-    <!-- Check https://angular.io/guide/router#link-parameters-array -->
-    <div class="col-md-6">
-      <button [routerLink]="['/signin', {type:'op'}]" type="button" class="btn btn-primary">Cliente</button>
-    </div>
-    <div class="col-md-6">
-      <button [routerLink]="'/signoper'" type="button" class="btn btn-primary">Operatore</button>
-    </div>
+    <button [routerLink]="'/signin'" class="col-12" mat-raised-button color="primary">Ho già un account</button>
+
+    <button [routerLink]="'/signup'" class="col-12" mat-raised-button color="primary">Non sono registrato</button>
   </div>
 </div>
