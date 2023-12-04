@@ -1,5 +1,120 @@
-button.throwing{
+$small-button-dimension: 40px;
+$button-throwing-bottom: 170px;
+$button-maps-bottom: 65px;
+$button-rfid-bottom: 10px + $small-button-dimension;
+$maps-button-description-bottom: 76px;
+$nfc-button-description-bottom: 50px;
+
+$map-container-z-index: 1000;
+
+button.throwing {
   position: fixed;
-  bottom: 50px;
-  right: 50px;
+  bottom: $button-throwing-bottom;
+  right: 15px;
 }
+
+button.throwing-maps {
+  position: fixed;
+  bottom: $button-throwing-bottom + $button-maps-bottom;
+  right: 23px;
+}
+
+.nfc-button-description {
+  position: fixed;
+  bottom: $button-throwing-bottom + $maps-button-description-bottom + $nfc-button-description-bottom;
+  right: 88px;
+}
+
+.maps-button-description {
+  bottom: $button-throwing-bottom + $maps-button-description-bottom;
+  position: fixed;
+  right: 88px;
+}
+
+button.throwing-rfid {
+  position: fixed;
+  bottom: $button-throwing-bottom + $button-maps-bottom + $button-rfid-bottom;
+  right: 23px;
+}
+
+.throwing-rfid, .throwing-maps {
+  width: $small-button-dimension;
+  height: $small-button-dimension;
+}
+
+.mat-button-wrapper > span {
+  padding: 0;
+}
+
+.deposits-monthly-col {
+  text-align: right;
+}
+
+.mat-fab, .mat-button-wrapper, mat-icon, .throwing-rfid {
+  padding: 0 0
+}
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: #898d4e;
+}
+
+.nfc-button-description, .maps-button-description {
+  background-color: white;
+  padding: 4px 10px;
+}
+
+
+.invisible-button {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 1s ease; /* You can adjust the duration as needed */
+}
+
+.visible {
+  opacity: 1;
+}
+
+//
+//.throwing-maps {
+//  opacity: 0.2;
+//  transition: opacity 0.6s ease; /* You can adjust the duration as needed */
+//}
+//
+//.throwing-maps.visible{
+//  opacity: 1;
+//}
+
+////////////////////////////////
+// Style for OpenStreetMap map//
+////////////////////////////////
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 4% 8%;
+  z-index: $map-container-z-index;
+}
+
+.map-frame {
+  height: 100%;
+}
+
+.border-map {
+  border: 2px solid black;
+}
+
+#map {
+  height: 100%;
+}
+
+.close-map-button-container.leaflet-top.leaflet-right {
+  margin: 10px 11px;
+  //background-color: rgb(200,200,200);
+  border-radius: 20px;
+  padding: 5px;
+  pointer-events: auto;
+}
+

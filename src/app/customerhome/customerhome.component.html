@@ -1,33 +1,82 @@
 <!--<div class="container" *ngIf="userObs | async as user; else loading">-->
 <div class="container" *ngIf="user && deposits">
+  <!--<div class="container" *ngIf="user">-->
   <div class="row">
     <h1 class="col-12">Bentornato {{user.name}}</h1>
+    <!--    <h1 class="col-12">Bentornato </h1>-->
   </div>
-  <div class="col-12 customer-name-surname">
-    {{user.name}} {{user.surname}}
-  </div>
+  <!--  <div class="col-12 customer-name-surname">-->
+  <!--    {{user.name}} {{user.surname}}-->
+  <!--  </div>-->
   <div class="row">
     <p class="col-9">Scarichi effettuati questo mese:</p>
-    <p class="col-3">{{deposits.length}}</p>
+    <p class="col-3 deposits-monthly-col">{{deposits.length}}</p>
   </div>
-<!--  <div class="row">-->
-<!--    <p class="col-9">Debito attuale </p>-->
-<!--    <p class="col-3">{{this.cumulativeDebt}}€</p>-->
-<!--  </div>-->
+<!--  <div id="map" style="{height: 180px}"></div>-->
+
+  <!--  <div class="row">-->
+  <!--    <p class="col-9">Debito attuale </p>-->
+  <!--    <p class="col-3">{{this.cumulativeDebt}}€</p>-->
+  <!--  </div>-->
   <!--  <h2>{{data.x}}</h2>-->
-  <div class="row">
-    <div class="col">
-      <button
-        mat-fab
-        color="primary"
-        aria-label="Example icon button with a delete icon"
-        class="throwing"
-        (click)="throwGarbage()">
-        <mat-icon>delete</mat-icon>
-      </button>
+  <!--  <div class="row">-->
+  <!--    <div class="col">-->
+  <div class="nfc-button-description invisible-button"
+  [ngClass]="{'visible':isButtonsVisible}">
+    Attiva modalità NFC</div>
+  <button
+    mat-mini-fab
+    color="primary"
+    aria-label="Bottone per vedere avviare modalità NFC"
+    class="throwing-rfid invisible-button"
+    [ngClass]="{ 'visible': isButtonsVisible }"
+    (click)="useNFCThrowGarbage()">
+    <mat-icon>nfc</mat-icon>
+  </button>
+  <!--        *ngIf="isButtonsVisible"-->
+  <!--        [ngClass]="{ 'visible': isButtonsVisible }"-->
+  <!--    *ngIf="isButtonsVisible"-->
+  <div class="maps-button-description invisible-button"
+       [ngClass]="{'visible':isButtonsVisible}">
+    Bidoni nelle vicinanze</div>
+  <button
+    mat-mini-fab
+    color="primary"
+    aria-label="Bottone per vedere la mappa dei bidoni vicini"
+    class="throwing-maps invisible-button"
+    [ngClass]="{ 'visible': isButtonsVisible }"
+    (click)="getNearDumpsters()">
+<!--    (click)="testJSONparser()">-->
+<!--    (click)="throwGarbage()">-->
+    <mat-icon>maps</mat-icon>
+  </button>
+  <button
+    mat-fab
+    color="primary"
+    aria-label="Bottone per accedere alle funzionalità sui bidoni"
+    class="throwing"
+    (click)="throwGarbage()">
+    <mat-icon>delete</mat-icon>
+  </button>
+
+<!--  <ng-container *ngIf="userInfoService.nearestDumpsters">-->
+    <div class="map-container" *ngIf="viewMapDumpsters && userInfoService.nearestDumpsters">
+      <div class="map-frame" [ngClass]="{'border-map':showBorderMap}">
+        <div id="map">
+          <div class="leaflet-top leaflet-right close-map-button-container">
+            <button mat-raised-button color="primary"
+                    (click)="closeMap()">&#x2716;
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+<!--  </ng-container>-->
+  <!--    [ngClass]="{'not-visible' : !isButtonsVisible}"-->
+  <!--          <span class="material-icons">face</span>-->
+  <!--    </div>-->
+  <!--  </div>-->
 </div>
-<ng-template #loading>
-  <div> LOADING...</div>
-</ng-template>
+<!--<ng-template #loading>-->
+<!--  <div> LOADING...</div>-->
+<!--</ng-template>-->

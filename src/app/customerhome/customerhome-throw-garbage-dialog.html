@@ -1,6 +1,38 @@
-<h1 mat-dialog-title>Elenco dei bidoni nelle vicinanze</h1>
+<h1 mat-dialog-title>Elenco bidoni nelle vicinanze</h1>
 <div mat-dialog-content>
-  <p *ngFor="let dump of dumpsters">{{dump.address}}, {{dump.city}} - {{dump.type}}</p>
+  <ng-container *ngIf="nearestDumpstersSet && !showMap; else loadingTemplate">
+<!--    <p *ngFor="let dump of userInfoService.nearestDumpsters">{{dump.address}}, {{dump.city}} - {{dump.type}}</p>-->
+    <p *ngFor="let dump of userInfoService.nearestDumpsters | slice: lowValue: highValue">{{dump.dumpster.address}}, {{dump.dumpster.city}} - {{dump.dumpster.type}}, distance: {{dump.distance.toFixed(2)}}</p>
+    <mat-divider></mat-divider>
+<!--    <mat-paginator [length]="userInfoService.nearestDumpsters.length"-->
+<!--                   [pageSize]="10"-->
+<!--                   [pageSizeOptions]="[10, 20, 30]"-->
+<!--                   (page)="getPaginatorData($event)"-->
+<!--                   color="warn"-->
+<!--                   aria-label="Seleziona la pagina">-->
+<!--    </mat-paginator>-->
+
+    <button class="col-6 application-button-primary" mat-raised-button color="primary"
+            [disabled]="lowValue<=0"
+            (click)="movePageDumpsters(-1)"><
+    </button>
+    <button class="col-6 application-button-primary" mat-raised-button color="primary"
+            [disabled]="highValue>=userInfoService.nearestDumpsters.length"
+            (click)="movePageDumpsters(1)">>
+    </button>
+    <p (click)="showDumpstersOnMap()">Guardali sulla mappa</p>
+  </ng-container>
+  <ng-template #loadingTemplate>
+    Caricamento...
+  </ng-template>
+  <ng-container *ngIf="showMap">
+    <div class="map-container">
+      <div class="map-frame">
+        <div id="map"></div>
+      </div>
+    </div>
+  </ng-container>
+  <!--  <p *ngFor="let dump of dumpsters">{{dump.dumpster.address}}, {{dump.dumpster.city}} - {{dump.dumpster.type}}, distance: {{dump.distance.toFixed(2)}}</p>-->
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Chiudi</button>
