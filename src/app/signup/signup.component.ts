@@ -11,7 +11,7 @@ import {UserInformationService} from "../services/userinformationservice";
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./../app.component.scss','./signup.component.scss']
 })
 
 export class SignupComponent implements OnInit {
@@ -85,7 +85,7 @@ export class SignupComponent implements OnInit {
       this.authenticationService.signup(this.initUser(), this.roleFormControl.value)
         .subscribe({
           next: (res) => {
-            this.userInfoService.user = res
+            // this.userInfoService.user = res
             this.doLogin()
           },
           error: (err) => {
@@ -107,7 +107,7 @@ export class SignupComponent implements OnInit {
     ).subscribe({
       next: (res) => {
         localStorage.setItem(AppConstants.lSToken, res.token)
-        localStorage.setItem(AppConstants.lSUserID, res._id)
+        localStorage.setItem(AppConstants.lSUserID, res.id)
         this.router.navigate(['/customerhome'])
       },
       error: (err) => {
