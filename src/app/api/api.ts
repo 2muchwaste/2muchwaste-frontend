@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { verifyToken } from './verifytoken';
 import * as io from 'socket.io-client';
-\\ import { Socket } from 'ngx-socket-io';
+import { Socket } from 'ngx-socket-io';
 
 
 @Injectable({
@@ -23,7 +23,7 @@ export class NotificationService {
       });
     });
   }
-  
+
   getNotifications(input: string): Observable<number[]> {
     return new Observable<number[]>(observer => {
       verifyToken().then(res => {
