@@ -1,3 +1,5 @@
+import {TrashTypes} from "./trashtype";
+
 export class Dumpster {
 
   constructor(
@@ -13,7 +15,7 @@ export class Dumpster {
     public limitUsablePercentage: number,
     public maxWeight: number,
     public openingSecondsDuration: number,
-    public type: string,
+    public type: TrashTypes,
     public zipCode: number
   ) {
   }
@@ -31,7 +33,7 @@ export class DumpsterBuilder {
   private limitUsablePercentage!: number
   private maxWeight!: number
   private openingSecondsDuration!: number
-  private type!: string
+  private type!: TrashTypes
   private zipCode!: number
 
   constructor() {}
@@ -87,7 +89,7 @@ export class DumpsterBuilder {
     return this
   }
 
-  setType(type: string) {
+  setType(type: TrashTypes) {
     this.type = type
     return this
   }
