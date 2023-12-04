@@ -1,0 +1,21 @@
+<div *ngIf="userInfoService.user" class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      {{userInfoService.user.name}} {{userInfoService.user.surname}}
+    </div>
+    <div class="col-sm-4 offset-sm-4">
+      <div class="col-12">
+      {{userInfoService.user.address}}, {{userInfoService.user.zipCode}}, {{userInfoService.user.city}}
+      </div>
+      <div class="col-12">
+        {{userInfoService.user.cf | uppercase}}
+      </div>
+      <div class="col-12">
+        {{userInfoService.user.birthday | date : "YYYY-MM-dd hh:mm" }}
+      </div>
+      <div class="col-12">
+        {{userInfoService.user.email}}
+      </div>
+    </div>
+  </div>
+</div>
