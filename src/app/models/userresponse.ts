@@ -1,13 +1,14 @@
-import {User} from "./user";
+import {User, UserBuilder} from "./user";
+import {UserNotification} from "./UserNotification";
 
 export class UserResponse extends User {
   constructor(
-    public _id:string,
-    public __t:string,
-    public notifications: [],
-    public __v:number,
+    public _id: string,
+    public __t: string,
+    public notifications: UserNotification[],
+    public __v: number,
     user: User
-  ){
+  ) {
     super(
       user.name,
       user.surname,
@@ -18,6 +19,44 @@ export class UserResponse extends User {
       user.zipCode,
       user.city,
       user.role,
-      user.password);
+      user.password
+    );
+  }
+}
+
+export class UserResponseBuilder {
+  private _id: string = "";
+  private __t: string = "";
+  private notifications: [] = [];
+  private __v: number = 0;
+  private user: User = new UserBuilder().build()
+
+  setId(id: string): UserResponseBuilder {
+    this._id = id;
+    return this;
+  }
+
+  setT(t: string): UserResponseBuilder {
+    this.__t = t;
+    return this;
+  }
+
+  setNotifications(notifications: []): UserResponseBuilder {
+    this.notifications = notifications;
+    return this;
+  }
+
+  setV(v: number): UserResponseBuilder {
+    this.__v = v;
+    return this;
+  }
+
+  setUser(user: User): UserResponseBuilder {
+    this.user = user;
+    return this;
+  }
+
+  build(): UserResponse {
+    return new UserResponse(this._id, this.__t, this.notifications, this.__v, this.user);
   }
 }
