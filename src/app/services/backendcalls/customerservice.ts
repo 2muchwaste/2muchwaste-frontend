@@ -3,6 +3,7 @@ import {AppConstants} from "../../utils/constants"
 import {Observable} from "rxjs"
 import {User} from "../../models/user"
 import {HttpRequestService} from "./httprequestservice"
+import {UserResponse} from "../../models/userresponse";
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class CustomerService {
     return this.httpReqService.getRequest<User[]>(this.backendCustomerURL)
   }
   getCustomerByID(customerID: string) {
-    return this.httpReqService.getRequest<User>(this.backendCustomerURL + customerID)
+    return this.httpReqService.getRequest<UserResponse>(this.backendCustomerURL + customerID)
   }
 
   deleteCustomerByID(customerID: string) {
@@ -30,7 +31,7 @@ export class CustomerService {
   }
 
   readNotification(customerCF: string, notificationID: string) {
-    return this.httpReqService.patchRequest(
+    return this.httpReqService.patchRequest<UserResponse>(
       this.backendCustomerURL + customerCF + '/notifications/' + notificationID,null)
   }
 
