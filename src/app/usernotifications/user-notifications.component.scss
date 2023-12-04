@@ -1,0 +1,32 @@
+.row {
+  width: 100%;
+}
+
+.table-row-headers {
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  //text-align: center;
+  background-color: rgba(216, 222, 191, .3);
+  padding: 10px 0 10px;
+}
+
+.quantity-header,.quantity-value,.price-header,.price-value{
+  text-align: end;
+}
+
+.list-item-headers {
+}
+
+.read {
+  color: rgb(115,115,115);
+}
+
+//@media (max-width: 970px) {
+//  .usernotification-list-item{
+//    font-size: 14px;
+//    color: green;
+//  }
+//
+//}
+
