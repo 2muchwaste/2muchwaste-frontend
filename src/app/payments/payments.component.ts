@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {Payment, PaymentStatus, PaymentStatusManager} from "../models/payment";
+import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 
 @Component({
   selector: 'app-payments',
@@ -31,9 +32,10 @@ export class PaymentsComponent implements OnInit, OnDestroy {
 
   constructor(
     private matDialog: MatDialog,
+    private authorizationService: Authorizationservice,
+    private depositsService: DepositService,
+    private paymentsService: PaymentService,
     public userInfoService: UserInformationService,
-    public paymentsService: PaymentService,
-    public depositsService: DepositService
   ) {
 
   }
@@ -45,6 +47,10 @@ export class PaymentsComponent implements OnInit, OnDestroy {
         this.setDeposits(res)
       }
     })
+    if (this.userInfoService.user){
+      this.setPayments(this.userInfoService.user)
+      this.setDeposits(this.userInfoService.user)
+    }
   }
 
   ngOnDestroy(): void {
@@ -97,19 +103,12 @@ export class PaymentsComponent implements OnInit, OnDestroy {
         amountToPay: amountToPay
       }
     })
-    // this.paymentsService.createPayment(this.userInfoService.user._id,new Date(),amountToPay).subscribe({
-    //   next:(res)=>{
-    //   },
-    //   error:(err)=>{
-    //   }
-    // })
   }
 }
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payments-dialog.html',
-  // styleUrls: ['./customerhome-position-error.scss', './customerhome.component.scss']
 })
 export class PaymentDialogComponent {
 
@@ -148,6 +147,5 @@ export class PaymentDialogComponent {
         }
       })
     }, 0)
-    // this.launchPayment.emit(this.amountToPay)
   }
 }
