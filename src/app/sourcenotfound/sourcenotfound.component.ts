@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {AppConstants} from "../utils/constants";
 
 @Component({
   selector: 'app-sourcenotfound',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SourcenotfoundComponent implements OnInit {
 
-  constructor() { }
+  public resRequested: string = ''
 
-  ngOnInit(): void {
+  constructor(
+    public router: Router
+  ) {
   }
 
+  ngOnInit(): void {
+    this.resRequested = this.router.url
+  }
+
+  protected readonly AppConstants = AppConstants;
 }

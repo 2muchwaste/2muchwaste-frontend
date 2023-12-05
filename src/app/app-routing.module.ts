@@ -13,6 +13,7 @@ import {MonthlycostComponent} from "./monthlycost/monthlycost.component";
 import {UserNotificationsComponent} from "./usernotifications/user-notifications.component";
 import {MaptestComponent} from "./maptest/maptest.component";
 import {PaymentsComponent} from "./payments/payments.component";
+import {SourcenotfoundComponent} from "./sourcenotfound/sourcenotfound.component";
 
 // const routes: Routes = [{
 //   path: "",
@@ -48,6 +49,7 @@ const routes: Routes = [
   // },
   // {path: 'home', component: HomeComponent},
   {path: '', redirectTo: 'signin', pathMatch: 'full'},
+  getRouteComponent('**',SourcenotfoundComponent)
 ]
 
 function getRouteComponent(path: string, component: any) {
