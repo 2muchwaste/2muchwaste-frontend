@@ -41,6 +41,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authorizationService.checkAuthDataORRedirect()
     this.userSetSubscription = this.userInfoService.userSetObservable.subscribe({
       next: (res) => {
         this.setPayments(res)
