@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {CustomerService} from "../services/backendcalls/customerservice";
 import {UserInformationService} from "../services/userinformationservice";
 import {SocketService} from "../services/notificationsservice";
+import {Subscription} from "rxjs";
 
 /**
  * @title Input with error messages
@@ -27,6 +28,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
 
   hide = true
 
+  loginObservable: Subscription
 
   constructor(
     private router: Router,
@@ -36,22 +38,18 @@ export class SigninComponent implements OnInit, AfterViewInit {
     private userInfoService: UserInformationService,
     private notificationService: SocketService,
   ) {
+    this.loginObservable = this.userInfoService.userSetObservable.subscribe({
+      next: (res) => {
+        this.router.navigate(['/customerhome'])
+      }
+    })
   }
 
   ngOnInit() {
+
   }
 
   ngAfterViewInit() {
-    // setTimeout(() =>
-    //   this.makeLogin('michirenati@gmail.com', 'carciofo', WebsiteRole.CUSTOMER),
-    //   1000
-    // )
-    //////////
-    //////////
-    // PER DEBUG E TEST
-    // PER DEBUG E TEST
-    //////////
-    //////////
   }
 
   checkValidity(): boolean {
@@ -74,7 +72,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
     this.makeLogin(this.emailFormControl.value, this.passwordFormControl.value, WebsiteRole.CUSTOMER);
   }
 
-  private makeLogin(email: any, password: any, role: WebsiteRole) {
+  makeLogin(email: any, password: any, role: WebsiteRole) {
     this.authenticationService.signin(email, password, role)
       .subscribe({
         next: (res) => {
@@ -83,18 +81,8 @@ export class SigninComponent implements OnInit, AfterViewInit {
           localStorage.setItem(AppConstants.lSUserID, res.id)
           this.customerService.getCustomerByID(res.id).subscribe({
             next: (res) => {
-              //console.log(res);
               this.userInfoService.login2023_11_24_01(res)
-              // this.userInfoService.user = res
-              // this.userInfoService.user.notifications
-              //   = this.userInfoService.user.notifications
-              //   .map(noti => {
-              //     noti.date = new Date(noti.date);
-              //     return noti
-              //   })
               localStorage.setItem(AppConstants.userObject, JSON.stringify(res))
-              // this.userInfoService.login(res)
-              // console.log(this.userInfoService);
               this.router.navigate(['/customerhome'])
             },
             error: (err) => {
