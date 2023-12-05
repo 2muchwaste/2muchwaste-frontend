@@ -1,20 +1,27 @@
 <div *ngIf="userInfoService.user" class="container">
   <div class="row">
-    <div class="col-sm-4">
-      {{userInfoService.user.name}} {{userInfoService.user.surname}}
+    <!--    <div class="col-sm-4 text-center user-name">-->
+    <div class="col-12 text-center user-name">
+      <span>{{userInfoService.user.name}} {{userInfoService.user.surname}}</span>
     </div>
-    <div class="col-sm-4 offset-sm-4">
-      <div class="col-12">
-      {{userInfoService.user.address}}, {{userInfoService.user.zipCode}}, {{userInfoService.user.city}}
-      </div>
-      <div class="col-12">
-        {{userInfoService.user.cf | uppercase}}
-      </div>
-      <div class="col-12">
-        {{userInfoService.user.birthday | date : "YYYY-MM-dd hh:mm" }}
-      </div>
-      <div class="col-12">
-        {{userInfoService.user.email}}
+    <div class="col-12 text-center user-mail ">
+      {{userInfoService.user.email}}
+    </div>
+    <!--    <div class="col-sm-4 offset-sm-4">-->
+    <div class="col-12 user-info text-center">
+      <div class="row user-info">
+        <div class="col-12 user-data">
+          {{userInfoService.user.address}}, {{userInfoService.user.zipCode}}, {{userInfoService.user.city}}
+        </div>
+        <div class="col-12 user-data">
+          {{userInfoService.user.cf | uppercase}}
+        </div>
+        <div class="col-12 user-data">
+          {{userInfoService.user.birthday | date : "dd/MM/YYYY" }}
+        </div>
+<!--        <div class="col-12 user-data">-->
+<!--          {{userInfoService.user.email}}-->
+<!--        </div>-->
       </div>
     </div>
   </div>
