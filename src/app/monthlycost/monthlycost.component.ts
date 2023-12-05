@@ -1,13 +1,11 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserInformationService} from "../services/userinformationservice";
 import {Deposit} from "../models/deposit";
 import {CustomerService} from "../services/backendcalls/customerservice";
-import {AuthenticationService} from "../services/backendcalls/authenticationservice";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 import {UserResponse} from "../models/userresponse";
 import {AppConstants} from "../utils/constants";
 import {DepositService} from "../services/backendcalls/depositservice";
-import {query} from "@angular/animations";
 import {CanvasJS} from "@canvasjs/angular-charts";
 import {TrashTypeManager} from "../models/trashtype";
 
@@ -32,23 +30,17 @@ interface DepositByTypeMonthly {
 
 export class MonthlycostComponent implements OnInit {
 
-  // chartt = new CanvasJS.Chart('prova')
   private userID!: string
   public user!: UserResponse
   public userDeposits!: Deposit[]
   public depositsDataCharts!: DataChart[]
-  // public depositsCanvasChart!: any
   public userDepositsGroupedByTypeAndMonth!: DepositByTypeMonthly[]
   public depositsFromMonth = 1
   public exclLastNMonths = 0
   public chart: any
   private monthDeposits!: Deposit[]
   private viewPrice: boolean = true
-  buttonTextViewChart: string;
-  // private depositsMonsthGroupedByType!: Map<string, number>
-  // private userDepositsGroupedByMonth: any
-  // private userDepositsGroupedByMonthAndType!: Map<string, Map<string, number>>
-  // private userDepositsGroupedByType: any;
+  buttonTextViewChart: string
 
   constructor(
     private userInfoService: UserInformationService,
@@ -199,7 +191,7 @@ export class MonthlycostComponent implements OnInit {
         let monthName = firstType ? month.monthName + "<br>" : ""
         depositOfType.dataPoints.push({
           label: month.monthName,
-          y: viewPrice ? Math.ceil(month.price*100)/100 : Math.ceil(month.quantity*100)/100,
+          y: viewPrice ? Math.ceil(month.price * 100) / 100 : Math.ceil(month.quantity * 100) / 100,
           // @ts-ignore
           toolTipContent: monthName + "{name}: <strong>{y}</strong>Kg <strong>" + month.price.toFixed(2) + "</strong>€",
           indexLabel: (month.quantity > 0 && this.monthlyCostContainer.nativeElement.offsetWidth > 800
@@ -214,16 +206,42 @@ export class MonthlycostComponent implements OnInit {
 
   }
 
+  emptyDataChart(fromMonth: number, exlNLastMonths: number) {
+    let dataC: DataChart[] = []
+    let dep: DataChart = {
+      type: 'column',
+      name: '',
+      legendText: '',
+      // @ts-ignore
+      indexLabelFontSize: 12,
+      indexLabelFontFamily: "Lucida Console",
+      dataPoints: []
+    }
+    dataC.push(dep)
+    for (let i = fromMonth; i - exlNLastMonths >= 0; i--) {
+      let month = new Date()
+      month.setMonth(month.getMonth() - i)
+      console.log("month", month)
+      dep.dataPoints.push({
+        label: this.getMonthTag(month),
+        y: 0
+      })
+    }
+    return dataC
+  }
+
 
   updateDataChart() {
     this.userDepositsGroupedByTypeAndMonth = this.getMonthlyDepositsByType(this.userDeposits, this.depositsFromMonth, this.exclLastNMonths)
-    this.depositsDataCharts = this.getDataChart(this.userDepositsGroupedByTypeAndMonth, this.viewPrice)
-    // this.depositsCanvasChart = this.getDepositCanvasOptions(this.getDataChart(this.userDepositsGroupedByTypeAndMonth))
+    console.log("this.userDepositsGroupedByTypeAndMonth", this.userDepositsGroupedByTypeAndMonth)
+    this.depositsDataCharts = this.userDepositsGroupedByTypeAndMonth.length > 0 ?
+      this.getDataChart(this.userDepositsGroupedByTypeAndMonth, this.viewPrice)
+      : this.emptyDataChart(this.depositsFromMonth, this.exclLastNMonths)
+    console.log("this.depositsDataCharts", this.depositsDataCharts)
     this.chart.options.axisY.title = this.viewPrice ? "EUR €" : "Kg"
     this.chart.options.data = this.depositsDataCharts
     this.chart.render()
   }
-
 
   previousMonth() {
     console.log('previousMonth');
@@ -250,8 +268,6 @@ export class MonthlycostComponent implements OnInit {
         })
         this.userDeposits = this.userInfoService.userDeposits = deposits
         this.monthDeposits = this.userDeposits.filter(deposit => deposit.date.getMonth() > (new Date()).getMonth() - 1)
-        // this.userDepositsGroupedByTypeAndMonth = this.getMonthlyDepositsByType(this.userDeposits, this.depositsFromMonth, this.exclLastNMonths)
-        // this.depositsCanvasChart = this.getDepositCanvasOptions(this.getDataChart(this.userDepositsGroupedByTypeAndMonth))
         this.chart = new CanvasJS.Chart('chartContainer', this.getDepositCanvasOptions([]))
         this.updateDataChart()
         // this.chart.render()
@@ -267,11 +283,6 @@ export class MonthlycostComponent implements OnInit {
     console.log('this.userDeposits=', this.userDeposits)
     console.log('this.monthDeposits=', this.monthDeposits)
     console.log('this.userDepositsGroupedByTypeAndMonth = ', this.userDepositsGroupedByTypeAndMonth)
-    // console.log('this.depositsGroupedByType = ', this.depositsMonsthGroupedByType)
-    // console.log('this.depositsGroupedByMonth = ', this.userDepositsGroupedByMonth)
-    // console.log('this.userDepositsGroupedByMonthAndType = ', this.userDepositsGroupedByMonthAndType)
-    // console.log('this.userDepositsGroupedByType = ', this.userDepositsGroupedByType)
-    // console.log('this.depositsChart = ', this.depositsCanvasChart)
   }
 
   changeViewPriceQuantity() {
