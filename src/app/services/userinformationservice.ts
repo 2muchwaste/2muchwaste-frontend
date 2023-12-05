@@ -1,10 +1,7 @@
 import {Injectable} from "@angular/core";
 import {UserResponse} from "../models/userresponse";
 import {Deposit} from "../models/deposit";
-import {CustomerService} from "./backendcalls/customerservice";
 import {Subject} from "rxjs";
-import {AuthenticationService} from "./backendcalls/authenticationservice";
-import {User} from "../models/user";
 import {UserNotification} from "../models/UserNotification";
 import {Dumpster} from "../models/dumpster";
 import {Payment} from "../models/payment";
@@ -42,41 +39,7 @@ export class UserInformationService {
     this.logged = false
   }
 
-  public updateUser(userResponse: UserResponse) {
-    console.log(this.SERVICE_TAG, 'updating user');
-    console.log(this.SERVICE_TAG, userResponse);
-    this.user = userResponse
-    this.logged = true
-    // this.user.notifications.map(noti => {
-    //   noti.date = new Date(noti.date)
-    //   return noti
-    // })
-    this.user.notifications = this.user.notifications
-      .map(noti => {
-        noti.date = new Date(noti.date)
-        return noti
-      })
-      .sort((noti1, noti2) => noti2.date.getTime() - noti1.date.getTime())
-
-    console.log(this.SERVICE_TAG, 'calling next(userResponse)');
-    this.userLoggedIn.next(userResponse)
-  }
-
   public login(userResponse: UserResponse) {
-    console.log(this.SERVICE_TAG, 'login called');
-    console.log(this.SERVICE_TAG, userResponse);
-    this.user = userResponse
-    this.logged = true
-    this.user.notifications = this.user.notifications.map(noti => {
-      noti.date = new Date(noti.date)
-      return noti
-    }).sort((noti1, noti2) => noti2.date.getTime() - noti1.date.getTime())
-    // this.updateUser(userResponse)
-    // this.user = userResponse
-    // this.userLoggedIn.next(userResponse)
-  }
-
-  public login2023_11_24_01(userResponse: UserResponse) {
     console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse);
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
@@ -84,16 +47,9 @@ export class UserInformationService {
     this.userLoggedIn.next(this.user)
   }
 
-
-  public addNotification(newNotification: UserNotification) {
-    this.user.notifications.unshift(newNotification)
-    this.userNewNotificationSubject.next(this.user)
-  }
-
   public getUser() {
     return this.user
   }
-
 
   public isLogged() {
     return this.logged
@@ -116,7 +72,7 @@ export class UserInformationService {
         noti2.date.getTime() - noti1.date.getTime())
   }
 
-  addNotification2023_11_24_01(userWithNewNotification: UserResponse) {
+  addNotification(userWithNewNotification: UserResponse) {
     console.log(this.SERVICE_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification);
     // this.user.notifications.unshift(userWithNewNotification)
     this.user = userWithNewNotification
@@ -124,7 +80,7 @@ export class UserInformationService {
     this.userNewNotificationSubject.next(this.user)
   }
 
-  setUser2023_11_24_01(userResponse: UserResponse) {
+  setUser(userResponse: UserResponse) {
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
     this.newUserSet.next(this.user)
@@ -134,10 +90,6 @@ export class UserInformationService {
     this.nearestDumpsters = dumpAndD
     this.newNearestDumpster.next(dumpAndD)
   }
-
-  // getBirthday(){
-  //   let birthday = new Date(this.user.birthday).
-  // }
 
   getNotifications() {
     this.user.notifications = this.getSortedNotificationsByData(this.user.notifications)

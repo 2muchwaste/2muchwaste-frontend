@@ -46,7 +46,6 @@ export class SigninComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -81,7 +80,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
           localStorage.setItem(AppConstants.lSUserID, res.id)
           this.customerService.getCustomerByID(res.id).subscribe({
             next: (res) => {
-              this.userInfoService.login2023_11_24_01(res)
+              this.userInfoService.login(res)
               localStorage.setItem(AppConstants.userObject, JSON.stringify(res))
               this.router.navigate(['/customerhome'])
             },

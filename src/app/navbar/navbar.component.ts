@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         console.log(this.CLASS_TAG, " Inizio collegamento socket")
         this.initializeSocketNotifications(usrResponser)
-        this.userInfoService.setUser2023_11_24_01(usrResponser)
+        this.userInfoService.setUser(usrResponser)
         this.notificationNotRead = this.userInfoService.getNotReadNotifications()
         this.isLogged = true
       },
@@ -89,7 +89,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private initializeSocketNotifications(userResponse: UserResponse) {
     this.notificationService.listen(userResponse._id).subscribe({
       next: (newNotification) => {
-        this.userInfoService.addNotification2023_11_24_01(newNotification)
+        this.userInfoService.addNotification(newNotification)
         this.notificationNotRead = this.userInfoService.getNotReadNotifications()
       }
     })
