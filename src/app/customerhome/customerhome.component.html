@@ -6,20 +6,19 @@
     <p class="col-9">Scarichi effettuati questo mese:</p>
     <p class="col-3 deposits-monthly-col">{{deposits.length}}</p>
   </div>
-
-  <div class="maps-button-description invisible-button"
-       [ngClass]="{'visible':isButtonsVisible}">
-    Bidoni nelle vicinanze
-  </div>
-  <button
-    mat-mini-fab
-    color="primary"
-    aria-label="Bottone per vedere la mappa dei bidoni vicini"
-    class="throwing-maps invisible-button"
-    [ngClass]="{ 'visible': isButtonsVisible }"
-    (click)="getNearDumpsters()">
-    <mat-icon>maps</mat-icon>
-  </button>
+  <ng-container *ngIf="isButtonsVisible">
+    <div class="maps-button-description appearbutton">
+      Bidoni nelle vicinanze
+    </div>
+    <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Bottone per vedere la mappa dei bidoni vicini"
+      class="throwing-maps appearbutton"
+      (click)="getNearDumpsters()">
+      <mat-icon>maps</mat-icon>
+    </button>
+  </ng-container>
   <button
     mat-fab
     color="primary"

@@ -63,26 +63,16 @@ button.throwing-rfid {
   padding: 4px 10px;
 }
 
-
-.invisible-button {
-  visibility: hidden;
+.appearbutton {
   opacity: 0;
-  transition: opacity 1s ease; /* You can adjust the duration as needed */
+  animation: opacityOn 2s normal forwards;
 }
 
-.visible {
-  opacity: 1;
+@keyframes opacityOn {
+  100% {
+    opacity: 1;
+  }
 }
-
-//
-//.throwing-maps {
-//  opacity: 0.2;
-//  transition: opacity 0.6s ease; /* You can adjust the duration as needed */
-//}
-//
-//.throwing-maps.visible{
-//  opacity: 1;
-//}
 
 ////////////////////////////////
 // Style for OpenStreetMap map//
@@ -117,4 +107,3 @@ button.throwing-rfid {
   padding: 5px;
   pointer-events: auto;
 }
-
