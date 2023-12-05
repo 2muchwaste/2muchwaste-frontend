@@ -1,22 +1,22 @@
 <div #monthlyCostContainer>
-    <div id="chartContainer" style="height: 370px; width: 100%; margin:auto;"></div>
-    <div class="row">
-        <div class="col-12">
-            <button class="col-12" mat-raised-button color="primary" (click)="changeViewPriceQuantity()">
-                {{buttonTextViewChart}}
-            </button>
-        </div>
+  <div id="chartContainer" style="height: 370px; width: 100%; margin:auto;"></div>
+  <div class="row">
+    <div class="col-12">
+      <button class="col-12" mat-raised-button color="primary" (click)="changeViewPriceQuantity()">
+        {{buttonTextViewChart}}
+      </button>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <button class="col-12" mat-raised-button color="primary" (click)="previousMonth()">
-                Mese precedente
-            </button>
-        </div>
-        <div class="col-md-6">
-            <button class="col-12" mat-raised-button color="primary" (click)="nextMonth()">
-                Mese Successivo
-            </button>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <button class="col-12" mat-raised-button color="primary" (click)="previousMonth()">
+        Mese precedente
+      </button>
     </div>
+    <div class="col-md-6">
+      <button class="col-12" mat-raised-button color="primary" (click)="nextMonth()">
+        Mese Successivo
+      </button>
+    </div>
+  </div>
 </div>
