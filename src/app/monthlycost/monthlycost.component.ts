@@ -195,7 +195,7 @@ export class MonthlycostComponent implements OnInit {
           label: month.monthName,
           y: viewPrice ? Math.ceil(month.price * 100) / 100 : Math.ceil(month.quantity * 100) / 100,
           // @ts-ignore
-          toolTipContent: monthName + "{name}: <strong>"+month.quantity+"</strong>Kg <strong>" + month.price.toFixed(2) + "</strong>€",
+          toolTipContent: monthName + "{name}: <strong>" + month.quantity + "</strong>Kg <strong>" + month.price.toFixed(2) + "</strong>€",
           indexLabel: (month.quantity > 0 && this.monthlyCostContainer.nativeElement.offsetWidth > 800
             // @ts-ignore
             ? trashTypeManager.getItalianName(type.garbageType).substring(0, 5) : "")
