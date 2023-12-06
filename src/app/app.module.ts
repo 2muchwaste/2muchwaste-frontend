@@ -35,7 +35,7 @@ import {UserInformationService} from "./services/userinformationservice";
 import { UserNotificationsComponent } from './usernotifications/user-notifications.component';
 import { MaptestComponent } from './maptest/maptest.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
-import { WhoweareComponent } from './whoweare/whoweare.component';
+import { WhoWeAreComponent } from './whoweare/who-we-are.component';
 
 
 @NgModule({
@@ -63,7 +63,7 @@ import { WhoweareComponent } from './whoweare/whoweare.component';
     MaptestComponent,
     PaymentsComponent,
     PaymentDialogComponent,
-    WhoweareComponent
+    WhoWeAreComponent
   ],
   imports: [
     BrowserModule,

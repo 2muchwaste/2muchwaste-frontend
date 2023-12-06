@@ -14,6 +14,7 @@ import {UserNotificationsComponent} from "./usernotifications/user-notifications
 import {MaptestComponent} from "./maptest/maptest.component";
 import {PaymentsComponent} from "./payments/payments.component";
 import {SourcenotfoundComponent} from "./sourcenotfound/sourcenotfound.component";
+import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 
 // const routes: Routes = [{
 //   path: "",
@@ -40,6 +41,7 @@ const routes: Routes = [
   getRouteComponent('usernotifications', UserNotificationsComponent),
   getRouteComponent('maptest',MaptestComponent),
   getRouteComponent('paymentstatus',PaymentsComponent),
+  getRouteComponent('whoweare',WhoWeAreComponent),
   // {
   //   path:'depositsinformation',
   //   component:UserdepositsinformationComponent,
