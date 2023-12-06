@@ -1,8 +1,10 @@
+$width-max-sm: 575px;
+$width-max-md: 767px;
 /* Define a class for the footer container */
 .footer {
   background-color: #33402f; /* Background color of the footer */
   color: #EDF1D6; /* Text color */
-  padding: 20px 0; /* Padding for top and bottom */
+  padding: 10px 0; /* Padding for top and bottom */
   position: fixed; /* Fixed position at the bottom */
   left: 0; /* Align to the left */
   right: 0; /* Align to the right */
@@ -30,6 +32,14 @@
   text-align: right;
 }
 
-p.copyright{
+.col-12.copyright {
   text-align: center;
+}
+
+@media screen and (min-width: $width-max-md+1) {
+  .col-12.col-md-4.copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

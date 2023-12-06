@@ -1,7 +1,3 @@
-.row {
-  width: 100%;
-}
-
 .table-row-headers {
   font-family: "Roboto", sans-serif;
   font-weight: bolder;
@@ -11,7 +7,7 @@
   padding: 10px 0 10px;
 }
 
-.quantity-header,.quantity-value,.price-header,.price-value{
+.quantity-header, .quantity-value, .price-header, .price-value {
   text-align: end;
 }
 
@@ -19,14 +15,22 @@
 }
 
 .read {
-  color: rgb(115,115,115);
+  color: rgb(115, 115, 115);
 }
 
-//@media (max-width: 970px) {
-//  .usernotification-list-item{
-//    font-size: 14px;
-//    color: green;
-//  }
-//
-//}
+.row.usernotification-list-item {
+  min-height: 45px;
+  align-items: center;
+}
+
+.col-sm-4.date-value {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 575px) {
+  .row.usernotification-list-item {
+    min-height: 60px;
+  }
+}
 

@@ -12,21 +12,25 @@
     </div>
   </div>
 
-<!--  <ng-container *ngFor="let noti of (this.userInfoService.user.notifications | slice: lowValue : highValue)">-->
+  <!--  <ng-container *ngFor="let noti of (this.userInfoService.user.notifications | slice: lowValue : highValue)">-->
   <ng-container *ngFor="let noti of (notifications | slice: lowValue : highValue)">
     <div class="row usernotification-list-item" [ngClass]="{'read':noti.read}"
          *ngIf="showReadNotification || !noti.read">
-      <div class="col-1 quantity-value">
-        <p>
+      <div class="col-1 quantity-value text-center">
+
           <!-- Necessario quel confronto con true-->
-<!--          <mat-checkbox [checked]="noti.read === true" disabled="{{notificationToTickAsRead.has(noti._id) || noti.read}}"-->
+          <!--          <mat-checkbox [checked]="noti.read === true" disabled="{{notificationToTickAsRead.has(noti._id) || noti.read}}"-->
           <mat-checkbox [checked]="noti.read === true" disabled="{{noti.read}}"
                         (change)="tickNotification($event.checked, noti._id)"></mat-checkbox>
-        </p>
+
       </div>
-      <div class="col-3 date-value">{{noti.date | date : "YYYY-MM-dd HH:mm" }}
+      <div class="col-11">
+        <div class="row">
+          <div class="col-sm-4 date-value">{{noti.date | date : "YYYY-MM-dd HH:mm" }}
+          </div>
+          <div class="col-sm-8 type-value">{{noti.text}}</div>
+        </div>
       </div>
-      <div class="col-8 type-value">{{noti.text}}</div>
       <mat-divider></mat-divider>
     </div>
 
@@ -44,7 +48,7 @@
       <button class="col-12 application-button-primary" mat-raised-button color="primary"
               (click)="filterNotificationsRead()">
         <ng-container *ngIf="showReadNotification; else notShowReadNotifications">
-        Non Mostrare Notifiche Già Lette
+          Non Mostrare Notifiche Già Lette
         </ng-container>
         <ng-template #notShowReadNotifications>
           Mostra Notifiche Lette
