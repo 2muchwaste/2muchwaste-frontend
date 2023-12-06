@@ -1,27 +1,13 @@
 $darkgreen-application: #33402f;
-  ///* You can add global styles to this file, and also import other style files */
-//
-//html, body {
-//  height: 100%;
-//  //background-color: #0f1530;
-//  //color: #faded2;
-//}
-//
-//body {
-//  margin: 0;
-//  font-family: Roboto, "Helvetica Neue", sans-serif;
-//}
 
-body, .mat-paginator-container{
-  background-color: #fcfacf ;
+body, .mat-paginator-container {
+  background-color: #fcfacf;
 }
 
 // Color for notification number
-.mat-badge-content{
-  background : saddlebrown;
+.mat-badge-content {
+  background: saddlebrown;
 }
-
-
 
 button.application-button-primary {
   background-color: #898d4e !important;
@@ -32,7 +18,7 @@ button.application-button-primary {
   background-color: $darkgreen-application;
 }
 
-.dgreen-stroke{
+.dgreen-stroke {
 }
 
 .light-green-application-foreground {
@@ -47,8 +33,16 @@ button.application-button-primary {
   stroke: $darkgreen-application;
 }
 
-.payment-spinner{
+.payment-spinner {
   margin: 0 auto;
 }
 
+//////////////////
+// Little screen
+//////////////////
 
+@media screen and (max-width: 575px) {
+  .container {
+    padding: 0;
+  }
+}
