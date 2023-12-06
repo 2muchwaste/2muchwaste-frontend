@@ -35,6 +35,7 @@ import {UserInformationService} from "./services/userinformationservice";
 import { UserNotificationsComponent } from './usernotifications/user-notifications.component';
 import { MaptestComponent } from './maptest/maptest.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
+import { WhoweareComponent } from './whoweare/whoweare.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.com
     UserNotificationsComponent,
     MaptestComponent,
     PaymentsComponent,
-    PaymentDialogComponent
+    PaymentDialogComponent,
+    WhoweareComponent
   ],
   imports: [
     BrowserModule,
