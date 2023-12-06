@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-* navbar-light bg-light fixed-top">
   <div class="container-fluid container-in-nav">
 
-    <a class="navbar-brand navbar-title" href="#">2MuchWaste</a>
+    <a class="navbar-brand navbar-title" routerLink="/">2MuchWaste</a>
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
             class="notification-icon-container ms-auto">
       <mat-icon [matBadge]=notificationNotRead?.length>notifications</mat-icon>
@@ -50,6 +50,9 @@
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink='/paymentstatus'>Pagamenti</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" (click)="logout()" aria-current="page" routerLink="/">Logout</a>
           </li>
         </div>
         <ng-template #notLoggedTemplate>

@@ -110,4 +110,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
 
+  logout() {
+    localStorage.removeItem(AppConstants.lSUserID)
+    localStorage.removeItem(AppConstants.lSuserRole)
+    localStorage.removeItem(AppConstants.lSToken)
+    localStorage.removeItem('userObject')
+  }
 }
