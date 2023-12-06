@@ -69,10 +69,6 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngAfterViewInit() {
-    setTimeout(
-      () => this.getNearDumpsters(),
-      1000
-    )
   }
 
   private initMap(userPosition: Coordinates): void {
