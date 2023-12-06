@@ -1,3 +1,29 @@
 mat-form-field {
-padding: 10px 0px;
+  padding: 10px 0px;
 }
+
+.agency-logo{
+  max-width: 200px;
+  box-shadow: 4px 4px 4px #D8DEBF;
+  border-radius: 100px;
+}
+
+span.agency-name {
+  font-size: xx-large;
+  padding-top: 10px;
+  font-weight: bolder;
+  color: #33402f;
+  text-shadow: 4px 4px 4px #D8DEBF;
+}
+
+.col-12.agency-name{
+  margin-top: 15px;
+}
+.signin-col-form{
+  max-width: 650px;
+}
+
+form>.row{
+  justify-content: space-between;
+}
+
