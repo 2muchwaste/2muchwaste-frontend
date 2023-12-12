@@ -1,10 +1,8 @@
 import {
-  AfterContentChecked,
-  AfterContentInit, AfterViewChecked, AfterViewInit,
+  AfterViewInit,
   Component,
-  DoCheck,
-  ElementRef, OnChanges, OnDestroy,
-  OnInit, SimpleChanges,
+  ElementRef, HostListener, OnDestroy,
+  OnInit,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -13,8 +11,8 @@ import {SocketService} from "../services/notificationsservice";
 import {UserNotification} from "../models/UserNotification";
 import {AppConstants} from "../utils/constants";
 import {CustomerService} from "../services/backendcalls/customerservice";
-import {Observable, Subscription} from "rxjs";
-import {UserResponse, UserResponseBuilder} from "../models/userresponse";
+import {Subscription} from "rxjs";
+import {UserResponse} from "../models/userresponse";
 
 @Component({
   selector: 'app-navbar',
@@ -22,18 +20,21 @@ import {UserResponse, UserResponseBuilder} from "../models/userresponse";
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private CLASS_TAG = "NavbarComponent:"
   public notificationNotRead: UserNotification[] = []
   private subscriptionUserReadNotification: Subscription
   public isLogged = false
   private subscriptionUser: Subscription
+  @ViewChild('navbarbutton') navbarButton!: ElementRef<HTMLElement>
+  @ViewChild('collapsablePartNavbar') collapsableNavbar!: ElementRef
 
   constructor(
     public userInfoService: UserInformationService,
     private notificationService: SocketService,
     private customerService: CustomerService,
+    private eRef: ElementRef
   ) {
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
       this.initializeUserAfterLogin2023_11_24_01(userResponse)
@@ -47,11 +48,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     })
   }
 
-  @ViewChild('navbarbutton') navbarButton!: ElementRef<HTMLElement>
 
   ngOnInit() {
     let userIDStored = localStorage.getItem(AppConstants.lSUserID)
     if (userIDStored && !this.userInfoService.user) this.restoreUser2023_11_24_01(userIDStored)
+  }
+
+  ngAfterViewInit() {
   }
 
   private restoreUser2023_11_24_01(userIDStored: string) {
@@ -77,8 +80,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     localStorage.setItem(AppConstants.userObject, JSON.stringify(userResponse))
     localStorage.setItem(AppConstants.lSUserID, userResponse._id)
-
-    // this.userInfoService.updateUser(usrResponser)
     console.log(this.CLASS_TAG, " Inizio collegamento socket")
     this.initializeSocketNotifications(userResponse);
     this.isLogged = true
@@ -93,11 +94,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.notificationNotRead = this.userInfoService.getNotReadNotifications()
       }
     })
-    this.notificationService.listen('ZZZ').subscribe({
-      next: (newUser) => {
-        console.log(this.CLASS_TAG, ' listen ZZZ user:', newUser);
-      }
-    })
   }
 
   performBurgerButtonClick() {
@@ -109,11 +105,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subscriptionUserReadNotification.unsubscribe()
   }
 
-
   logout() {
     localStorage.removeItem(AppConstants.lSUserID)
     localStorage.removeItem(AppConstants.lSuserRole)
     localStorage.removeItem(AppConstants.lSToken)
     localStorage.removeItem('userObject')
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    if (!this.eRef.nativeElement.contains(event.target) && this.collapsableNavbar.nativeElement.classList.contains('show')) {
+      this.performBurgerButtonClick()
+    }
   }
 }
