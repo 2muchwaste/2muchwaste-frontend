@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserInformationService} from "../services/userinformationservice";
 import {UserNotification} from "../models/UserNotification";
-import {PageEvent} from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {FormBuilder} from "@angular/forms";
 import {MatCheckboxChange} from "@angular/material/checkbox";
@@ -29,6 +29,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   subscriptionToUserSet: Subscription
   // subscriptionNotification: Subscription
   notificationToTickAsRead = new Set<string>([])
+  @ViewChild('matPaginator') matPaginator!: MatPaginator
 
   constructor(
     public userInfoService: UserInformationService,
@@ -84,8 +85,14 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   public filterNotificationsRead() {
     this.showReadNotification = !this.showReadNotification
     this.notifications = this.showReadNotification ? this.userInfoService.getNotifications() : this.userInfoService.getNotReadNotifications()
-    // this.notificationNumber = this.userInfoService.user.notifications.filter(noti => this.showReadNotification || !noti.read).length
-    // this.notifications = this.notifications.filter()
+    if (this.lowValue >= this.notifications.length) this.resetPaginator(this.matPaginator.pageSize)
+  }
+
+  private resetPaginator(pageSize: number) {
+    this.lowValue = 0
+    this.highValue = pageSize
+    this.matPaginator.pageIndex = 0
+    this.matPaginator.pageSize = pageSize
   }
 
   public tickNotificationsAsRead() {
@@ -112,7 +119,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       })
     })
     this.notificationToTickAsRead = new Set<string>()
-
 
   }
 
