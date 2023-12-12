@@ -1,5 +1,77 @@
-button.throwing{
+$small-button-dimension: 40px;
+$button-emptying-bottom: 170px;
+$button-maps-bottom: 65px;
+
+$map-container-z-index: 1000;
+
+button.emptying {
   position: fixed;
-  bottom: 50px;
-  right: 50px;
+  bottom: $button-emptying-bottom;
+  right: 15px;
 }
+
+button.emptying-maps {
+  position: fixed;
+  bottom: $button-emptying-bottom + $button-maps-bottom;
+  right: 23px;
+}
+
+.maps-button-description {
+  bottom: $button-emptying-bottom + $maps-button-description-bottom;
+  position: fixed;
+  right: 88px;
+}
+
+.dump-monthly-col {
+  text-align: right;
+}
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: #898d4e;
+}
+
+.appearbutton {
+  opacity: 0;
+  animation: opacityOn 2s normal forwards;
+}
+
+@keyframes opacityOn {
+  100% {
+    opacity: 1;
+  }
+}
+
+////////////////////////////////
+// Style for OpenStreetMap map//
+////////////////////////////////
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 4% 8%;
+  z-index: $map-container-z-index;
+}
+
+.map-frame {
+  height: 100%;
+}
+
+.border-map {
+  border: 2px solid black;
+}
+
+#map {
+  height: 100%;
+}
+
+.close-map-button-container.leaflet-top.leaflet-right {
+  margin: 10px 11px;
+  //background-color: rgb(200,200,200);
+  border-radius: 20px;
+  padding: 5px;
+  pointer-events: auto;
+}
+
