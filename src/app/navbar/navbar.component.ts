@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     private eRef: ElementRef
   ) {
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
-      this.initializeUserAfterLogin2023_11_24_01(userResponse)
+      this.initializeUserAfterLogin(userResponse)
     })
 
     // Quando arriva una nuova notifica bisogna aggiornare l'array inerente della navbar
@@ -51,13 +51,13 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     let userIDStored = localStorage.getItem(AppConstants.lSUserID)
-    if (userIDStored && !this.userInfoService.user) this.restoreUser2023_11_24_01(userIDStored)
+    if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
   }
 
   ngAfterViewInit() {
   }
 
-  private restoreUser2023_11_24_01(userIDStored: string) {
+  private restoreUser(userIDStored: string) {
     this.customerService.getCustomerByID(userIDStored).subscribe({
       next: (usrResponser) => {
 
@@ -76,7 +76,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  private initializeUserAfterLogin2023_11_24_01(userResponse: UserResponse) {
+  private initializeUserAfterLogin(userResponse: UserResponse) {
 
     localStorage.setItem(AppConstants.userObject, JSON.stringify(userResponse))
     localStorage.setItem(AppConstants.lSUserID, userResponse._id)
