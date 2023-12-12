@@ -7,11 +7,13 @@ import {AuthenticationService} from "../services/backendcalls/authenticationserv
 import {Router} from "@angular/router";
 import {AppConstants} from "../utils/constants";
 import {UserInformationService} from "../services/userinformationservice";
+import {SigninErrorDialogComponent} from "../signin/signin.component";
+import {CustomerService} from "../services/backendcalls/customerservice";
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./../app.component.scss','./signup.component.scss']
+  styleUrls: ['./../app.component.scss', './signup.component.scss']
 })
 
 export class SignupComponent implements OnInit {
@@ -21,7 +23,8 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private userInfoService: UserInformationService
+    private userInfoService: UserInformationService,
+    private customerService: CustomerService
   ) {
     this.signupForm = this.fb.group({
       name: this.nameFormControl,
@@ -85,7 +88,6 @@ export class SignupComponent implements OnInit {
       this.authenticationService.signup(this.initUser(), this.roleFormControl.value)
         .subscribe({
           next: (res) => {
-            // this.userInfoService.user = res
             this.doLogin()
           },
           error: (err) => {
@@ -108,7 +110,16 @@ export class SignupComponent implements OnInit {
       next: (res) => {
         localStorage.setItem(AppConstants.lSToken, res.token)
         localStorage.setItem(AppConstants.lSUserID, res.id)
-        this.router.navigate(['/customerhome'])
+        this.customerService.getCustomerByID(res.id).subscribe({
+          next: (res) => {
+            this.userInfoService.login(res)
+            localStorage.setItem(AppConstants.userObject, JSON.stringify(res))
+            this.router.navigate(['/customerhome'])
+          },
+          error: (err) => {
+            this.dialog.open(SigninErrorDialogComponent)
+          }
+        })
       },
       error: (err) => {
         this.dialog.open(SignupErrorDialogComponent, {
