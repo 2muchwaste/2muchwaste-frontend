@@ -28,11 +28,4 @@ export interface Coordinates {
 })
 export class OperatorhomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  
-  
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }
