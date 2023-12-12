@@ -5,6 +5,7 @@ import {Subject} from "rxjs";
 import {UserNotification} from "../models/UserNotification";
 import {Dumpster} from "../models/dumpster";
 import {Payment} from "../models/payment";
+import {AppConstants} from "../utils/constants";
 
 @Injectable({
   providedIn: "root"
@@ -37,6 +38,18 @@ export class UserInformationService {
 
   public logout() {
     this.logged = false
+    localStorage.removeItem(AppConstants.lSUserID)
+    localStorage.removeItem(AppConstants.lSuserRole)
+    localStorage.removeItem(AppConstants.lSToken)
+    localStorage.removeItem('userObject')
+    // @ts-ignore
+    this.payments = undefined
+    // @ts-ignore
+    this.userDeposits = undefined
+    // @ts-ignore
+    this.user = undefined
+    // @ts-ignore
+    this.nearestDumpsters = undefined
   }
 
   public login(userResponse: UserResponse) {

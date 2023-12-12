@@ -48,7 +48,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-
   ngOnInit() {
     let userIDStored = localStorage.getItem(AppConstants.lSUserID)
     if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
@@ -86,7 +85,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notificationNotRead = this.userInfoService.getNotReadNotifications()
   }
 
-
   private initializeSocketNotifications(userResponse: UserResponse) {
     this.notificationService.listen(userResponse._id).subscribe({
       next: (newNotification) => {
@@ -106,10 +104,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   logout() {
-    localStorage.removeItem(AppConstants.lSUserID)
-    localStorage.removeItem(AppConstants.lSuserRole)
-    localStorage.removeItem(AppConstants.lSToken)
-    localStorage.removeItem('userObject')
+    this.userInfoService.logout()
+    this.isLogged = false
   }
 
   @HostListener('document:click', ['$event'])
