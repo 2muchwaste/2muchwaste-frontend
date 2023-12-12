@@ -1,118 +1,122 @@
 <form class="example-form" (ngSubmit)="submit()">
   <div class="row gx-0">
+    <div class="col-12 col-row-forms">
+      <div class="row before-form">
 
-    <!------- NOME -------->
-    <mat-form-field class="col-md-6">
-      <mat-label>Nome</mat-label>
-      <input type="text" matInput [formControl]="nameFormControl">
-      <mat-error *ngIf="nameFormControl.hasError('required')">
-        Il nome è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- NOME -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Nome</mat-label>
+          <input type="text" matInput [formControl]="nameFormControl">
+          <mat-error *ngIf="nameFormControl.hasError('required')">
+            Il nome è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- COGNOME -------->
-    <mat-form-field class="col-md-6">
-      <mat-label>Cognome</mat-label>
-      <input type="text" matInput [formControl]="surnameFormControl">
-      <mat-error *ngIf="surnameFormControl.hasError('required')">
-        Il cognome è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- COGNOME -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Cognome</mat-label>
+          <input type="text" matInput [formControl]="surnameFormControl">
+          <mat-error *ngIf="surnameFormControl.hasError('required')">
+            Il cognome è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- MAIL -------->
-    <mat-form-field class="col-md-6">
-      <mat-label>Email</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
-      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-        Inserire un indirizzo mail <strong>valido</strong>
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
-        L'indirizzo email è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- MAIL -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Inserire un indirizzo mail <strong>valido</strong>
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            L'indirizzo email è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- PASSWORD -------->
-    <mat-form-field class="col-md-6">
-      <mat-label>Password</mat-label>
-      <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl">
-      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-      <mat-error *ngIf="passwordFormControl.hasError('required')">
-        La password è <strong>richiesta</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- PASSWORD -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Password</mat-label>
+          <input [type]="hide ? 'password' : 'text'" matInput [formControl]="passwordFormControl">
+          <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="passwordFormControl.hasError('required')">
+            La password è <strong>richiesta</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- DATA DI NASCITA -------->
-    <mat-form-field class="col-md-6">
-      <mat-label>Data di nascita</mat-label>
-      <input matInput [formControl]="birthdayFormControl" [matDatepicker]="picker">
-      <mat-error *ngIf="birthdayFormControl.hasError('required')">
-        La data di nascita è <strong>richiesta</strong>
-      </mat-error>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+        <!------- DATA DI NASCITA -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Data di nascita</mat-label>
+          <input matInput [formControl]="birthdayFormControl" [matDatepicker]="picker">
+          <mat-error *ngIf="birthdayFormControl.hasError('required')">
+            La data di nascita è <strong>richiesta</strong>
+          </mat-error>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-    <!------- CODICE FISCALE -------->
-    <mat-form-field class="col-md-6">
-      <mat-label>Codice Fiscale</mat-label>
-      <input type="text" matInput [formControl]="CFFormControl" placeholder="CNF...">
-      <mat-error *ngIf="CFFormControl.hasError('required')">
-        Il codice fiscale è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- CODICE FISCALE -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Codice Fiscale</mat-label>
+          <input type="text" matInput [formControl]="CFFormControl" placeholder="CNF...">
+          <mat-error *ngIf="CFFormControl.hasError('required')">
+            Il codice fiscale è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
 
-    <!------- CITTÀ -------->
-    <mat-form-field class="col-md-3">
-      <mat-label>Città</mat-label>
-      <input type="text" matInput [formControl]="cityFormControl" placeholder="Ex. Milano">
-      <mat-error *ngIf="cityFormControl.hasError('required')">
-        La città è <strong>richiesta</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- CITTÀ -------->
+        <mat-form-field class="col-md-3">
+          <mat-label>Città</mat-label>
+          <input type="text" matInput [formControl]="cityFormControl" placeholder="Ex. Milano">
+          <mat-error *ngIf="cityFormControl.hasError('required')">
+            La città è <strong>richiesta</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- CODICE POSTALE -------->
-    <mat-form-field class="col-md-2">
-      <mat-label>CAP</mat-label>
-      <input type="text" matInput [formControl]="zipCodeFormControl" placeholder="Ex. 65230">
-      <!--      <mat-error *ngIf="zipCodeFormControl.hasError('number') && !zipCodeFormControl.hasError('required')">-->
-      <!--        Inserire un CAP <strong>valido</strong>-->
-      <!--      </mat-error>-->
-      <mat-error *ngIf="zipCodeFormControl.hasError('required')">
-        Il CAP è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- CODICE POSTALE -------->
+        <mat-form-field class="col-md-2">
+          <mat-label>CAP</mat-label>
+          <input type="text" matInput [formControl]="zipCodeFormControl" placeholder="Ex. 65230">
+          <!--      <mat-error *ngIf="zipCodeFormControl.hasError('number') && !zipCodeFormControl.hasError('required')">-->
+          <!--        Inserire un CAP <strong>valido</strong>-->
+          <!--      </mat-error>-->
+          <mat-error *ngIf="zipCodeFormControl.hasError('required')">
+            Il CAP è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- INDIRIZZO -------->
-    <mat-form-field class="col-md-7">
-      <mat-label>Indirizzo</mat-label>
-      <input type="text" matInput [formControl]="addressFormControl" placeholder="Ex. Via Minetti, 23">
-      <mat-error *ngIf="cityFormControl.hasError('required')">
-        L'indirizzo è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <!------- INDIRIZZO -------->
+        <mat-form-field class="col-md-7">
+          <mat-label>Indirizzo</mat-label>
+          <input type="text" matInput [formControl]="addressFormControl" placeholder="Ex. Via Minetti, 23">
+          <mat-error *ngIf="cityFormControl.hasError('required')">
+            L'indirizzo è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <!------- RUOLO -------->
+        <!------- RUOLO -------->
 
-    <mat-form-field class="col-12">
-      <mat-label>Ruolo</mat-label>
-      <mat-select [formControl]="roleFormControl">
-        <mat-option value="admin">Admin</mat-option>
-        <mat-option value="customer">Cliente</mat-option>
-        <mat-option value="operator">Operatore</mat-option>
-      </mat-select>
-      <mat-error *ngIf="roleFormControl.hasError('required')">
-        Il ruolo è <strong>richiesto</strong>
-      </mat-error>
-    </mat-form-field>
+        <mat-form-field class="col-12">
+          <mat-label>Ruolo</mat-label>
+          <mat-select [formControl]="roleFormControl">
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="customer">Cliente</mat-option>
+            <mat-option value="operator">Operatore</mat-option>
+          </mat-select>
+          <mat-error *ngIf="roleFormControl.hasError('required')">
+            Il ruolo è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-    <a routerLink='/signin' class="col-12 already-registered-link">Hai già un account? Accedi da qui!</a>
-    <div class="button-container">
-      <button class="col-12 application-button signup" mat-raised-button>Registrati</button>
+        <a routerLink='/signin' class="col-12 already-registered-link">Hai già un account? Accedi da qui!</a>
+        <div class="button-container">
+          <button class="col-12 application-button signup" mat-raised-button>Registrati</button>
+        </div>
+      </div>
     </div>
   </div>
 </form>
