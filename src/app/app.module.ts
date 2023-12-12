@@ -16,7 +16,6 @@ import {HomeComponent} from './home/home.component';
 import {SignupComponent, SignupErrorDialogComponent} from './signup/signup.component';
 import {SigninComponent, SigninErrorDialogComponent} from './signin/signin.component';
 
-import {SignoperComponent} from './signoper/signoper.component';
 import {
   CustomerhomeComponent,
   CustomerHomeDialogComponent,
@@ -48,7 +47,6 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     SignupErrorDialogComponent,
     SigninComponent,
     SigninErrorDialogComponent,
-    SignoperComponent,
     CustomerhomeComponent,
     CustomerHomeThrowGarbageDialogComponent,
     CustomerHomeDialogComponent,
