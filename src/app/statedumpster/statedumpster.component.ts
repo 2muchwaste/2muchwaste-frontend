@@ -10,11 +10,11 @@ import { Component, OnInit } from '@angular/core';
 // import { LoadingScreen } from '@/components/LoadingScreen.component';
 
 @Component({
-  selector: 'app-statebin',
-  templateUrl: './statebin.component.html',
-  styleUrls: ['./statebin.component.scss']
+  selector: 'app-statedumpster',
+  templateUrl: './statedumpster.component.html',
+  styleUrls: ['./statedumpster.component.scss']
 })
-export class StatebinComponent implements OnInit {
+export class StatedumpsterComponent implements OnInit {
 
   bins: StateOfBins[] = [];
   municipality: string = '';
