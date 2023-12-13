@@ -21,8 +21,7 @@ import {
   CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customerhome.component';
-import {OperatorhomeComponent} from './operatorhome/operatorhome.component';
-import {ElementstestComponent} from './elementstest/elementstest.component';
+// import {OperatorhomeComponent} from './operatorhome/operatorhome.component';
 import {SourcenotfoundComponent} from './sourcenotfound/sourcenotfound.component';
 import {ForbiddenresourceComponent} from './forbiddenresource/forbiddenresource.component';
 import {FooterComponent} from './footer/footer.component';
@@ -50,8 +49,7 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     CustomerhomeComponent,
     CustomerHomeThrowGarbageDialogComponent,
     CustomerHomeDialogComponent,
-    OperatorhomeComponent,
-    ElementstestComponent,
+    // OperatorhomeComponent,
     SourcenotfoundComponent,
     ForbiddenresourceComponent,
     FooterComponent,
