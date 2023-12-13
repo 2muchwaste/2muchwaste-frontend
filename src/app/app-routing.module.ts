@@ -5,7 +5,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {SignupComponent} from "./signup/signup.component";
 import {SigninComponent} from "./signin/signin.component";
 import {CustomerhomeComponent} from "./customerhome/customerhome.component";
-import {ElementstestComponent} from "./elementstest/elementstest.component";
 import {ForbiddenresourceComponent} from "./forbiddenresource/forbiddenresource.component";
 import {UserinformationComponent} from "./userinformation/userinformation.component";
 import {UserdepositsinformationComponent} from "./userdepositsinformation/userdepositsinformation.component";
@@ -17,24 +16,10 @@ import {SourcenotfoundComponent} from "./sourcenotfound/sourcenotfound.component
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
 
-// const routes: Routes = [{
-//   path: "",
-//   component:
-//   children: [
-//     {path: 'home', component: HomeComponent},
-//     {path: 'signup', component: SignupComponent},
-//     {path: 'signin', component: SigninComponent},
-//     {path: 'customerhome', component: CustomerhomeComponent},
-//     {path: 'test', component: ElementstestComponent},
-//     {path: 'forbiddenarea', component: ForbiddenresourceComponent},
-//     {path: '', redirectTo: '/home', pathMatch: 'full'},]
-// }]
-
 const routes: Routes = [
   getRouteComponent('signin', SigninComponent),
   getRouteComponent('signup', SignupComponent),
   getRouteComponent('customerhome', CustomerhomeComponent),
-  getRouteComponent('test', ElementstestComponent),
   getRouteComponent('forbiddenarea', ForbiddenresourceComponent),
   getRouteComponent('userinformation', UserinformationComponent),
   getRouteComponent('depositsinformation', UserdepositsinformationComponent),
@@ -44,14 +29,6 @@ const routes: Routes = [
   getRouteComponent('paymentstatus',PaymentsComponent),
   getRouteComponent('whoweare',WhoWeAreComponent),
   getRouteComponent('contactus',ContactUsComponent),
-  // {
-  //   path:'depositsinformation',
-  //   component:UserdepositsinformationComponent,
-  //   children:[
-  //     getRouteComponent('monthlycost',MonthlycostComponent)
-  //   ]
-  // },
-  // {path: 'home', component: HomeComponent},
   {path: '', redirectTo: 'signin', pathMatch: 'full'},
   getRouteComponent('**',SourcenotfoundComponent)
 ]
