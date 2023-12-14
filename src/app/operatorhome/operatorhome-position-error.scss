@@ -1,0 +1,15 @@
+.mat-dialog-actions {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.mat-focus-indicator.mat-button.mat-button-base {
+  align-self: flex-end;
+}
+
+.container-dialog-error{
+  color: #65371B;
+}
+.mat-dialog-actions,.mat-dialog-title,.mat-dialog-content{
+}
