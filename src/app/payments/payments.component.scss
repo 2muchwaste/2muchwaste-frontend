@@ -7,6 +7,14 @@
   padding: 10px 0 10px;
 }
 
+.row.user-payments-row {
+  justify-content: center;
+}
+
+.col.user-payments-col {
+  max-width: 700px;
+}
+
 .quantity-header, .quantity-value, .price-header, .price-value {
   text-align: end;
 }
@@ -18,4 +26,28 @@
   height: 50px;
 }
 
+.text-larger{
+  font-size: larger;
+}
 
+
+.row.usernotification-list-item {
+  min-height: 45px;
+  align-items: center;
+}
+
+@media screen and (min-width: 576px) {
+  .date-value{
+    font-size: larger;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .row.usernotification-list-item {
+    min-height: 60px;
+  }
+
+  .date-value {
+    color: rgb(100, 100, 100);
+  }
+}
