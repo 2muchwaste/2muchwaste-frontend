@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {UserResponse} from "../models/userresponse";
-import {Deposit} from "../models/deposit";
-import {Subject} from "rxjs";
-import {UserNotification} from "../models/UserNotification";
-import {Dumpster} from "../models/dumpster";
-import {Payment} from "../models/payment";
-import {AppConstants} from "../utils/constants";
+import {Injectable} from "@angular/core"
+import {UserResponse} from "../models/userresponse"
+import {Deposit} from "../models/deposit"
+import {Subject} from "rxjs"
+import {UserNotification} from "../models/UserNotification"
+import {Dumpster} from "../models/dumpster"
+import {Payment} from "../models/payment"
+import {LocalStorageService} from "./localstorageservice"
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +14,7 @@ export class UserInformationService {
   private SERVICE_TAG = 'UserInformationService:'
   public user!: UserResponse
   public userDeposits!: Deposit[]
-  payments!: Payment[];
+  payments!: Payment[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
 
@@ -30,18 +30,17 @@ export class UserInformationService {
   private userReadNotification = new Subject<UserResponse>()
   userReadNotificationObservable = this.userReadNotification.asObservable()
 
-  private newNearestDumpster = new Subject<{ dumpster: Dumpster, distance: number }[]>();
+  private newNearestDumpster = new Subject<{ dumpster: Dumpster, distance: number }[]>()
   newNearestDumpsterObservable = this.newNearestDumpster.asObservable()
 
-  constructor() {
+  constructor(
+    private lStorageService: LocalStorageService
+  ) {
   }
 
   public logout() {
     this.logged = false
-    localStorage.removeItem(AppConstants.lSUserID)
-    localStorage.removeItem(AppConstants.lSuserRole)
-    localStorage.removeItem(AppConstants.lSToken)
-    localStorage.removeItem('userObject')
+    this.lStorageService.clearLocalStorage()
     // @ts-ignore
     this.payments = undefined
     // @ts-ignore
@@ -52,8 +51,11 @@ export class UserInformationService {
     this.nearestDumpsters = undefined
   }
 
-  public login(userResponse: UserResponse) {
-    console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse);
+  public login(userResponse: UserResponse, userToken: string) {
+    this.lStorageService.setUserToken(userToken)
+    this.lStorageService.setUserID(userResponse._id)
+    this.lStorageService.setUserObject(userResponse)
+    console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse)
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
     this.logged = true
@@ -69,7 +71,7 @@ export class UserInformationService {
   }
 
   readNotifications(userWithNewNotifications: UserResponse) {
-    console.log(this.SERVICE_TAG, "this.readNotifications(), userWithReadNotifications ", userWithNewNotifications);
+    console.log(this.SERVICE_TAG, "this.readNotifications(), userWithReadNotifications ", userWithNewNotifications)
     userWithNewNotifications.notifications = this.getSortedNotificationsByData(userWithNewNotifications.notifications)
     this.user = userWithNewNotifications
     this.userReadNotification.next(userWithNewNotifications)
@@ -86,8 +88,7 @@ export class UserInformationService {
   }
 
   addNotification(userWithNewNotification: UserResponse) {
-    console.log(this.SERVICE_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification);
-    // this.user.notifications.unshift(userWithNewNotification)
+    console.log(this.SERVICE_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification)
     this.user = userWithNewNotification
     this.user.notifications = this.getSortedNotificationsByData(this.user.notifications)
     this.userNewNotificationSubject.next(this.user)
@@ -99,7 +100,7 @@ export class UserInformationService {
     this.newUserSet.next(this.user)
   }
 
-  setNearestDumpsters(dumpAndD: {dumpster: Dumpster,distance:number}[]) {
+  setNearestDumpsters(dumpAndD: { dumpster: Dumpster, distance: number }[]) {
     this.nearestDumpsters = dumpAndD
     this.newNearestDumpster.next(dumpAndD)
   }

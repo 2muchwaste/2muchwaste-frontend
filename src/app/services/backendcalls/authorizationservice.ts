@@ -3,24 +3,20 @@ import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {HttpHeaders} from "@angular/common/http";
 import {AppConstants} from "../../utils/constants";
+import {LocalStorageService} from "../localstorageservice";
 
 @Injectable({
   providedIn: 'root',
 })
 export class Authorizationservice {
-  constructor(private router: Router) {
-  }
-
-  isTokenPresent() {
-    return localStorage.getItem(AppConstants.lSToken) !== null
-  }
-
-  isUserIDPresent() {
-    return localStorage.getItem(AppConstants.lSUserID) !== null
+  constructor(
+    private router: Router,
+    private lStorageService: LocalStorageService
+  ) {
   }
 
   checkAuthDataORRedirect() {
-    if (!this.isTokenPresent() || !this.isUserIDPresent()) {
+    if (!this.lStorageService.getUserToken() || !this.lStorageService.getUserID()) {
       this.router.navigate(['/forbiddenarea'])
     }
   }
@@ -44,7 +40,7 @@ export class Authorizationservice {
   }
 
   getHeaderBearerToken(): HttpHeaders {
-    let token = localStorage.getItem(AppConstants.lSToken)
+    let token = this.lStorageService.getUserToken()
     // @ts-ignore
     return this.buildAuthorizationToken(token)
   }

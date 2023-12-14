@@ -3,12 +3,12 @@ import {FormControl, Validators} from '@angular/forms'
 import {MatDialog} from '@angular/material/dialog'
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
 import {WebsiteRole} from "../models/role"
-import {AppConstants} from "../utils/constants"
-import {Router} from "@angular/router";
-import {CustomerService} from "../services/backendcalls/customerservice";
-import {UserInformationService} from "../services/userinformationservice";
-import {SocketService} from "../services/notificationsservice";
-import {Subscription} from "rxjs";
+import {Router} from "@angular/router"
+import {CustomerService} from "../services/backendcalls/customerservice"
+import {UserInformationService} from "../services/userinformationservice"
+import {SocketService} from "../services/notificationsservice"
+import {Subscription} from "rxjs"
+import {LocalStorageService} from "../services/localstorageservice"
 
 /**
  * @title Input with error messages
@@ -18,7 +18,7 @@ import {Subscription} from "rxjs";
   templateUrl: './signin.component.html',
   styleUrls: ['./../app.component.scss', './signin.component.scss']
 })
-export class SigninComponent implements OnInit, AfterViewInit {
+export class SigninComponent implements OnInit {
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email])
   passwordFormControl = new FormControl('', [Validators.required])
@@ -37,6 +37,7 @@ export class SigninComponent implements OnInit, AfterViewInit {
     private customerService: CustomerService,
     private userInfoService: UserInformationService,
     private notificationService: SocketService,
+    private lStorageService: LocalStorageService
   ) {
     this.loginObservable = this.userInfoService.userSetObservable.subscribe({
       next: (res) => {
@@ -46,9 +47,6 @@ export class SigninComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit() {
   }
 
   checkValidity(): boolean {
@@ -68,20 +66,18 @@ export class SigninComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
-    this.makeLogin(this.emailFormControl.value, this.passwordFormControl.value, WebsiteRole.CUSTOMER);
+    this.makeLogin(this.emailFormControl.value, this.passwordFormControl.value, WebsiteRole.CUSTOMER)
   }
 
   makeLogin(email: any, password: any, role: WebsiteRole) {
     this.authenticationService.signin(email, password, role)
       .subscribe({
-        next: (res) => {
-          console.log(res)
-          localStorage.setItem(AppConstants.lSToken, res.token)
-          localStorage.setItem(AppConstants.lSUserID, res.id)
-          this.customerService.getCustomerByID(res.id).subscribe({
-            next: (res) => {
-              this.userInfoService.login(res)
-              localStorage.setItem(AppConstants.userObject, JSON.stringify(res))
+        next: (signinResponse) => {
+          console.log(signinResponse)
+          this.lStorageService.setUserToken(signinResponse.token)
+          this.customerService.getCustomerByID(signinResponse.id).subscribe({
+            next: (userResponse) => {
+              this.userInfoService.login(userResponse, signinResponse.token)
               this.router.navigate(['/customerhome'])
             },
             error: (err) => {

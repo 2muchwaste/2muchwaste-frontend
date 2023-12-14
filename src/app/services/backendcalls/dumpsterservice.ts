@@ -1,11 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Router} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AppConstants} from "../../utils/constants";
-import {Observable, Subscriber} from "rxjs";
-import {Dumpster} from "../../models/dumpster";
-import {Authorizationservice} from "./authorizationservice";
-import {HttpRequestService} from "./httprequestservice";
+import {Injectable} from '@angular/core'
+import {AppConstants} from "../../utils/constants"
+import {Observable} from "rxjs"
+import {Dumpster} from "../../models/dumpster"
+import {Authorizationservice} from "./authorizationservice"
+import {HttpRequestService} from "./httprequestservice"
+import {LocalStorageService} from "../localstorageservice"
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,8 @@ export class DumpsterService {
   constructor(
     // private http: HttpClient,
     private authService: Authorizationservice,
-    private httpRequestService: HttpRequestService
+    private httpRequestService: HttpRequestService,
+    private lStorageService: LocalStorageService
   ) {
   }
 
@@ -25,22 +25,9 @@ export class DumpsterService {
     return this.getDumpstersInfo('')
   }
 
-  // kk
   getDumpsterByID(dumpsterID: string): Observable<Dumpster> {
     return this.getDumpstersInfo(dumpsterID)
   }
-
-
-  // Da valutare perché vengono ritornate cose diverse in caso positivo e in caso negativo
-
-  // getDumpsterAvailability(dumpsterID: string){
-  //   return this.getDumpstersInfo(dumpsterID + '/availability')
-  // }
-
-  // Stesso discorso
-  // getActualWeight(dumpsterID: string){
-  //   return this.getDumpstersInfo(dumpsterID + '/actualweight')
-  // }
 
   createDumpster(dumpster: Dumpster) {
     return this.postDumpsterInfo('', dumpster)
@@ -59,14 +46,14 @@ export class DumpsterService {
    *
    * @param dumpsterID
    */
-  deleteDumpster(dumpsterID:string){
+  deleteDumpster(dumpsterID: string) {
     return this.deleteDumpsterInfo(dumpsterID)
   }
 
   private getDumpstersInfo<X>(information: string): Observable<X> {
     // @ts-ignore
     return this.makeSafeRequest<X>((info) =>
-      this.httpRequestService.getRequest<X>(info), information);
+      this.httpRequestService.getRequest<X>(info), information)
   }
 
   private postDumpsterInfo<X>(information: string, objectForPost: X): Observable<X> {
@@ -78,10 +65,11 @@ export class DumpsterService {
     return this.makeSafeRequest((information, elementForPatch) =>
       this.httpRequestService.patchRequest(information, elementForPatch), information, objectForPatch)
   }
+
   private deleteDumpsterInfo(information: string) {
     // @ts-ignore
     return this.makeSafeRequest((information) =>
-      this.httpRequestService.deleteRequest(information),information)
+      this.httpRequestService.deleteRequest(information), information)
   }
 
   private makeSafeRequest<X>(
@@ -89,20 +77,13 @@ export class DumpsterService {
     information: string,
     object: X
   ): Observable<X> {
-    if (this.authService.isTokenPresent() && this.authService.isUserIDPresent()) {
+    if (this.lStorageService.getUserToken() && this.lStorageService.getUserID()) {
       return callback(this.backendDumpsterURL + information, object)
-    } else if (!this.authService.isTokenPresent()) {
+    } else if (!this.lStorageService.getUserToken()) {
       return this.authService.getErrorNotTokenObservable()
     } else {
       return this.authService.getErrorNotUserIDObservable()
     }
   }
-
-
-
-
-
-// createDumpster
-
 
 }

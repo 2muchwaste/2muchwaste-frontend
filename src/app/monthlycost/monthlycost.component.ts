@@ -1,13 +1,13 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UserInformationService} from "../services/userinformationservice";
-import {Deposit} from "../models/deposit";
-import {CustomerService} from "../services/backendcalls/customerservice";
-import {Authorizationservice} from "../services/backendcalls/authorizationservice";
-import {UserResponse} from "../models/userresponse";
-import {AppConstants} from "../utils/constants";
-import {DepositService} from "../services/backendcalls/depositservice";
-import {CanvasJS} from "@canvasjs/angular-charts";
-import {TrashTypeManager} from "../models/trashtype";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {UserInformationService} from "../services/userinformationservice"
+import {Deposit} from "../models/deposit"
+import {CustomerService} from "../services/backendcalls/customerservice"
+import {Authorizationservice} from "../services/backendcalls/authorizationservice"
+import {UserResponse} from "../models/userresponse"
+import {DepositService} from "../services/backendcalls/depositservice"
+import {CanvasJS} from "@canvasjs/angular-charts"
+import {TrashTypeManager} from "../models/trashtype"
+import {LocalStorageService} from "../services/localstorageservice"
 
 interface DataChart {
   type: string,
@@ -30,7 +30,6 @@ interface DepositByTypeMonthly {
 
 export class MonthlycostComponent implements OnInit {
 
-  private userID!: string
   public user!: UserResponse
   public userDeposits!: Deposit[]
   public depositsDataCharts!: DataChart[]
@@ -47,19 +46,18 @@ export class MonthlycostComponent implements OnInit {
     private customerService: CustomerService,
     private authorizationService: Authorizationservice,
     private depositService: DepositService,
+    private lStorageService: LocalStorageService
   ) {
-    console.log('Monthlycost constuctor');
-    console.log(this.userInfoService);
+    console.log('Monthlycost constuctor')
+    console.log(this.userInfoService)
     this.buttonTextViewChart = this.viewPrice ? "Cambia in grafico sulla quantità" : "Cambia in grafico sui prezzi"
   }
 
-  @ViewChild('monthlyCostContainer') monthlyCostContainer!: ElementRef;
+  @ViewChild('monthlyCostContainer') monthlyCostContainer!: ElementRef
 
   ngOnInit(): void {
-    console.log('MonthlyCost OnInit');
+    console.log('MonthlyCost OnInit')
     this.authorizationService.checkAuthDataORRedirect()
-    // @ts-ignore
-    this.userID = localStorage.getItem(AppConstants.lSUserID)
     this.setUser()
     this.setDeposits()
   }
@@ -100,11 +98,11 @@ export class MonthlycostComponent implements OnInit {
         cursor: "pointer",
         itemclick: function (e: any) {
           if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-            e.dataSeries.visible = false;
+            e.dataSeries.visible = false
           } else {
-            e.dataSeries.visible = true;
+            e.dataSeries.visible = true
           }
-          e.chart.render();
+          e.chart.render()
         }
       },
       data: dataChart
@@ -113,7 +111,7 @@ export class MonthlycostComponent implements OnInit {
 
   private setUser() {
     // @ts-ignore
-    this.customerService.getCustomerByID(localStorage.getItem(AppConstants.lSUserID)).subscribe({
+    this.customerService.getCustomerByID(this.lStorageService.getUserID()).subscribe({
       next: (res) => this.user = this.userInfoService.user = res,
       error: err => console.log(err)
     })
@@ -152,7 +150,6 @@ export class MonthlycostComponent implements OnInit {
         depositsLimited
           .filter(deposit => deposit.type === type)
           .filter(deposit => deposit.date.getMonth() === month.getMonth())
-          // .map(deposit => deposit.quantity)
           .forEach(dep => {
             quantityMonthResult = quantityMonthResult + dep.quantity
             priceMonthResult = priceMonthResult + dep.price
@@ -246,14 +243,14 @@ export class MonthlycostComponent implements OnInit {
   }
 
   previousMonth() {
-    console.log('previousMonth');
+    console.log('previousMonth')
     this.depositsFromMonth += 1
     this.exclLastNMonths += 1
     this.updateDataChart()
   }
 
   nextMonth() {
-    console.log('nextMonth');
+    console.log('nextMonth')
     this.depositsFromMonth -= 1
     this.exclLastNMonths -= 1
     this.updateDataChart()
@@ -262,10 +259,10 @@ export class MonthlycostComponent implements OnInit {
   private setDeposits() {
 
     // @ts-ignore
-    this.depositService.getDepositsFromUser(localStorage.getItem(AppConstants.lSUserID)).subscribe({
+    this.depositService.getDepositsFromUser(this.lStorageService.getUserID()).subscribe({
       next: res => {
         let deposits = res.map(deposit => {
-          deposit.date = new Date(deposit.date);
+          deposit.date = new Date(deposit.date)
           return deposit
         })
         this.userDeposits = this.userInfoService.userDeposits = deposits
@@ -276,15 +273,6 @@ export class MonthlycostComponent implements OnInit {
       },
       error: err => console.log(err)
     })
-  }
-
-  public print() {
-    console.log(this.userDepositsGroupedByTypeAndMonth);
-    console.log('this.userID=', this.userID)
-    console.log('this.user=', this.user)
-    console.log('this.userDeposits=', this.userDeposits)
-    console.log('this.monthDeposits=', this.monthDeposits)
-    console.log('this.userDepositsGroupedByTypeAndMonth = ', this.userDepositsGroupedByTypeAndMonth)
   }
 
   changeViewPriceQuantity() {

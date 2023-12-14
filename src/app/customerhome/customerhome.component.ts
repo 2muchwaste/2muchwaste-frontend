@@ -1,23 +1,19 @@
-import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core';
-import {User} from "../models/user";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Dumpster} from "../models/dumpster";
-import {Authorizationservice} from "../services/backendcalls/authorizationservice";
-import {Observable, Subscription} from "rxjs";
-import {Deposit} from "../models/deposit";
-import {CustomerService} from "../services/backendcalls/customerservice";
-import {UserInformationService} from "../services/userinformationservice";
-import {DepositService} from "../services/backendcalls/depositservice";
-import {UserResponse, UserResponseBuilder} from "../models/userresponse";
-import {AppConstants} from "../utils/constants";
-import {DumpsterService} from "../services/backendcalls/dumpsterservice";
-import {Timer} from "../models/timer";
-import * as gL from 'geolib'
-import * as L from "leaflet";
-import {TrashTypeManager} from "../models/trashtype";
-import {PageEvent} from "@angular/material/paginator";
-
-// import Math from ""
+import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core'
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog"
+import {Dumpster} from "../models/dumpster"
+import {Authorizationservice} from "../services/backendcalls/authorizationservice"
+import {Observable, Subscription} from "rxjs"
+import {Deposit} from "../models/deposit"
+import {CustomerService} from "../services/backendcalls/customerservice"
+import {UserInformationService} from "../services/userinformationservice"
+import {DepositService} from "../services/backendcalls/depositservice"
+import {UserResponse} from "../models/userresponse"
+import {DumpsterService} from "../services/backendcalls/dumpsterservice"
+import {Timer} from "../models/timer"
+import * as L from "leaflet"
+import {TrashTypeManager} from "../models/trashtype"
+import {PageEvent} from "@angular/material/paginator"
+import {LocalStorageService} from "../services/localstorageservice"
 
 export interface Coordinates {
   coords: {
@@ -31,19 +27,16 @@ export interface Coordinates {
   templateUrl: './customerhome.component.html',
   styleUrls: ['./customerhome.component.scss']
 })
-export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CustomerhomeComponent implements OnInit {
 
-  public dumpsters: Dumpster[] = []
   public user!: UserResponse
   public deposits!: Deposit[]
-  public userObs!: Observable<User>
-  public depositsObs!: Observable<Deposit[]>
   private lastUserPosition!: Coordinates
-  private map!: L.Map;
+  private map!: L.Map
   private trashTypeManager
   isButtonsVisible: Boolean = false
   viewMapDumpsters = false
-  showBorderMap = false;
+  showBorderMap = false
 
   constructor(
     private customerHomeDialog: MatDialog,
@@ -52,6 +45,7 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
     private depositService: DepositService,
     public userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
+    private lStorageService: LocalStorageService
   ) {
     this.trashTypeManager = new TrashTypeManager()
   }
@@ -62,13 +56,9 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.user = this.userInfoService.user
     if (this.user == null)
       this.setUser()
-    // console.log(this.user);
+    // console.log(this.user)
     this.setDeposits()
     console.log("OnInit customerhome uscita")
-  }
-
-
-  ngAfterViewInit() {
   }
 
   private initMap(userPosition: Coordinates): void {
@@ -80,23 +70,19 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.map = L.map('map', {
       center: centroid,
       zoom: 18
-    });
+    })
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 20,
       minZoom: 8,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
+      attribution: '&copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    })
 
     let userPositionIcon = L.icon({
       iconUrl: 'assets/icons/user-position-pic.png',
-
       iconSize: [38, 38], // size of the icon
-      // shadowSize: [50, 64], // size of the shadow
       iconAnchor: [19, 19], // point of the icon which will correspond to marker's location
-      // shadowAnchor: [4, 62],  // the same for the shadow
-      // popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
+    })
 
     this.userInfoService.nearestDumpsters.forEach(dump => {
       let elem = [dump.dumpster.latitude, dump.dumpster.longitude]
@@ -120,14 +106,13 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showBorderMap = true
   }
 
-
   printUser() {
-    console.log(this.user);
+    console.log(this.user)
   }
 
   setDeposits() {
     // @ts-ignore
-    this.depositService.getDepositsFromUser(localStorage.getItem(AppConstants.lSUserID))
+    this.depositService.getDepositsFromUser(this.lStorageService.getUserID())
       .subscribe({
         next: (res) => {
           let lastMonthDate = new Date()
@@ -140,36 +125,9 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
             .filter(deposit => deposit.date > lastMonthDate)
         },
         error: (err) => {
-          console.log(err);
+          console.log(err)
         }
       })
-  }
-
-  useNFCThrowGarbage() {
-    /* Simulate use of NFC */
-    let checkDumpsterDialog = this.openDialog("Controlle del bidone", "Stiamo controllando se il bidone è pieno")
-    /**
-     * This ID in real application will be read using device's NFC
-     */
-    let fakeIDOfDumpster = "64fb42a8ec77754a67b9ef7d"
-    setTimeout(() => {
-      this.dumpsterService.getDumpsterByID(fakeIDOfDumpster).subscribe({
-        next: (res) => {
-          checkDumpsterDialog.close()
-          if (res.available) {
-            this.openDumpster(res.openingSecondsDuration)
-          } else {
-            this.openDialog(
-              "Bidone pieno",
-              "Purtroppo questo bidone è pieno e non è più possibile inserire ulteriori rifiuti"
-            )
-          }
-        },
-        error: (err) => {
-
-        }
-      })
-    }, 5000)
   }
 
   throwGarbage() {
@@ -185,8 +143,6 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
               next: (res) => {
                 this.userInfoService.setNearestDumpsters(res)
                 this.lastUserPosition = userPosition
-                // setTimeout(() => this.initMap(userPosition), 1000)
-                // setTimeout(() => this.initMap(userPosition), 1000)
               }
             })
           },
@@ -198,10 +154,9 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   closeMap() {
-    console.log("Close map button clicked");
+    console.log("Close map button clicked")
     this.viewMapDumpsters = false
   }
-
 
   private positionNotFound(geoError: GeolocationPositionError) {
     if (geoError.code == GeolocationPositionError.PERMISSION_DENIED)
@@ -217,7 +172,6 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-
   private openDialog(errorTitle: string, errorMessage: string) {
     return this.customerHomeDialog.open(CustomerHomeDialogComponent, {
       data: {
@@ -229,12 +183,12 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setUser() {
     // @ts-ignore
-    this.customerService.getCustomerByID(localStorage.getItem(AppConstants.lSUserID)).subscribe({
+    this.customerService.getCustomerByID(this.lStorageService.getUserID()).subscribe({
       next: (res) => {
         this.user = res
       },
       error: (err) => {
-        console.log(err);
+        console.log(err)
       }
     })
   }
@@ -245,16 +199,15 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
       "Apertura bidone",
       closingSecondsSentence + openingSeconds + " secondi"
     )
-    console.log("Inizio timer");
+    console.log("Inizio timer")
     new Timer(10000, 1000, () => {
       this.updateDialogg(
         dumpsterOpenedDialog,
         "Apertura bidone",
         "Micio")
-      console.log(new Date());
+      console.log(new Date())
     }).start()
   }
-
 
   private updateDialogg(dialog: MatDialogRef<CustomerHomeDialogComponent>, title: string, message: string) {
     dialog.componentInstance.title = title
@@ -265,15 +218,10 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
     if (seconds > 0) {
       setTimeout(() => {
         this.updateDialog(dialog, seconds - 1, title, message)
-        console.log("AAA");
+        console.log("AAA")
       }, 1000)
-      console.log("BBB");
+      console.log("BBB")
     }
-  }
-
-  ngOnDestroy(): void {
-    localStorage.setItem('acic', 'bonobo')
-
   }
 
   getNearDumpsters() {
@@ -294,9 +242,6 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
               }, 1000)
             }
           })
-          // nearestDumpstersDialog.componentInstance.
-
-          // nearestDumpstersDialog.afterClosed()
         },
         (error: any) => {
           this.positionNotFound(error)
@@ -314,21 +259,21 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getDistanceFromTwoPoints(p1: Coordinates, p2: Coordinates) {
-    var R = 6371; // Radius of the earth in km
+    var R = 6371 // Radius of the earth in km
     let lat1 = p1.coords.latitude
     let lon1 = p1.coords.longitude
 
     let lat2 = p2.coords.latitude
     let lon2 = p2.coords.longitude
-    var distanceLatitudes = this.deg2rad(lat2 - lat1);  // deg2rad below
-    var distanceLongitudes = this.deg2rad(lon2 - lon1);
+    var distanceLatitudes = this.deg2rad(lat2 - lat1)  // deg2rad below
+    var distanceLongitudes = this.deg2rad(lon2 - lon1)
     var a =
       Math.sin(distanceLatitudes / 2) * Math.sin(distanceLatitudes / 2) +
       Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
       Math.sin(distanceLongitudes / 2) * Math.sin(distanceLongitudes / 2)
 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distance in km
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c // Distance in km
   }
 
   deg2rad(deg: number) {
@@ -354,7 +299,6 @@ export class CustomerhomeComponent implements OnInit, OnDestroy, AfterViewInit {
           }))
         })
       })
-      // obs.next(this.userInfoService.setNearestDumpsters(dumpsterAndDistance))
       obs.next(dumpsterAndDistance)
     })
   }
@@ -379,34 +323,28 @@ export class CustomerHomeThrowGarbageDialogComponent {
   public lowValue
   public highValue
   public dumpsterForPage = 10
-  // public functionShowMap:()=>{}
-
-  // public distance: number
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
   ) {
-    // this.functionShowMap = injectedData.mapShowFunction
-    console.log('here');
+    console.log('here')
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
       this.nearestDumpstersSet = true
     })
     this.lowValue = 0
     this.highValue = 10
-    // this.distance = injectedData.distance
   }
 
   showDumpstersOnMap() {
     this.showMap = true
     this.showMapEvent.emit(true)
-    // this.functionShowMap()
   }
 
   getPaginatorData(event: PageEvent) {
-    this.lowValue = event.pageIndex * event.pageSize;
-    this.highValue = this.lowValue + event.pageSize;
-    return event;
+    this.lowValue = event.pageIndex * event.pageSize
+    this.highValue = this.lowValue + event.pageSize
+    return event
   }
 
   movePageDumpsters(number: number) {
@@ -418,7 +356,6 @@ export class CustomerHomeThrowGarbageDialogComponent {
 
   }
 }
-
 
 @Component({
   selector: 'app-customerhome-position-error',
@@ -437,35 +374,3 @@ export class CustomerHomeDialogComponent {
     this.message = injectedData.errorMessage
   }
 }
-
-//       const myCustomColour = '#583470'
-//
-//       const markerHtmlStyles =
-//         `background-color: #583470;
-// width: 30px;
-// height: 30px;
-// display: block;
-// /* left: 0px; */
-// /* top: 0px; */
-// position: relative;
-// border-radius: 20px 20px 0;
-// transform: rotate(45deg);
-// border: 1px solid #FFFFFF;
-// `
-//
-//
-//       const icon = L.divIcon({
-//         className: "my-custom-pin",
-//         iconAnchor: [19, 19],
-//         popupAnchor: [-3, 76],
-//         html: `<span style="${markerHtmlStyles}" />`
-//       })
-//
-//       var greenIcon = new L.Icon({
-//         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-//         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-//         iconSize: [25, 41],
-//         iconAnchor: [12, 41],
-//         popupAnchor: [1, -34],
-//         shadowSize: [41, 41]
-//       });

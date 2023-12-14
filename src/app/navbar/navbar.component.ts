@@ -5,14 +5,14 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation
-} from '@angular/core';
-import {UserInformationService} from "../services/userinformationservice";
-import {SocketService} from "../services/notificationsservice";
-import {UserNotification} from "../models/UserNotification";
-import {AppConstants} from "../utils/constants";
-import {CustomerService} from "../services/backendcalls/customerservice";
-import {Subscription} from "rxjs";
-import {UserResponse} from "../models/userresponse";
+} from '@angular/core'
+import {UserInformationService} from "../services/userinformationservice"
+import {SocketService} from "../services/notificationsservice"
+import {UserNotification} from "../models/UserNotification"
+import {CustomerService} from "../services/backendcalls/customerservice"
+import {Subscription} from "rxjs"
+import {UserResponse} from "../models/userresponse"
+import {LocalStorageService} from "../services/localstorageservice"
 
 @Component({
   selector: 'app-navbar',
@@ -34,7 +34,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     public userInfoService: UserInformationService,
     private notificationService: SocketService,
     private customerService: CustomerService,
-    private eRef: ElementRef
+    private eRef: ElementRef,
+    private lStorageService: LocalStorageService
   ) {
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
       this.initializeUserAfterLogin(userResponse)
@@ -42,14 +43,15 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Quando arriva una nuova notifica bisogna aggiornare l'array inerente della navbar
     this.subscriptionUserReadNotification = this.userInfoService.userReadNotificationObservable.subscribe(userResponse => {
-      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, user arrived, OLD this.notificationNotRead: ", this.notificationNotRead);
+      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, user arrived, OLD this.notificationNotRead: ", this.notificationNotRead)
       this.notificationNotRead = userResponse.notifications.filter(noti => !noti.read)
-      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, this.notificationNotRead", this.notificationNotRead);
+      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, this.notificationNotRead", this.notificationNotRead)
     })
   }
 
   ngOnInit() {
-    let userIDStored = localStorage.getItem(AppConstants.lSUserID)
+    let userIDStored = this.lStorageService.getUserID()
+    // let userIDStored = this.userInfoService.user._id
     if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
   }
 
@@ -58,14 +60,11 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private restoreUser(userIDStored: string) {
     this.customerService.getCustomerByID(userIDStored).subscribe({
-      next: (usrResponser) => {
-
-        localStorage.setItem(AppConstants.userObject, JSON.stringify(usrResponser))
-        localStorage.setItem(AppConstants.lSUserID, usrResponser._id)
-
+      next: (usrResponse) => {
         console.log(this.CLASS_TAG, " Inizio collegamento socket")
-        this.initializeSocketNotifications(usrResponser)
-        this.userInfoService.setUser(usrResponser)
+        console.log(this.CLASS_TAG, " usrResponse",usrResponse)
+        this.initializeSocketNotifications(usrResponse)
+        this.userInfoService.setUser(usrResponse)
         this.notificationNotRead = this.userInfoService.getNotReadNotifications()
         this.isLogged = true
       },
@@ -75,12 +74,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  private initializeUserAfterLogin(userResponse: UserResponse) {
-
-    localStorage.setItem(AppConstants.userObject, JSON.stringify(userResponse))
-    localStorage.setItem(AppConstants.lSUserID, userResponse._id)
+  private initializeUserAfterLogin(userResponse: UserResponse) {    this.lStorageService.setUserID(userResponse._id)
+    this.lStorageService.setUserObject(userResponse)
     console.log(this.CLASS_TAG, " Inizio collegamento socket")
-    this.initializeSocketNotifications(userResponse);
+    this.initializeSocketNotifications(userResponse)
     this.isLogged = true
     this.notificationNotRead = this.userInfoService.getNotReadNotifications()
   }

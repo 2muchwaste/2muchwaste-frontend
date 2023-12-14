@@ -1,14 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {User, UserBuilder} from "../models/user";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {WebsiteRole} from "../models/role";
-import {AuthenticationService} from "../services/backendcalls/authenticationservice";
-import {Router} from "@angular/router";
-import {AppConstants} from "../utils/constants";
-import {UserInformationService} from "../services/userinformationservice";
-import {SigninErrorDialogComponent} from "../signin/signin.component";
-import {CustomerService} from "../services/backendcalls/customerservice";
+import {Component, Inject, OnInit} from '@angular/core'
+import {User, UserBuilder} from "../models/user"
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms"
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog"
+import {WebsiteRole} from "../models/role"
+import {AuthenticationService} from "../services/backendcalls/authenticationservice"
+import {Router} from "@angular/router"
+import {UserInformationService} from "../services/userinformationservice"
+import {SigninErrorDialogComponent} from "../signin/signin.component"
+import {CustomerService} from "../services/backendcalls/customerservice"
 
 @Component({
   selector: 'app-signup',
@@ -107,13 +106,10 @@ export class SignupComponent implements OnInit {
       this.passwordFormControl.value,
       this.roleFormControl.value
     ).subscribe({
-      next: (res) => {
-        localStorage.setItem(AppConstants.lSToken, res.token)
-        localStorage.setItem(AppConstants.lSUserID, res.id)
-        this.customerService.getCustomerByID(res.id).subscribe({
-          next: (res) => {
-            this.userInfoService.login(res)
-            localStorage.setItem(AppConstants.userObject, JSON.stringify(res))
+      next: (signinResponse) => {
+        this.customerService.getCustomerByID(signinResponse.id).subscribe({
+          next: (userResponse) => {
+            this.userInfoService.login(userResponse, signinResponse.token)
             this.router.navigate(['/customerhome'])
           },
           error: (err) => {
