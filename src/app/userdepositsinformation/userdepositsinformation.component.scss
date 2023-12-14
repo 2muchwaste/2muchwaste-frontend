@@ -1,20 +1,22 @@
+.row.userdeposits-row {
+  justify-content: center;
+}
+
+.col.userdeposits-col {
+  max-width: 900px;
+}
+
 .table-row-headers {
   font-family: "Roboto", sans-serif;
   font-weight: bolder;
   letter-spacing: 2px;
-  //text-align: center;
   background-color: rgba(216, 222, 191, .3);
   padding: 10px 0 10px;
 }
 
-.quantity-header,.quantity-value,.price-header,.price-value{
+.quantity-header, .quantity-value, .price-header, .price-value {
   text-align: end;
 }
-
-//.list-item-headers {
-//  background-color: rgba(216, 222, 191, .3);
-//}
-
 .row.userdeposit-list-item {
   min-height: 45px;
   align-items: center;
@@ -31,6 +33,6 @@
   }
 
   .date-value {
-    color: rgb(100,100,100);
+    color: rgb(100, 100, 100);
   }
 }
