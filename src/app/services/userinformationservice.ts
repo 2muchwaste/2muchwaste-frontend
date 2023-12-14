@@ -97,6 +97,7 @@ export class UserInformationService {
   setUser(userResponse: UserResponse) {
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
+    this.logged = true
     this.newUserSet.next(this.user)
   }
 
