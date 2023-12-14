@@ -1,3 +1,11 @@
+.row.user-notification-row {
+  justify-content: center;
+}
+
+.col.user-notification-col {
+  max-width: 900px;
+}
+
 .table-row-headers {
   font-family: "Roboto", sans-serif;
   font-weight: bolder;
@@ -9,9 +17,6 @@
 
 .quantity-header, .quantity-value, .price-header, .price-value {
   text-align: end;
-}
-
-.list-item-headers {
 }
 
 .read {
@@ -34,7 +39,7 @@
   }
 
   .date-value {
-    color: rgb(100,100,100);
+    color: rgb(100, 100, 100);
   }
 }
 
