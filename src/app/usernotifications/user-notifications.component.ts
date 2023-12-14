@@ -8,7 +8,7 @@ import {UserResponse} from "../models/userresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 
 @Component({
-  selector: 'app-usernotifications',
+  selector: 'app-user-notifications',
   templateUrl: './user-notifications.component.html',
   styleUrls: ['./user-notifications.component.scss']
 })

@@ -3,34 +3,34 @@ import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 
 import {SignupComponent} from "./signup/signup.component";
-import {SigninComponent} from "./signin/signin.component";
-import {CustomerhomeComponent} from "./customerhome/customerhome.component";
-import {ForbiddenresourceComponent} from "./forbiddenresource/forbiddenresource.component";
-import {UserinformationComponent} from "./userinformation/userinformation.component";
-import {UserdepositsinformationComponent} from "./userdepositsinformation/userdepositsinformation.component";
-import {MonthlycostComponent} from "./monthlycost/monthlycost.component";
+import {SignInComponent} from "./signin/sign-in.component";
+import {CustomerHomeComponent} from "./customerhome/customer-home.component";
+import {ForbiddenResourceComponent} from "./forbiddenresource/forbidden-resource.component";
+import {UserInformationComponent} from "./userinformation/user-information.component";
+import {UserDepositsInformationComponent} from "./userdepositsinformation/user-deposits-information.component";
+import {MonthlyCostComponent} from "./monthlycost/monthly-cost.component";
 import {UserNotificationsComponent} from "./usernotifications/user-notifications.component";
 import {MaptestComponent} from "./maptest/maptest.component";
 import {PaymentsComponent} from "./payments/payments.component";
-import {SourcenotfoundComponent} from "./sourcenotfound/sourcenotfound.component";
+import {SourceNotFoundComponent} from "./sourcenotfound/source-not-found.component";
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
 
 const routes: Routes = [
-  getRouteComponent('signin', SigninComponent),
+  getRouteComponent('signin', SignInComponent),
   getRouteComponent('signup', SignupComponent),
-  getRouteComponent('customerhome', CustomerhomeComponent),
-  getRouteComponent('forbiddenarea', ForbiddenresourceComponent),
-  getRouteComponent('userinformation', UserinformationComponent),
-  getRouteComponent('depositsinformation', UserdepositsinformationComponent),
-  getRouteComponent('monthlycost', MonthlycostComponent),
+  getRouteComponent('customerhome', CustomerHomeComponent),
+  getRouteComponent('forbiddenarea', ForbiddenResourceComponent),
+  getRouteComponent('userinformation', UserInformationComponent),
+  getRouteComponent('depositsinformation', UserDepositsInformationComponent),
+  getRouteComponent('monthlycost', MonthlyCostComponent),
   getRouteComponent('usernotifications', UserNotificationsComponent),
   getRouteComponent('maptest',MaptestComponent),
   getRouteComponent('paymentstatus',PaymentsComponent),
   getRouteComponent('whoweare',WhoWeAreComponent),
   getRouteComponent('contactus',ContactUsComponent),
   {path: '', redirectTo: 'signin', pathMatch: 'full'},
-  getRouteComponent('**',SourcenotfoundComponent)
+  getRouteComponent('**',SourceNotFoundComponent)
 ]
 
 function getRouteComponent(path: string, component: any) {

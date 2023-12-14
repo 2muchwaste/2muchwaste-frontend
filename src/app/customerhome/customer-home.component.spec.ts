@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForbiddenresourceComponent } from './forbiddenresource.component';
+import { CustomerHomeComponent } from './customer-home.component';
 
-describe('ForbiddenresourceComponent', () => {
-  let component: ForbiddenresourceComponent;
-  let fixture: ComponentFixture<ForbiddenresourceComponent>;
+describe('CustomerHomeComponent', () => {
+  let component: CustomerHomeComponent;
+  let fixture: ComponentFixture<CustomerHomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ForbiddenresourceComponent ]
+      declarations: [ CustomerHomeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForbiddenresourceComponent);
+    fixture = TestBed.createComponent(CustomerHomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

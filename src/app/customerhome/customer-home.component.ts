@@ -23,11 +23,11 @@ export interface Coordinates {
 }
 
 @Component({
-  selector: 'app-customerhome',
-  templateUrl: './customerhome.component.html',
-  styleUrls: ['./customerhome.component.scss']
+  selector: 'app-customer-home',
+  templateUrl: './customer-home.component.html',
+  styleUrls: ['./customer-home.component.scss']
 })
-export class CustomerhomeComponent implements OnInit {
+export class CustomerHomeComponent implements OnInit {
 
   public user!: UserResponse
   public deposits!: Deposit[]
@@ -306,9 +306,9 @@ export class CustomerhomeComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-customerhome-throw-garbage-dialog',
-  templateUrl: './customerhome-throw-garbage-dialog.html',
-  styleUrls: ['./customerhome.component.scss', './customerhome-throw-garbage-dialog.scss']
+  selector: 'app-customer-home-throw-garbage-dialog',
+  templateUrl: './customer-home-throw-garbage-dialog.html',
+  styleUrls: ['./customer-home.component.scss', './customer-home-throw-garbage-dialog.scss']
 
 })
 export class CustomerHomeThrowGarbageDialogComponent {
@@ -358,9 +358,9 @@ export class CustomerHomeThrowGarbageDialogComponent {
 }
 
 @Component({
-  selector: 'app-customerhome-position-error',
-  templateUrl: './customerhome-position-error.html',
-  styleUrls: ['./customerhome-position-error.scss', './customerhome.component.scss']
+  selector: 'app-customer-home-position-error',
+  templateUrl: './customer-home-position-error.html',
+  styleUrls: ['./customer-home-position-error.scss', './customer-home.component.scss']
 })
 export class CustomerHomeDialogComponent {
 

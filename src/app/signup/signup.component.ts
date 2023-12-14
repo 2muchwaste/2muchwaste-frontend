@@ -6,7 +6,7 @@ import {WebsiteRole} from "../models/role"
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
 import {Router} from "@angular/router"
 import {UserInformationService} from "../services/userinformationservice"
-import {SigninErrorDialogComponent} from "../signin/signin.component"
+import {SigninErrorDialogComponent} from "../signin/sign-in.component"
 import {CustomerService} from "../services/backendcalls/customerservice"
 
 @Component({

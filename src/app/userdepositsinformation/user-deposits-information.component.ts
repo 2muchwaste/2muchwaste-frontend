@@ -10,11 +10,11 @@ import {Subscription} from "rxjs"
 import {LocalStorageService} from "../services/localstorageservice"
 
 @Component({
-  selector: 'app-userdepositsinformation',
-  templateUrl: './userdepositsinformation.component.html',
-  styleUrls: ['./userdepositsinformation.component.scss']
+  selector: 'app-user-deposits-information',
+  templateUrl: './user-deposits-information.component.html',
+  styleUrls: ['./user-deposits-information.component.scss']
 })
-export class UserdepositsinformationComponent implements OnInit, OnDestroy {
+export class UserDepositsInformationComponent implements OnInit, OnDestroy {
 
   public user!: UserResponse
   userDeposits!: Deposit[]

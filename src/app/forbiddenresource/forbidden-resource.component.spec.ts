@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SourcenotfoundComponent } from './sourcenotfound.component';
+import { ForbiddenResourceComponent } from './forbidden-resource.component';
 
-describe('SourcenotfoundComponent', () => {
-  let component: SourcenotfoundComponent;
-  let fixture: ComponentFixture<SourcenotfoundComponent>;
+describe('ForbiddenResourceComponent', () => {
+  let component: ForbiddenResourceComponent;
+  let fixture: ComponentFixture<ForbiddenResourceComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SourcenotfoundComponent ]
+      declarations: [ ForbiddenResourceComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SourcenotfoundComponent);
+    fixture = TestBed.createComponent(ForbiddenResourceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

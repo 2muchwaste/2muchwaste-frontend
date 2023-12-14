@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {FormControl, Validators} from '@angular/forms'
 import {MatDialog} from '@angular/material/dialog'
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
@@ -14,11 +14,11 @@ import {LocalStorageService} from "../services/localstorageservice"
  * @title Input with error messages
  */
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./../app.component.scss', './signin.component.scss']
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./../app.component.scss', './sign-in.component.scss']
 })
-export class SigninComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email])
   passwordFormControl = new FormControl('', [Validators.required])

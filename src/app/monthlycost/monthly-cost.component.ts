@@ -23,12 +23,12 @@ interface DepositByTypeMonthly {
 }
 
 @Component({
-  selector: 'app-monthlycost',
-  templateUrl: './monthlycost.component.html',
-  styleUrls: ['./monthlycost.component.scss']
+  selector: 'app-monthly-cost',
+  templateUrl: './monthly-cost.component.html',
+  styleUrls: ['./monthly-cost.component.scss']
 })
 
-export class MonthlycostComponent implements OnInit {
+export class MonthlyCostComponent implements OnInit {
 
   public user!: UserResponse
   public userDeposits!: Deposit[]

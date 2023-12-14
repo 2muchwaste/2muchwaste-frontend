@@ -3,11 +3,11 @@ import {Router} from "@angular/router";
 import {AppConstants} from "../utils/constants";
 
 @Component({
-  selector: 'app-sourcenotfound',
-  templateUrl: './sourcenotfound.component.html',
-  styleUrls: ['./sourcenotfound.component.scss']
+  selector: 'app-source-not-found',
+  templateUrl: './source-not-found.component.html',
+  styleUrls: ['./source-not-found.component.scss']
 })
-export class SourcenotfoundComponent implements OnInit {
+export class SourceNotFoundComponent implements OnInit {
 
   public resRequested: string = ''
 

@@ -14,21 +14,21 @@ import {environment} from '../environments/environment';
 import {HomeComponent} from './home/home.component';
 
 import {SignupComponent, SignupErrorDialogComponent} from './signup/signup.component';
-import {SigninComponent, SigninErrorDialogComponent} from './signin/signin.component';
+import {SignInComponent, SigninErrorDialogComponent} from './signin/sign-in.component';
 
 import {
-  CustomerhomeComponent,
+  CustomerHomeComponent,
   CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
-} from './customerhome/customerhome.component';
+} from './customerhome/customer-home.component';
 // import {OperatorhomeComponent} from './operatorhome/operatorhome.component';
-import {SourcenotfoundComponent} from './sourcenotfound/sourcenotfound.component';
-import {ForbiddenresourceComponent} from './forbiddenresource/forbiddenresource.component';
+import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
+import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
 import {FooterComponent} from './footer/footer.component';
-import {UserinformationComponent} from './userinformation/userinformation.component';
-import {UserdepositsinformationComponent} from './userdepositsinformation/userdepositsinformation.component';
+import {UserInformationComponent} from './userinformation/user-information.component';
+import {UserDepositsInformationComponent} from './userdepositsinformation/user-deposits-information.component';
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
-import { MonthlycostComponent } from './monthlycost/monthlycost.component';
+import { MonthlyCostComponent } from './monthlycost/monthly-cost.component';
 import {UserInformationService} from "./services/userinformationservice";
 import { UserNotificationsComponent } from './usernotifications/user-notifications.component';
 import { MaptestComponent } from './maptest/maptest.component';
@@ -44,18 +44,18 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     HomeComponent,
     SignupComponent,
     SignupErrorDialogComponent,
-    SigninComponent,
+    SignInComponent,
     SigninErrorDialogComponent,
-    CustomerhomeComponent,
+    CustomerHomeComponent,
     CustomerHomeThrowGarbageDialogComponent,
     CustomerHomeDialogComponent,
     // OperatorhomeComponent,
-    SourcenotfoundComponent,
-    ForbiddenresourceComponent,
+    SourceNotFoundComponent,
+    ForbiddenResourceComponent,
     FooterComponent,
-    UserinformationComponent,
-    UserdepositsinformationComponent,
-    MonthlycostComponent,
+    UserInformationComponent,
+    UserDepositsInformationComponent,
+    MonthlyCostComponent,
     UserNotificationsComponent,
     MaptestComponent,
     PaymentsComponent,

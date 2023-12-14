@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WhoWeAreComponent } from './who-we-are.component';
 
-describe('WhoweareComponent', () => {
+describe('WhoWeAreComponent', () => {
   let component: WhoWeAreComponent;
   let fixture: ComponentFixture<WhoWeAreComponent>;
 
