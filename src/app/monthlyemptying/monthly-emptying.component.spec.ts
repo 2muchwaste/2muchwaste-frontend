@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThrowgarbageComponent } from './throwgarbage.component';
+import { MonthlyEmptyingComponent } from './monthly-emptying.component';
 
-describe('ThrowgarbageComponent', () => {
-  let component: ThrowgarbageComponent;
-  let fixture: ComponentFixture<ThrowgarbageComponent>;
+describe('MonthlyEmptyingComponent', () => {
+  let component: MonthlyEmptyingComponent;
+  let fixture: ComponentFixture<MonthlyEmptyingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ThrowgarbageComponent ]
+      declarations: [ MonthlyEmptyingComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThrowgarbageComponent);
+    fixture = TestBed.createComponent(MonthlyEmptyingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
