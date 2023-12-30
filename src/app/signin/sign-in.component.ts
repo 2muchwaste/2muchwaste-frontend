@@ -94,8 +94,8 @@ export class SignInComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-signin-error-dialog',
-  templateUrl: 'signin-error-dialog.html',
+  selector: 'app-sign-in-error-dialog',
+  templateUrl: './sign-in-error-dialog.html',
 })
 export class SigninErrorDialogComponent {
   constructor() {

@@ -31,7 +31,6 @@ import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
 import { MonthlyCostComponent } from './monthlycost/monthly-cost.component';
 import {UserInformationService} from "./services/userinformationservice";
 import { UserNotificationsComponent } from './usernotifications/user-notifications.component';
-import { MaptestComponent } from './maptest/maptest.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
 import { WhoWeAreComponent } from './whoweare/who-we-are.component';
 import { ContactUsComponent } from './contactus/contact-us.component';
@@ -57,7 +56,6 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     UserDepositsInformationComponent,
     MonthlyCostComponent,
     UserNotificationsComponent,
-    MaptestComponent,
     PaymentsComponent,
     PaymentDialogComponent,
     WhoWeAreComponent,

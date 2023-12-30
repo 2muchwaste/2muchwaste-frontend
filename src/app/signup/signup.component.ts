@@ -131,7 +131,7 @@ export class SignupComponent implements OnInit {
 
 @Component({
   selector: 'app-signup-error-dialog',
-  templateUrl: 'signup-error-dialog.html',
+  templateUrl: './signup-error-dialog.html',
 })
 export class SignupErrorDialogComponent {
 
