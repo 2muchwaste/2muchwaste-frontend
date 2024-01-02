@@ -14,6 +14,12 @@ import {PaymentsComponent} from "./payments/payments.component";
 import {SourceNotFoundComponent} from "./sourcenotfound/source-not-found.component";
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
+// import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
+// import {EmpyDumpsterComponent} from "./emptydumpster/emptydumpster.component";
+// import {MonthlyEmptyingComponent} from "./monthlyemptying/monthlyemptying.component";
+// import {OperatorInformationComponent} from "./operatorinformation/operatorinformation.component";
+// import {OperatorNotificationComponent } from "./operatornotification/operatornotification.component";
+// import {SteateDumpsterComponent} from "./statedumpster/statedumpster.component";
 
 const routes: Routes = [
   getRouteComponent('signin', SignInComponent),

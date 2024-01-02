@@ -21,8 +21,13 @@ import {
   CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customer-home.component';
-// import {OperatorhomeComponent} from './operatorhome/operatorhome.component';
+// import {OperatorHomeComponent} from './operatorhome/operatorhome.component';
 import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
+// import {EmpyDumpsterComponent} from './emptydumpster/emptydumpster.component';
+// import {MonthlyEmptyingComponent} from './monthlyemptying/monthlyemptying.component';
+// import {OperatorInformationComponent} from './operatorinformation/operatorinformation.component';
+// import {OperatorNotificationComponent } from './operatornotification/operatornotification.component';
+// import {SteateDumpsterComponent} from './statedumpster/statedumpster.component';
 import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
 import {FooterComponent} from './footer/footer.component';
 import {UserInformationComponent} from './userinformation/user-information.component';
