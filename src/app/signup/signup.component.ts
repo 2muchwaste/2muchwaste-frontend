@@ -8,6 +8,7 @@ import {Router} from "@angular/router"
 import {UserInformationService} from "../services/userinformationservice"
 import {SigninErrorDialogComponent} from "../signin/sign-in.component"
 import {CustomerService} from "../services/backendcalls/customerservice"
+import {LocalStorageService} from "../services/localstorageservice";
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,8 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private userInfoService: UserInformationService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private lStorageService: LocalStorageService
   ) {
     this.signupForm = this.fb.group({
       name: this.nameFormControl,
@@ -69,7 +71,7 @@ export class SignupComponent implements OnInit {
       .setSurname(this.surnameFormControl.value)
       .setBirthday(
         this.birthdayFormControl.value.getFullYear() + '-'
-        + this.birthdayFormControl.value.getMonth() + '-'
+        + (this.birthdayFormControl.value.getMonth()+1) + '-'
         + this.birthdayFormControl.value.getDate()
       )
       .setCF(this.CFFormControl.value)
@@ -107,6 +109,7 @@ export class SignupComponent implements OnInit {
       this.roleFormControl.value
     ).subscribe({
       next: (signinResponse) => {
+        this.lStorageService.setUserToken(signinResponse.token)
         this.customerService.getCustomerByID(signinResponse.id).subscribe({
           next: (userResponse) => {
             this.userInfoService.login(userResponse, signinResponse.token)

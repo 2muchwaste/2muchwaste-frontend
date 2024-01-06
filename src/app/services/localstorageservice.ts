@@ -4,7 +4,7 @@ import {AppConstants} from "../utils/constants"
 @Injectable({
   providedIn: 'root',
 })
-export class SessionStorageService {
+export class LocalStorageService {
   private readonly USER_ID_KEY = AppConstants.lSUserID
   private readonly USER_TOKEN_KEY = AppConstants.lSToken
   private readonly USER_OBJECT_KEY = AppConstants.userObject
