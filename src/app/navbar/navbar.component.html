@@ -3,7 +3,7 @@
 
     <a class="navbar-brand navbar-title" routerLink="{{userInfoService.isLogged()? '/customerhome' : '/' }}">2MuchWaste</a>
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
-            class="notification-icon-container ms-auto">
+            class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
       <mat-icon [matBadge]=notificationNotRead?.length>notifications</mat-icon>
       <mat-menu #beforeMenu="matMenu" xPosition="before">
         <ul class="notifications-list" *ngIf="userInfoService.user">
@@ -29,8 +29,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" #collapsablePartNavbar id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-navbar">
-        <div *ngIf="isLogged; else notLoggedTemplate">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-navbar" aria-label="link presenti nella navbar">
+        <ng-container *ngIf="isLogged">
+
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink='/customerhome'>Home</a>
@@ -57,8 +58,8 @@
           <li class="nav-item">
             <a class="nav-link active" (click)="logout()" aria-current="page" routerLink="/">Logout</a>
           </li>
-        </div>
-        <ng-template #notLoggedTemplate>
+        </ng-container>
+        <ng-container *ngIf="!isLogged">
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page" routerLink='/signin'>Accedi</a>
           </li>
@@ -72,8 +73,7 @@
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page" routerLink="/contactus">Contatti</a>
           </li>
-
-        </ng-template>
+        </ng-container>
       </ul>
     </div>
   </div>
