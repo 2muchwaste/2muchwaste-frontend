@@ -10,11 +10,16 @@ import {UserInformationComponent} from "./userinformation/user-information.compo
 import {UserDepositsInformationComponent} from "./userdepositsinformation/user-deposits-information.component";
 import {MonthlyCostComponent} from "./monthlycost/monthly-cost.component";
 import {UserNotificationsComponent} from "./usernotifications/user-notifications.component";
-import {MaptestComponent} from "./maptest/maptest.component";
 import {PaymentsComponent} from "./payments/payments.component";
 import {SourceNotFoundComponent} from "./sourcenotfound/source-not-found.component";
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
+// import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
+// import {EmpyDumpsterComponent} from "./emptydumpster/emptydumpster.component";
+// import {MonthlyEmptyingComponent} from "./monthlyemptying/monthlyemptying.component";
+// import {OperatorInformationComponent} from "./operatorinformation/operatorinformation.component";
+// import {OperatorNotificationComponent } from "./operatornotification/operatornotification.component";
+// import {SteateDumpsterComponent} from "./statedumpster/statedumpster.component";
 
 const routes: Routes = [
   getRouteComponent('signin', SignInComponent),
@@ -25,7 +30,6 @@ const routes: Routes = [
   getRouteComponent('depositsinformation', UserDepositsInformationComponent),
   getRouteComponent('monthlycost', MonthlyCostComponent),
   getRouteComponent('usernotifications', UserNotificationsComponent),
-  getRouteComponent('maptest',MaptestComponent),
   getRouteComponent('paymentstatus',PaymentsComponent),
   getRouteComponent('whoweare',WhoWeAreComponent),
   getRouteComponent('contactus',ContactUsComponent),

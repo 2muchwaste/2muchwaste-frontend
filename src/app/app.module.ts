@@ -21,8 +21,13 @@ import {
   CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customer-home.component';
-// import {OperatorhomeComponent} from './operatorhome/operatorhome.component';
+// import {OperatorHomeComponent} from './operatorhome/operatorhome.component';
 import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
+// import {EmpyDumpsterComponent} from './emptydumpster/emptydumpster.component';
+// import {MonthlyEmptyingComponent} from './monthlyemptying/monthlyemptying.component';
+// import {OperatorInformationComponent} from './operatorinformation/operatorinformation.component';
+// import {OperatorNotificationComponent } from './operatornotification/operatornotification.component';
+// import {SteateDumpsterComponent} from './statedumpster/statedumpster.component';
 import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
 import {FooterComponent} from './footer/footer.component';
 import {UserInformationComponent} from './userinformation/user-information.component';
@@ -31,7 +36,6 @@ import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
 import { MonthlyCostComponent } from './monthlycost/monthly-cost.component';
 import {UserInformationService} from "./services/userinformationservice";
 import { UserNotificationsComponent } from './usernotifications/user-notifications.component';
-import { MaptestComponent } from './maptest/maptest.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
 import { WhoWeAreComponent } from './whoweare/who-we-are.component';
 import { ContactUsComponent } from './contactus/contact-us.component';
@@ -57,7 +61,6 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     UserDepositsInformationComponent,
     MonthlyCostComponent,
     UserNotificationsComponent,
-    MaptestComponent,
     PaymentsComponent,
     PaymentDialogComponent,
     WhoWeAreComponent,

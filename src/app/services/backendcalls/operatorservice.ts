@@ -16,9 +16,7 @@ export class OperatorService {
     return {dumpsterID: dumpsterID}
   }
 
-  constructor(
-    private httpReqService: HttpRequestService
-  ) {
+  constructor(private httpReqService: HttpRequestService) {
   }
 
   getOperators() {
@@ -83,4 +81,21 @@ export class OperatorService {
   deleteOperatorByID(operatorID: string) {
     return this.httpReqService.deleteRequest(this.backendOperatorURL + operatorID)
   }
+  
+  
+   getNotificationsFromUser(operatorCF: string) {
+    return this.httpReqService.getRequest(this.backendOperatorURL + operatorCF + '/notifications')
+  }
+
+  readNotification(operatorCF: string, notificationID: string) {
+    return this.httpReqService.patchRequest<UserResponse>(
+      this.backendOperatorURL + operatorCF + '/notifications/' + notificationID,null)
+  }
+
+  addNotificationFromUser(operatorCF: string, notification: string) {
+    return this.httpReqService.postRequest(
+      this.backendOperatorURL + operatorCF + '/notifications', {text: notification})
+  }
+}
+
 }

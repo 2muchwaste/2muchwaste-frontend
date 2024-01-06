@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OperatorhomeComponent } from './operatorhome.component';
+import { MonthlyEmptyingComponent } from './monthly-emptying.component';
 
-describe('OperatorhomeComponent', () => {
-  let component: OperatorhomeComponent;
-  let fixture: ComponentFixture<OperatorhomeComponent>;
+describe('MonthlyEmptyingComponent', () => {
+  let component: MonthlyEmptyingComponent;
+  let fixture: ComponentFixture<MonthlyEmptyingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OperatorhomeComponent ]
+      declarations: [ MonthlyEmptyingComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OperatorhomeComponent);
+    fixture = TestBed.createComponent(MonthlyEmptyingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
