@@ -29,6 +29,17 @@ button.application-button-primary {
 }
 
 /////////////////
+/// Legend monthly cost
+/////////////////
+.canvasjs-chart-tooltip > div > br {
+  display: none;
+}
+
+.not-in-tool-tip {
+  display: none;
+}
+
+/////////////////
 // Application Spinners
 ////////////////
 
