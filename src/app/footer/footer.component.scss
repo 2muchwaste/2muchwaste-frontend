@@ -36,6 +36,11 @@ $width-max-md: 767px;
   text-align: center;
 }
 
+.contact-us-header{
+  color: #fcfacf;
+  font-size: large !important;
+}
+
 @media screen and (min-width: $width-max-md+1) {
   .col-12.col-md-4.copyright {
     display: flex;
