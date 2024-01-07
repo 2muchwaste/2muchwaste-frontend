@@ -11,8 +11,14 @@
   justify-content: center;
 }
 
-.col.user-payments-col {
+.col-12.user-payments-col {
   max-width: 700px;
+}
+
+.col-12.warnings {
+  max-width: 700px;
+  margin-top: 15px;
+  color: rgb(50, 50, 50);
 }
 
 .quantity-header, .quantity-value, .price-header, .price-value {
@@ -26,7 +32,7 @@
   height: 50px;
 }
 
-.text-larger{
+.text-larger {
   font-size: larger;
 }
 
@@ -36,8 +42,12 @@
   align-items: center;
 }
 
+.icon-payment-result {
+  text-align: center;
+}
+
 @media screen and (min-width: 576px) {
-  .date-value{
+  .date-value {
     font-size: larger;
   }
 }

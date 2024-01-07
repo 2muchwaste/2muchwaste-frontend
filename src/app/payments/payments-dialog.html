@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Pagamento</h1>
+<h1>{{title}}</h1>
 <div mat-dialog-content>
   <div class="container">
     <div class="row">
@@ -17,13 +17,16 @@
           <!--    [value]="value"-->
         </mat-progress-spinner>
       </div>
-      <div class="col-12" style="{text-align: center}">
+      <div class="col-12 icon-payment-result" *ngIf="paymentDone">
         <img src="assets/icons/green-check-icon.png" alt="" width="80px" height="auto">
+      </div>
+      <div class="col-12 icon-payment-result" *ngIf="paymentError">
+        <img src="assets/icons/red-x-mark-icon.png" alt="" width="80px" height="auto">
       </div>
     </div>
   </div>
 </div>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close cdkFocusInitial>Annulla pagamento</button>
-  <button mat-button (click)="pay()">Paga</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [disabled]=paymentLoading>Chiudi</button>
+  <button mat-button (click)="pay()" *ngIf="justStart">Paga</button>
 </mat-dialog-actions>

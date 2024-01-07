@@ -1,5 +1,5 @@
 <div class="row user-payments-row" *ngIf="totalDebit">
-  <div class="col user-payments-col">
+  <div class="col-12 user-payments-col">
     <div class="row debit align-items-center fs-2">
       <div class="col-12 debit-header text-center">
         <span>Debito attuale</span>
@@ -40,4 +40,8 @@
             (click)="payDebit(totalDebit-totalAlreadyPaid)">Salda il conto
     </button>
   </div>
+  <div class="col-12 warnings">
+    <p>NOTA: L'ammontare dei pagamenti non verrà considerato ai fini del debito finché non verranno classificati come completati. Vi invitiamo a non effettuarne ulteriori sino a che quelli precedenti non risultino completati.</p>
+  </div>
+
 </div>

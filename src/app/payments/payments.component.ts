@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core';
-import {UserInformationService} from "../services/userinformationservice";
-import {PaymentService} from "../services/backendcalls/paymentservice";
-import {UserResponse} from "../models/userresponse";
-import {DepositService} from "../services/backendcalls/depositservice";
-import {Deposit} from "../models/deposit";
-import {Subscription} from "rxjs";
-import {PageEvent} from "@angular/material/paginator";
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {Payment, PaymentStatus, PaymentStatusManager} from "../models/payment";
-import {Authorizationservice} from "../services/backendcalls/authorizationservice";
+import {Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core'
+import {UserInformationService} from "../services/userinformationservice"
+import {PaymentService} from "../services/backendcalls/paymentservice"
+import {UserResponse} from "../models/userresponse"
+import {DepositService} from "../services/backendcalls/depositservice"
+import {Deposit} from "../models/deposit"
+import {Subscription} from "rxjs"
+import {PageEvent} from "@angular/material/paginator"
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog"
+import {PaymentStatus} from "../models/payment"
+import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 
 @Component({
   selector: 'app-payments',
@@ -16,19 +16,12 @@ import {Authorizationservice} from "../services/backendcalls/authorizationservic
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit, OnDestroy {
-  private user!: UserResponse;
-  private userDeposits!: Deposit[];
-  private paymentsGot = new EventEmitter<boolean>()
-  private depositsGot = new EventEmitter<boolean>()
+  private userDeposits!: Deposit[]
   private userSetSubscription!: Subscription
   public totalDebit!: number
   public totalAlreadyPaid!: number
-  private depositsSet = false
-  private paymentsSet = false
-  public lowValue = 0;
-  public highValue = 10;
-  public paymentsForDisplay!: Payment[];
-
+  public lowValue = 0
+  public highValue = 10
 
   constructor(
     private matDialog: MatDialog,
@@ -37,7 +30,6 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     private paymentsService: PaymentService,
     public userInfoService: UserInformationService,
   ) {
-
   }
 
   ngOnInit(): void {
@@ -48,7 +40,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
         this.setDeposits(res)
       }
     })
-    if (this.userInfoService.user){
+    if (this.userInfoService.user) {
       this.setPayments(this.userInfoService.user)
       this.setDeposits(this.userInfoService.user)
     }
@@ -58,23 +50,17 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     this.userSetSubscription.unsubscribe()
   }
 
-
   private setPayments(userResponse: UserResponse) {
     this.paymentsService.getPayments().subscribe({
       next: (res) => {
         this.userInfoService.payments = res.filter(p => p.userID === this.userInfoService.user._id)
-        // this.paymentsForDisplay = this.userInfoService.payments.map(p=>{
-        //   p.status = p.status === PaymentStatus.COMPLETE ? 'completato' : p.status === PaymentStatus.PENDING ? 'non contabilizzato' : p.status
-        //   return p
-        // })
         console.log("this.userInfoService.payments", this.userInfoService.payments)
         this.totalAlreadyPaid = this.userInfoService.payments
           .filter(p => p.status === PaymentStatus.COMPLETE)
           .map(p => p.value)
           .reduce((a, b) => a + b, 0)
-        console.log("this.totalAlreadyPaid", this.totalAlreadyPaid);
-        console.log(this.userInfoService);
-        this.paymentsSet = true
+        console.log("this.totalAlreadyPaid", this.totalAlreadyPaid)
+        console.log(this.userInfoService)
       }
     })
   }
@@ -84,8 +70,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.userDeposits = res
         this.totalDebit = this.userDeposits.map(d => d.price).reduce((a, b) => a + b, 0)
-        this.depositsSet = true
-        console.log(this.userInfoService.payments);
+        console.log(this.userInfoService.payments)
       },
       error: (err) => {
       }
@@ -93,31 +78,42 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   }
 
   getPaginatorData(event: PageEvent) {
-    this.lowValue = event.pageIndex * event.pageSize;
-    this.highValue = this.lowValue + event.pageSize;
-    return event;
+    this.lowValue = event.pageIndex * event.pageSize
+    this.highValue = this.lowValue + event.pageSize
+    return event
   }
 
   payDebit(amountToPay: number) {
-    this.matDialog.open(PaymentDialogComponent, {
+    amountToPay = Math.round(amountToPay * 100) / 100
+    let dialogRef = this.matDialog.open(PaymentDialogComponent, {
       data: {
         amountToPay: amountToPay
       }
     })
+    let sub = dialogRef.componentInstance.paymentFinished.subscribe(() => {
+      console.log("Reloading bro")
+      this.setPayments(this.userInfoService.user)
+      this.setDeposits(this.userInfoService.user)
+    })
+    dialogRef.afterClosed().subscribe(() => sub.unsubscribe())
   }
 }
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payments-dialog.html',
+  styleUrls: ['./payments.component.scss']
 })
 export class PaymentDialogComponent {
 
   public title: string
   public message: string
-  public amountToPay: number;
-  @Output() launchPayment = new EventEmitter<number>()
+  public amountToPay: number
+  @Output() paymentFinished = new EventEmitter<boolean>()
+  justStart = true
   paymentLoading = false
+  paymentDone = false
+  paymentError = false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
@@ -126,12 +122,11 @@ export class PaymentDialogComponent {
   ) {
     this.title = "Pagamento"
     this.amountToPay = injectedData.amountToPay
-    this.message = `Stai per effettuare un pagamento di ${this.amountToPay}, sicurƏ di procedere?`
-    // this.title = injectedData.errorTitle
-    // this.message = injectedData.errorMessage
+    this.message = `Stai per effettuare un pagamento di ${this.amountToPay.toFixed(2)}€, sicurƏ di volere procedere?`
   }
 
   pay() {
+    this.justStart = false
     this.message = ""
     this.title = "Pagamento in corso"
     this.paymentLoading = true
@@ -140,13 +135,19 @@ export class PaymentDialogComponent {
         next: (res) => {
           // @ts-ignore
           if (res.errors) {
-            console.log("Payment not ok");
+            console.log("Payment not ok")
+            this.paymentError = true
+          } else {
+            console.log("Emitting payment finished")
+            this.paymentFinished.emit(true)
+
+            console.log("Payment ok", res)
+            this.paymentDone = true
+            this.title = `Pagamento avvenuto con successo`
           }
-          console.log("Payment ok", res);
           this.paymentLoading = false
-          this.title = `Pagamento avvenuto con successo`
         }
       })
-    }, 0)
+    }, 3000)
   }
 }
