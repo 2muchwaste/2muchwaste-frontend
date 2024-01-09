@@ -25,6 +25,7 @@
     "@angular/service-worker": "~13.3.0",
     "@canvasjs/angular-charts": "^1.0.3",
     "@turf/turf": "^6.5.0",
+    "geolib": "^3.3.4",
     "leaflet": "^1.9.4",
     "rxjs": "~7.5.0",
     "socket.io-client": "^4.7.2",

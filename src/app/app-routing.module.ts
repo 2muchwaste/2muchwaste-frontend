@@ -14,17 +14,21 @@ import {PaymentsComponent} from "./payments/payments.component";
 import {SourceNotFoundComponent} from "./sourcenotfound/source-not-found.component";
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
-// import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
-// import {EmpyDumpsterComponent} from "./emptydumpster/emptydumpster.component";
-// import {MonthlyEmptyingComponent} from "./monthlyemptying/monthlyemptying.component";
-// import {OperatorInformationComponent} from "./operatorinformation/operatorinformation.component";
-// import {OperatorNotificationComponent } from "./operatornotification/operatornotification.component";
-// import {SteateDumpsterComponent} from "./statedumpster/statedumpster.component";
+import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
+//import {EmpyDumpsterComponent} from "./emptydumpster/empty-dumpster.component";
+// import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
+//import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
+//import {OperatorNotificationComponent } from "./operatornotification/operator-notification.component";
+//import {SteateDumpsterComponent} from "./statedumpster/state-dumpster.component";
 
 const routes: Routes = [
   getRouteComponent('signin', SignInComponent),
   getRouteComponent('signup', SignupComponent),
   getRouteComponent('customerhome', CustomerHomeComponent),
+  getRouteComponent('operatorhome', OperatorHomeComponent),
+  //getRouteComponent('emptydumpster', EmpyDumpsterComponent),
+  //getRouteComponent('MonthlyCostComponent', MonthlyCostComponent),
+  //getRouteComponent('statedumpster', StateDumpsterComponent),
   getRouteComponent('forbiddenarea', ForbiddenResourceComponent),
   getRouteComponent('userinformation', UserInformationComponent),
   getRouteComponent('depositsinformation', UserDepositsInformationComponent),
