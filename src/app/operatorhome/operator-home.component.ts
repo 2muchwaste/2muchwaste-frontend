@@ -4,15 +4,14 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {Dumpster} from "../models/dumpster";
 import {Empty} from "../models/empty";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
-import {OperatorHomeDialogComponent} from "../operatorhome/operator-home";
 import {Observable, Subscription} from "rxjs";
-import {UserResponse, UserResponseBuilder} from "../models/userresponse";
+import {UserResponse} from "../models/userresponse";
 import {AppConstants} from "../utils/constants";
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 import {EmptyService} from "../services/backendcalls/emptyservice";
-import {OperatorService} from "../services/backendcalls/operatorservice";
+import {OperatorService} from "../services/backendcalls/operatorservice"
+import {OperatorInformationService} from "../services/operatorinformationservice";
 import {UserInformationService} from "../services/userinformationservice";
-import {UserResponse} from "../models/userresponse"
 import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
@@ -32,13 +31,12 @@ export interface Coordinates {
   templateUrl: './operator-home.component.html',
   styleUrls: ['./operator-home.component.scss']
 })
-export class OperatorHomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
 public dumpsters: Dumpster[] = []
   public user!: UserResponse
   public empty!: Empty[]
   public userObs!: Observable<User>
-  public dumpObs!: Observable<Dump[]>
   private lastUserPosition!: Coordinates
   private map!: L.Map;
   private trashTypeManager
@@ -49,7 +47,6 @@ public dumpsters: Dumpster[] = []
   constructor(
     private operatorHomeDialog: MatDialog,
     private operatorService: OperatorService,
-    private operatorHomeDialog: OperatorHomeDialog,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
     public userInfoService: UserInformationService,

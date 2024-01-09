@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
-import {UserInformationService} from "../services/userinformationservice"
+import {OperatorInformationService} from "../services/operatorinformationservice"
 import {Empty} from "../models/empty"
 import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
@@ -31,36 +31,45 @@ interface EmptyByTypeMonthly {
 export class MonthlyEmptyingComponent implements OnInit {
 
   public user!: UserResponse
-  public userEmptied!: Empty[]
-  public emptiedDataCharts!: DataChart[]
-  public userEmptiedGroupedByTypeAndMonth!: EmptyByTypeMonthly[]
-  public emptiedFromMonth = 1
+  public userEmpty!: Empty[]
+  public emptyDataCharts!: DataChart[]
+  public userEmptyGroupedByTypeAndMonth!: EmptyByTypeMonthly[]
+  public emptyFromMonth = 1
   public exclLastNMonths = 0
   public chart: any
-  private monthEmptied!: Empty[]
+  private monthEmpty!: Empty[]
   buttonTextViewChart: string
 
   constructor(
-    private userInfoService: UserInformationService,
+    private operatorInfoService: OperatorInformationService,
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
     private lStorageService: LocalStorageService
   ) {
     console.log('Monthlycost constuctor')
-    console.log(this.userInfoService)
+    console.log(this.operatorInfoService)
     this.buttonTextViewChart = "Cambia in grafico sulla quantità"
   }
 
+  @ViewChild('monthlyEmptyingContainer') monthlyEmptyingContainer!: ElementRef
 
-  private getSlicedDeposits(deposits: Deposit[], fromMonth?: number, exlNLastMonths?: number) {
+
+  ngOnInit(): void {
+    console.log('MonthlyCost OnInit')
+    this.authorizationService.checkAuthDataORRedirect()
+    this.setUser()
+    this.setEmpty()
+  }
+
+  private getSlicedEmpty(empty: Empty[], fromMonth?: number, exlNLastMonths?: number) {
     let date = new Date(), y = date.getFullYear(), m = date.getMonth()
     let firstDay = new Date(y, m, 1)
     let lastDay = new Date(y, m + 1, 1)
 
     firstDay.setMonth(firstDay.getMonth() - (fromMonth || 0))
     lastDay.setMonth(lastDay.getMonth() - (exlNLastMonths || 0))
-    return emptied
+    return empty
       .filter(empty => empty.date >= firstDay)
       .filter(empty => empty.date < lastDay)
   }
@@ -102,7 +111,7 @@ export class MonthlyEmptyingComponent implements OnInit {
   private setUser() {
     // @ts-ignore
     this.operatorService.getOperatorByID(this.lStorageService.getUserID()).subscribe({
-      next: (res) => this.user = this.userInfoService.user = res,
+      next: (res) => this.user = this.operatorInfoService.user = res,
       error: err => console.log(err)
     })
   }
@@ -114,10 +123,10 @@ export class MonthlyEmptyingComponent implements OnInit {
   }
 
 
-  getMonthlyEmptiedByType(emptied: Empty[], fromMonth: number, exlNLastMonths: number) {
-    let emptiedLimited = this.getSlicedEmptied(emptied, fromMonth, exlNLastMonths)
+  getMonthlyEmptyByType(empty: Empty[], fromMonth: number, exlNLastMonths: number) {
+    let emptyLimited = this.getSlicedEmpty(empty, fromMonth, exlNLastMonths)
 
-    let types = emptiedLimited
+    let types = emptyLimited
       .map(empty => empty.type)
       .filter((emptyType, index, self) => index === self.indexOf(emptyType))
 
@@ -128,7 +137,7 @@ export class MonthlyEmptyingComponent implements OnInit {
       months.push(x)
     }
 
-    let emptiedByTypeMonthly: EmptyByTypeMonthly[] = []
+    let emptyByTypeMonthly: EmptyByTypeMonthly[] = []
     for (let type of types) {
       let emptyOfType: EmptyByTypeMonthly = {
         garbageType: type,
@@ -136,7 +145,7 @@ export class MonthlyEmptyingComponent implements OnInit {
       }
       for (let month of months) {
         let quantityMonthResult: number = 0
-        emptiedLimited
+        emptyLimited
           .filter(empty => empty.type === type)
           .filter(empty => empty.date.getMonth() === month.getMonth())
           .forEach(dep => {
@@ -147,9 +156,9 @@ export class MonthlyEmptyingComponent implements OnInit {
           quantity: quantityMonthResult,
         })
       }
-      emptiedByTypeMonthly.push(emptyOfType)
+      emptyByTypeMonthly.push(emptyOfType)
     }
-    return emptiedByTypeMonthly
+    return emptyByTypeMonthly
   }
 
   getDataChart(emptyTypelyMonthly: EmptyByTypeMonthly[]) {
@@ -177,9 +186,13 @@ export class MonthlyEmptyingComponent implements OnInit {
         let monthName = firstType ? month.monthName + "<br>" : ""
         emptyOfType.dataPoints.push({
           label: month.monthName,
-S         // @ts-ignore
-          toolTipContent: monthName + "{name}: <strong>" + month.quantity + "</strong>Kg <strong>",
-          indexLabel: (month.quantity > 0 && this.monthlyCostContainer.nativeElement.offsetWidth > 800
+         // @ts-ignore
+          toolTipContent: monthName
+          + (month.quantity <= 0 ? "<div class='not-in-tool-tip'>" : "<div>")
+          + "{name}: <strong>" + month.quantity.toFixed(2) + "</strong>Kg <strong>"
+         + "</div>"
+         ,
+          indexLabel: (month.quantity > 0 && this.monthlyEmptyingContainer.nativeElement.offsetWidth > 800
             // @ts-ignore
             ? trashTypeManager.getItalianName(type.garbageType).substring(0, 5) : "")
         })
@@ -217,11 +230,11 @@ S         // @ts-ignore
 
 
   updateDataChart() {
-    this.userEmptiedGroupedByTypeAndMonth = this.getMonthlyEmptiedByType(this.userEmptied, this.emptiedFromMonth, this.exclLastNMonths)
-    console.log("this.userEmptiedGroupedByTypeAndMonth", this.userEmptiedGroupedByTypeAndMonth)
-    this.emptiedDataCharts = this.userEmptiedGroupedByTypeAndMonth.length > 0 ?
-      this.getDataChart(this.userEmptiedGroupedByTypeAndMonth)
-      : this.emptyDataChart(this.depositsFromMonth, this.exclLastNMonths)
+    this.userEmptyGroupedByTypeAndMonth = this.getMonthlyEmptyByType(this.userEmpty, this.emptyFromMonth, this.exclLastNMonths)
+    console.log("this.userEmptyGroupedByTypeAndMonth", this.userEmptyGroupedByTypeAndMonth)
+    this.emptyDataCharts = this.userEmptyGroupedByTypeAndMonth.length > 0 ?
+      this.getDataChart(this.userEmptyGroupedByTypeAndMonth)
+      : this.emptyDataChart(this.emptyFromMonth, this.exclLastNMonths)
     console.log("this.emptyDataChart", this.emptyDataCharts)
     this.chart.options.data = this.emptyDataCharts
     this.chart.render()
@@ -229,29 +242,29 @@ S         // @ts-ignore
 
   previousMonth() {
     console.log('previousMonth')
-    this.depositsFromMonth += 1
+    this.emptyFromMonth += 1
     this.exclLastNMonths += 1
     this.updateDataChart()
   }
 
   nextMonth() {
     console.log('nextMonth')
-    this.depositsFromMonth -= 1
+    this.emptyFromMonth -= 1
     this.exclLastNMonths -= 1
     this.updateDataChart()
   }
 
-  private setEmptied() {
+  private setEmpty() {
 
     // @ts-ignore
-    this.emptyService.getEMptiedFromUser(this.lStorageService.getUserID()).subscribe({
+    this.emptyService.getEmptyFromUser(this.lStorageService.getUserID()).subscribe({
       next: res => {
-        let emptied = res.map(empty => {
+        let empty = res.map(empty => {
           empty.date = new Date(empty.date)
           return empty
         })
-        this.userEmptied = this.userInfoService.userEmptied = emptied
-        this.monthEmptied = this.userEmptied.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
+        this.userEmpty = this.operatorInfoService.userEmpty = empty
+        this.monthEmpty = this.userEmpty.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
         this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
         this.updateDataChart()
         // this.chart.render()

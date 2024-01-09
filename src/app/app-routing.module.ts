@@ -15,20 +15,20 @@ import {SourceNotFoundComponent} from "./sourcenotfound/source-not-found.compone
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
 import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
-//import {EmpyDumpsterComponent} from "./emptydumpster/empty-dumpster.component";
-// import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
-//import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
-//import {OperatorNotificationComponent } from "./operatornotification/operator-notification.component";
-//import {SteateDumpsterComponent} from "./statedumpster/state-dumpster.component";
+import {EmptyDumpsterComponent} from "./emptydumpster/empty-dumpster.component";
+import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
+import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
+import {OperatorNotificationsComponent } from "./operatornotifications/operator-notifications.component";
 
 const routes: Routes = [
   getRouteComponent('signin', SignInComponent),
   getRouteComponent('signup', SignupComponent),
   getRouteComponent('customerhome', CustomerHomeComponent),
   getRouteComponent('operatorhome', OperatorHomeComponent),
-  //getRouteComponent('emptydumpster', EmpyDumpsterComponent),
-  //getRouteComponent('MonthlyCostComponent', MonthlyCostComponent),
-  //getRouteComponent('statedumpster', StateDumpsterComponent),
+  getRouteComponent('emptydumpster', EmptyDumpsterComponent),
+  getRouteComponent('monthlyemptying', MonthlyEmptyingComponent),
+  getRouteComponent('operatorinformation', OperatorInformationComponent),
+  getRouteComponent('operatornotifications', OperatorNotificationsComponent),
   getRouteComponent('forbiddenarea', ForbiddenResourceComponent),
   getRouteComponent('userinformation', UserInformationComponent),
   getRouteComponent('depositsinformation', UserDepositsInformationComponent),

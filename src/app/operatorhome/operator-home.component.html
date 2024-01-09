@@ -4,7 +4,7 @@
   </div>
   <div class="row">
     <p class="col-9">Cassonetti svuotati questo mese:</p>
-    <p class="col-3 dump-monthly-col">{{dump.length}}</p>
+    <p class="col-3 empty-monthly-col">{{empty.length}}</p>
   </div>
   <ng-container *ngIf="isButtonsVisible">
     <div class="maps-button-description appearbutton">
@@ -14,7 +14,7 @@
       mat-mini-fab
       color="primary"
       aria-label="Bottone per vedere la mappa dei bidoni vicini"
-      class="throwing-maps appearbutton"
+      class="emptying-maps appearbutton"
       (click)="getNearDumpsters()">
       <mat-icon>maps</mat-icon>
     </button>
@@ -24,7 +24,7 @@
     color="primary"
     aria-label="Bottone per accedere alle funzionalità sui bidoni"
     class="emptying"
-    (click)="emptyBins()">
+    (click)="emptyDumpster()">
     <mat-icon>delete</mat-icon>
   </button>
   <div class="map-container" *ngIf="viewMapDumpsters && userInfoService.nearestDumpsters">
