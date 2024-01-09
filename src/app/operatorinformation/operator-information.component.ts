@@ -59,7 +59,7 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
     })
   }
 
-  public getPaginatorData(event: PageEvent): PageEvent {
+  public getPaginatorData(event: any): any {
     this.lowValue = event.pageIndex * event.pageSize
     this.highValue = this.lowValue + event.pageSize
     return event

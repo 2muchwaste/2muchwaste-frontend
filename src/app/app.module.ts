@@ -21,13 +21,12 @@ import {
   CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customer-home.component';
-// import {OperatorHomeComponent} from './operatorhome/operatorhome.component';
+import {OperatorHomeComponent, OperatorHomeDialogComponent, OperatorHomeEmptyGarbageDialogComponent} from './operatorhome/operator-home.component';
 import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
-// import {EmpyDumpsterComponent} from './emptydumpster/emptydumpster.component';
-// import {MonthlyEmptyingComponent} from './monthlyemptying/monthlyemptying.component';
-// import {OperatorInformationComponent} from './operatorinformation/operatorinformation.component';
-// import {OperatorNotificationComponent } from './operatornotification/operatornotification.component';
-// import {SteateDumpsterComponent} from './statedumpster/statedumpster.component';
+import {EmptyDumpsterComponent} from './emptydumpster/empty-dumpster.component';
+import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
+import {OperatorInformationComponent} from './operatorinformation/operator-information.component';
+import {OperatorNotificationsComponent } from './operatornotifications/operator-notifications.component';
 import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
 import {FooterComponent} from './footer/footer.component';
 import {UserInformationComponent} from './userinformation/user-information.component';
@@ -39,6 +38,10 @@ import { UserNotificationsComponent } from './usernotifications/user-notificatio
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
 import { WhoWeAreComponent } from './whoweare/who-we-are.component';
 import { ContactUsComponent } from './contactus/contact-us.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -53,7 +56,13 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     CustomerHomeComponent,
     CustomerHomeThrowGarbageDialogComponent,
     CustomerHomeDialogComponent,
-    // OperatorhomeComponent,
+    OperatorHomeComponent,
+    OperatorHomeEmptyGarbageDialogComponent,
+    OperatorHomeDialogComponent,
+    EmptyDumpsterComponent,
+    MonthlyEmptyingComponent,
+    OperatorInformationComponent,
+    OperatorNotificationsComponent,
     SourceNotFoundComponent,
     ForbiddenResourceComponent,
     FooterComponent,
@@ -84,7 +93,12 @@ import { ContactUsComponent } from './contactus/contact-us.component';
     HttpClientModule,
     MaterialExampleModule,
     ReactiveFormsModule,
-    CanvasJSAngularChartsModule
+    CanvasJSAngularChartsModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    MatIconModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

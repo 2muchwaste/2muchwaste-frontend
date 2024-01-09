@@ -50,7 +50,7 @@
           <mat-select yPosition="below" [formControl]="roleFormControl">
             <mat-option value="admin" aria-label="admin">Admin</mat-option>
             <mat-option value="customer" aria-label="admin">Cliente</mat-option>
-            <mat-option value="operator">Operatore</mat-option>
+            <mat-option value="operator" aria-label="admin">Operatore</mat-option>
           </mat-select>
           <mat-error *ngIf="roleFormControl.hasError('required')">
             Il ruolo è <strong>richiesto</strong>

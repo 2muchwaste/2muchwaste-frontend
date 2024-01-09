@@ -1,4 +1,4 @@
-<div class="container" *ngIf="operator && empty">
+<div class="container" *ngIf="user && empty">
   <div class="row">
     <h1 class="col-12">Bentornato {{user.name}}</h1>
   </div>
@@ -24,7 +24,7 @@
     color="primary"
     aria-label="Bottone per accedere alle funzionalità sui bidoni"
     class="emptying"
-    (click)="emptyDumpster()">
+    (click)="emptyGarbage()">
     <mat-icon>delete</mat-icon>
   </button>
   <div class="map-container" *ngIf="viewMapDumpsters && userInfoService.nearestDumpsters">

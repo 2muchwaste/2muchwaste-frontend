@@ -1,7 +1,13 @@
 import { Component, Input, Injectable  } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
+@Component({
+  selector: 'app-empty-dumpster',
+  templateUrl: './empty-dumpster.component.html',
+  styleUrls: ['./empty-dumpster.component.scss']
+})
 export class EmptyDumpsterComponent {
-  @Input() weight: number;
+  @Input() weight: undefined | number;
 
   constructor(private recyclingService: RecyclingService) {}
 
@@ -12,6 +18,9 @@ export class EmptyDumpsterComponent {
   }
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class RecyclingService {
 
 private binWeight: number = 30; // Peso iniziale del bidone

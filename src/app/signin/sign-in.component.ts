@@ -7,6 +7,7 @@ import {Router} from "@angular/router"
 import {CustomerService} from "../services/backendcalls/customerservice"
 import {OperatorService} from "../services/backendcalls/operatorservice"
 import {UserInformationService} from "../services/userinformationservice"
+import {OperatorInformationService} from '../services/operatorinformationservice'
 import {SocketService} from "../services/notificationsservice"
 import {Subscription} from "rxjs"
 import {LocalStorageService} from "../services/localstorageservice"
@@ -38,6 +39,7 @@ export class SignInComponent implements OnInit {
     private customerService: CustomerService,
     private operatorService: OperatorService,
     private userInfoService: UserInformationService,
+    private operatorInfoService: OperatorInformationService,
     private notificationService: SocketService,
     private lStorageService: LocalStorageService
   ) {

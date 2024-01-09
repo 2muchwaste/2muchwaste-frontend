@@ -7,6 +7,7 @@ import {OperatorService} from "../services/backendcalls/operatorservice";
 import {UserResponse} from "../models/userresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 
+
 @Component({
   selector: 'app-operator-notifications',
   templateUrl: './operator-notifications.component.html',
@@ -15,7 +16,7 @@ import {Authorizationservice} from "../services/backendcalls/authorizationservic
 export class OperatorNotificationsComponent implements OnInit, OnDestroy {
 
   private CLASS_TAG = "OperatorNotificationsComponent:"
-  notificationsFiltered: OperatorNotification[] = []
+  notificationsFiltered: UserNotification[] = []
   lowValue: number = 0
   highValue: number = 10
   showReadNotification = true
@@ -56,7 +57,7 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
     this.subscriptionToUserSet.unsubscribe()
   }
 
-  public getPaginatorData(event: PageEvent): PageEvent {
+  public getPaginatorData(event: any): any {
     this.lowValue = event.pageIndex * event.pageSize;
     this.highValue = this.lowValue + event.pageSize;
     return event;
