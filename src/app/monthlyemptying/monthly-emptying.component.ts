@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {UserInformationService} from "../services/userinformationservice"
 import {OperatorInformationService} from "../services/operatorinformationservice"
 import {Empty} from "../models/empty"
 import {OperatorService} from "../services/backendcalls/operatorservice"

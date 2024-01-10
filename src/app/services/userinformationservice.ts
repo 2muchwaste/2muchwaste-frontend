@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core"
 import {UserResponse} from "../models/userresponse"
 import {Deposit} from "../models/deposit"
+import {Empty} from "../models/empty"
 import {Subject} from "rxjs"
 import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
@@ -14,6 +15,7 @@ export class UserInformationService {
   private SERVICE_TAG = 'UserInformationService:'
   public user!: UserResponse
   public userDeposits!: Deposit[]
+  public userEmpty!: Empty[]
   payments!: Payment[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
@@ -45,6 +47,8 @@ export class UserInformationService {
     this.payments = undefined
     // @ts-ignore
     this.userDeposits = undefined
+    // @ts-ignore
+    this.userEmpty = undefined
     // @ts-ignore
     this.user = undefined
     // @ts-ignore

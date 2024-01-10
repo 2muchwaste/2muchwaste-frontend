@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core';
-import {User} from "../models/user";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Dumpster} from "../models/dumpster";
 import {Empty} from "../models/empty";
@@ -12,6 +11,7 @@ import {EmptyService} from "../services/backendcalls/emptyservice";
 import {OperatorService} from "../services/backendcalls/operatorservice"
 import {OperatorInformationService} from "../services/operatorinformationservice";
 import {UserInformationService} from "../services/userinformationservice";
+import {User} from "../models/user";
 import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
@@ -33,7 +33,7 @@ export interface Coordinates {
 })
 export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
-public dumpsters: Dumpster[] = []
+  public dumpsters: Dumpster[] = []
   public user!: UserResponse
   public empty!: Empty[]
   public userObs!: Observable<User>
@@ -42,7 +42,7 @@ public dumpsters: Dumpster[] = []
   private trashTypeManager
   isButtonsVisible: Boolean = false
   viewMapDumpsters = false
-  showBorderMap = false;
+  showBorderMap = false
 
   constructor(
     private operatorHomeDialog: MatDialog,

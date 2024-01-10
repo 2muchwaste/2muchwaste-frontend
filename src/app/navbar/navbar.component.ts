@@ -7,9 +7,11 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {UserInformationService} from "../services/userinformationservice"
+import {OperatorInformationService} from "../services/operatorinformationservice"
 import {SocketService} from "../services/notificationsservice"
 import {UserNotification} from "../models/UserNotification"
 import {CustomerService} from "../services/backendcalls/customerservice"
+import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
@@ -34,6 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     public userInfoService: UserInformationService,
     private notificationService: SocketService,
     private customerService: CustomerService,
+    private operatorService: OperatorService,
     private eRef: ElementRef,
     private lStorageService: LocalStorageService
   ) {
@@ -51,6 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     let userIDStored = this.lStorageService.getUserID()
+    let operatorIDStored = this.lStorageService.getUserID()
     // let userIDStored = this.userInfoService.user._id
     if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
   }
@@ -59,10 +63,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private restoreUser(userIDStored: string) {
-    this.customerService.getCustomerByID(userIDStored).subscribe({
+   this.customerService.getCustomerByID(userIDStored).subscribe({
       next: (usrResponse) => {
         console.log(this.CLASS_TAG, " Inizio collegamento socket")
-        console.log(this.CLASS_TAG, " usrResponse",usrResponse)
+        console.log(this.CLASS_TAG, " customerResponse",usrResponse)
         this.initializeSocketNotifications(usrResponse)
         this.userInfoService.setUser(usrResponse)
         this.notificationNotRead = this.userInfoService.getNotReadNotifications()
@@ -72,7 +76,23 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(err)
       }
     })
-  }
+
+if (operatorIDStored) {
+    this.operatorService.getOperatorByID(operatorIDStored).subscribe({
+        next: (operatorResponse) => {
+          console.log(this.CLASS_TAG, " Inizio collegamento socket")
+          console.log(this.CLASS_TAG, " operatorResponse",operatorResponse)
+          this.initializeSocketNotifications(operatorResponse)
+          this.userInfoService.setUser(operatorResponse)
+          this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+          this.isLogged = true
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      })
+    }
+ }
 
   private initializeUserAfterLogin(userResponse: UserResponse) {    this.lStorageService.setUserID(userResponse._id)
     this.lStorageService.setUserObject(userResponse)

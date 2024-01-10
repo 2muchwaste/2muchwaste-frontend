@@ -4,7 +4,7 @@ import {UserNotification} from "../models/UserNotification";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {CustomerService} from "../services/backendcalls/customerservice";
-import { OperatorService } from '../services/backendcalls/operatorservice';
+import {OperatorService} from '../services/backendcalls/operatorservice';
 import {UserResponse} from "../models/userresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 
