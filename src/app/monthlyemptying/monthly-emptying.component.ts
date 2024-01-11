@@ -87,7 +87,6 @@ export class MonthlyEmptyingComponent implements OnInit {
       .filter(empty => empty.date < lastDay)
   }
 
-
   getEmptyCanvasOptions(dataChart: DataChart[]) {
     return {
       backgroundColor: "rgba(255,150,150,0)",

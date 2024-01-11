@@ -7,7 +7,7 @@ import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
 import {Payment} from "../models/payment"
 import {LocalStorageService} from "./localstorageservice"
-import { OperatorService } from "./backendcalls/operatorservice"
+import {OperatorService} from "./backendcalls/operatorservice"
 
 
 @Injectable({
@@ -87,7 +87,7 @@ export class UserInformationService {
   }
 
   private getSortedNotificationsByData(userNotifications: UserNotification[]) {
-    
+
     return userNotifications
       .map(noti => {
         noti.date = new Date(noti.date)

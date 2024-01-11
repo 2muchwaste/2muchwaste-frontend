@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {UserResponse} from "../models/userresponse"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 import {OperatorInformationService} from "../services/operatorinformationservice"
+import {UserInformationService} from "../services/userinformationservice"
 import {EmptyService} from "../services/backendcalls/emptyservice"
 import {Empty} from "../models/empty"
 import {PageEvent} from "@angular/material/paginator"

@@ -8,7 +8,7 @@
         </div>
       </div>
       <ng-container *ngFor="let empty of (userEmpty | slice: lowValue : highValue)">
-        <div class="row operatorempty-list-item">
+        <div class="row userempty-list-item">
           <div class="col-5 col-sm-3 order-sm-2 type-value">{{trashTypesManager.getItalianName(empty.type)}}</div>
           <div class="col-3 col-sm-2 order-sm-3 quantity-value">{{empty.quantity}} Kg</div>
           <div class="col-12 col-sm-4 order-sm-1 date-value">{{empty.date | date : "YYYY-MM-dd HH:mm" }}

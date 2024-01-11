@@ -34,12 +34,13 @@
 
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-            routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">Home</a>
+               routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink='/userinformation'>Dati personali</a>
+               routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome'}}">Dati personali</a>
           </li>
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === 'customer'">
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink='/depositsinformation'>Elenco depositi</a>
@@ -52,6 +53,17 @@
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink='/paymentstatus'>Pagamenti</a>
           </li>
+          </ng-container>
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === 'operator'">
+            <li class="nav-item">
+              <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+                 routerLink='/emptyinformation'>Elenco svuotamenti</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+                 routerLink='/monthlyemptying'>Grafico degli svuotamenti</a>
+            </li>
+          </ng-container>
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page" routerLink="/contactus">Contatti</a>
           </li>

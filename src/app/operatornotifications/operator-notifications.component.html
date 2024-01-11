@@ -11,7 +11,7 @@
     </div>
 
     <ng-container *ngFor="let noti of (notifications | slice: lowValue : highValue)">
-      <div class="row operatornotification-list-item" [className]="{'read':noti.read}"
+      <div class="row operatornotification-list-item" [ngClass]="{'read':noti.read}"
            *ngIf="showReadNotification || !noti.read">
         <div class="col-1 quantity-value text-center">
 
@@ -25,7 +25,7 @@
 
             <div class="col-sm-9 order-sm-2 type-value">{{noti.text}}</div>
             <div class="col-sm-3 order-sm-1 date-value">
-              {{noti.date | date: "YYYY-MM-dd HH:mm" }}
+              {{noti.date | date : "YYYY-MM-dd HH:mm" }}
             </div>
 
           </div>

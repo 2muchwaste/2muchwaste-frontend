@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     public userInfoService: UserInformationService,
+    public operatorInfoService: OperatorInformationService,
     private notificationService: SocketService,
     private customerService: CustomerService,
     private operatorService: OperatorService,
@@ -84,7 +85,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log(this.CLASS_TAG, " Inizio collegamento socket")
           console.log(this.CLASS_TAG, " operatorResponse",operatorResponse)
           this.initializeSocketNotifications(operatorResponse)
-          this.userInfoService.setUser(operatorResponse)
+          this.operatorInfoService.setUser(operatorResponse)
           this.notificationNotRead = this.userInfoService.getNotReadNotifications()
           this.isLogged = true
         },
@@ -93,9 +94,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       })
     }
- 
 
-  private initializeUserAfterLogin(userResponse: UserResponse) {    this.lStorageService.setUserID(userResponse._id)
+
+  private initializeUserAfterLogin(userResponse: UserResponse) { this.lStorageService.setUserID(userResponse._id)
     this.lStorageService.setUserObject(userResponse)
     console.log(this.CLASS_TAG, " Inizio collegamento socket")
     this.initializeSocketNotifications(userResponse)

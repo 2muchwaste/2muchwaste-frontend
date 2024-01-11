@@ -5,6 +5,8 @@ import {Subject} from "rxjs"
 import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
 import {LocalStorageService} from "./localstorageservice"
+import {OperatorService} from "./backendcalls/operatorservice"
+
 
 @Injectable({
   providedIn: "root"
@@ -32,7 +34,8 @@ export class OperatorInformationService {
   newNearestDumpsterObservable = this.newNearestDumpster.asObservable()
 
   constructor(
-    private lStorageService: LocalStorageService
+    private lStorageService: LocalStorageService,
+    private operatorService: OperatorService
   ) {
   }
 

@@ -6,8 +6,10 @@ import {WebsiteRole} from "../models/role"
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
 import {Router} from "@angular/router"
 import {UserInformationService} from "../services/userinformationservice"
+import {OperatorInformationService} from "../services/operatorinformationservice"
 import {SigninErrorDialogComponent} from "../signin/sign-in.component"
 import {CustomerService} from "../services/backendcalls/customerservice"
+import {OperatorService} from '../services/backendcalls/operatorservice'
 import {LocalStorageService} from "../services/localstorageservice";
 
 @Component({
@@ -24,7 +26,9 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private userInfoService: UserInformationService,
+    private operatorInfoService: OperatorInformationService,
     private customerService: CustomerService,
+    private operatorService: OperatorService,
     private lStorageService: LocalStorageService
   ) {
     this.signupForm = this.fb.group({
@@ -110,6 +114,7 @@ export class SignupComponent implements OnInit {
     ).subscribe({
       next: (signinResponse) => {
         this.lStorageService.setUserToken(signinResponse.token)
+        if (this.roleFormControl.value === 'customer') {
         this.customerService.getCustomerByID(signinResponse.id).subscribe({
           next: (userResponse) => {
             this.userInfoService.login(userResponse, signinResponse.token)
@@ -119,7 +124,18 @@ export class SignupComponent implements OnInit {
             this.dialog.open(SigninErrorDialogComponent)
           }
         })
-      },
+      } else if (this.roleFormControl.value === 'operator') {
+        this.operatorService.getOperatorByID(signinResponse.id).subscribe({
+          next: (userResponse) => {
+            this.userInfoService.login(userResponse, signinResponse.token)
+            this.router.navigate(['/operatorhome'])
+        },
+        error: (err) => {
+          this.dialog.open(SigninErrorDialogComponent)
+        }
+      })
+    }
+  },
       error: (err) => {
         this.dialog.open(SignupErrorDialogComponent, {
           data: {

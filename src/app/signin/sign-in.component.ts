@@ -45,10 +45,14 @@ export class SignInComponent implements OnInit {
   ) {
     this.loginObservable = this.userInfoService.userSetObservable.subscribe({
       next: (res) => {
+        if (res && res.role === 'customer') {
         this.router.navigate(['/customerhome'])
+      } else if (res && res.role === 'operator') {
+        this.router.navigate(['/operatorhome']);
       }
-    })
-  }
+    }
+  })
+}
 
   ngOnInit() {
   }
@@ -80,7 +84,6 @@ export class SignInComponent implements OnInit {
           console.log(signinResponse)
           this.lStorageService.setUserToken(signinResponse.token)
           if(role===WebsiteRole.CUSTOMER){
-
           this.customerService.getCustomerByID(signinResponse.id).subscribe({
             next: (userResponse) => {
               this.userInfoService.login(userResponse, signinResponse.token)

@@ -34,7 +34,6 @@ export class EmptyDumpsterComponent implements OnInit{
       this.authorizationService.checkAuthDataORRedirect()
    }
 
-
   emptydumpster() {
     this.recyclingService.emptyBin().subscribe(() => {
       this.weight = 0;

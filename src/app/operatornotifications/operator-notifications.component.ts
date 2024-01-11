@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OperatorInformationService} from "../services/operatorinformationservice";
+import {UserInformationService} from "../services/userinformationservice";
 import {UserNotification} from "../models/UserNotification";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
@@ -27,6 +28,7 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
   @ViewChild('matPaginator') matPaginator!: MatPaginator
 
   constructor(
+    public userInfoService: UserInformationService,
     public operatorInfoService: OperatorInformationService,
     private authorizationService: Authorizationservice,
     private operatorService: OperatorService,
@@ -91,6 +93,26 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
             console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
             this.operatorInfoService.readNotifications(newUser)
             this.notifications = this.operatorInfoService.getNotifications()
+          }
+          notificationToReadNumber += 1
+        },
+        error: (err) => {
+
+        }
+      })
+    })
+
+    this.notificationToTickAsRead.forEach(notificationID => {
+          this.operatorService.readNotification(this.userInfoService.user.cf, notificationID).subscribe({
+            next: (res) => {
+
+          newUser = res
+          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newUser);
+          if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
+            newUser.notifications[newUser.notifications.findIndex(noti => noti._id === notificationID)].read = true
+            console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
+            this.userInfoService.readNotifications(newUser)
+            this.notifications = this.userInfoService.getNotifications()
           }
           notificationToReadNumber += 1
         },

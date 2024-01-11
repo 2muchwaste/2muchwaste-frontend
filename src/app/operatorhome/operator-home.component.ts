@@ -49,6 +49,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
+    public operatorInfoService : OperatorInformationService,
     public userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
     private lStorageService: LocalStorageService
@@ -63,7 +64,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     if (this.user == null)
       this.setUser()
     // console.log(this.user);
-    // this.setEmpty()
+     this.setEmpty()
     console.log("OnInit operatorhome uscita")
   }
 
@@ -124,7 +125,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   setEmpty() {
     // @ts-ignore
-    this.emptyService.getEmptyFromUser(sessionStorage.getItem(AppConstants.lSUserID))
+    this.emptyService.getEmptyFromUser(this.lStorageService.getUserID())
       .subscribe({
         next: (res) => {
           let lastMonthDate = new Date()
@@ -197,7 +198,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   private setUser() {
     // @ts-ignore
-    this.operatorService.getOperatorByID(localStorage.getItem(AppConstants.lSUserID)).subscribe({
+    this.operatorService.getOperatorByID(this.lStorageService.getUserID()).subscribe({
       next: (res) => {
         this.user = res
       },
@@ -325,9 +326,10 @@ export class OperatorHomeEmptyGarbageDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
+    public operatorInfoService : OperatorInformationService,
   ) {
     console.log('here');
-    this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe((dumpsters:any) => {
+    this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
       this.nearestDumpstersSet = true
     })
     this.lowValue = 0
