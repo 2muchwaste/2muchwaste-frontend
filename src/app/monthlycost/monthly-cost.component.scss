@@ -1,4 +1,27 @@
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
-  background-color: #898d4e;
+  //background-color: #898d4e;
   margin: 5px 0;
+}
+
+.col-12.month-name {
+  font-size: large;
+  background-color: rgba(200, 200, 200, .4);
+  padding: 10px;
+}
+
+.row.trash-type-information {
+  padding: 5px 15px;
+  font-size: larger;
+}
+
+.col-3.trash-price, .trash-quantity {
+  text-align: right;
+}
+
+.row.trash-information-written {
+  padding: 10px 0;
+}
+
+.row.trash-information-single {
+  padding: 10px 0;
 }

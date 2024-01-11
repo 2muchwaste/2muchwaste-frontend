@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core'
 import {UserInformationService} from "../services/userinformationservice"
 import {Deposit} from "../models/deposit"
 import {CustomerService} from "../services/backendcalls/customerservice"
@@ -19,7 +19,13 @@ interface DataChart {
 
 interface DepositByTypeMonthly {
   garbageType: string,
+  garbageTypeItalianName: string,
   months: { monthName: string, quantity: number, price: number }[]
+}
+
+interface DepositByMonthType {
+  month: string,
+  garbageType: { typeName: string, quantity: number, price: number }[]
 }
 
 @Component({
@@ -34,9 +40,14 @@ export class MonthlyCostComponent implements OnInit {
   public userDeposits!: Deposit[]
   public depositsDataCharts!: DataChart[]
   public userDepositsGroupedByTypeAndMonth!: DepositByTypeMonthly[]
+  public userDepositsGroupedByMonthAndType: DepositByMonthType[]
   public depositsFromMonth = 1
   public exclLastNMonths = 0
+  showWrittenInformation: boolean = false;
+
+  // @ViewChild('chartContainer') chartContainer!:ElementRef<HTMLElement>
   public chart: any
+  public trashTypeManager = new TrashTypeManager()
   private monthDeposits!: Deposit[]
   private viewPrice: boolean = true
   buttonTextViewChart: string
@@ -50,6 +61,7 @@ export class MonthlyCostComponent implements OnInit {
   ) {
     console.log('Monthlycost constuctor')
     console.log(this.userInfoService)
+    this.userDepositsGroupedByMonthAndType = []
     this.buttonTextViewChart = this.viewPrice ? "Cambia in grafico sulla quantità" : "Cambia in grafico sui prezzi"
   }
 
@@ -62,7 +74,6 @@ export class MonthlyCostComponent implements OnInit {
     this.setDeposits()
   }
 
-
   private getSlicedDeposits(deposits: Deposit[], fromMonth?: number, exlNLastMonths?: number) {
     let date = new Date(), y = date.getFullYear(), m = date.getMonth()
     let firstDay = new Date(y, m, 1)
@@ -74,7 +85,6 @@ export class MonthlyCostComponent implements OnInit {
       .filter(deposit => deposit.date >= firstDay)
       .filter(deposit => deposit.date < lastDay)
   }
-
 
   getDepositCanvasOptions(dataChart: DataChart[]) {
     return {
@@ -123,7 +133,6 @@ export class MonthlyCostComponent implements OnInit {
     return dateFormat.charAt(0).toUpperCase() + dateFormat.slice(1)
   }
 
-
   getMonthlyDepositsByType(deposits: Deposit[], fromMonth: number, exlNLastMonths: number) {
     let depositsLimited = this.getSlicedDeposits(deposits, fromMonth, exlNLastMonths)
 
@@ -142,6 +151,8 @@ export class MonthlyCostComponent implements OnInit {
     for (let type of types) {
       let depositOfType: DepositByTypeMonthly = {
         garbageType: type,
+        // @ts-ignore
+        garbageTypeItalianName: this.trashTypeManager.getItalianName(type),
         months: []
       }
       for (let month of months) {
@@ -162,20 +173,21 @@ export class MonthlyCostComponent implements OnInit {
       }
       depositsByTypeMonthly.push(depositOfType)
     }
+    console.log("depositsByTypeMonthly", depositsByTypeMonthly)
     return depositsByTypeMonthly
   }
 
   getDataChart(depositTypelyMonthly: DepositByTypeMonthly[], viewPrice: boolean) {
-    let trashTypeManager = new TrashTypeManager()
+
     let result: DataChart[] = []
     let firstType = true
     for (let type of depositTypelyMonthly) {
       let depositOfType: DataChart = {
         type: 'column',
         // @ts-ignore
-        name: trashTypeManager.getItalianName(type.garbageType),
+        name: this.trashTypeManager.getItalianName(type.garbageType),
         // @ts-ignore
-        legendText: trashTypeManager.getItalianName(type.garbageType),
+        legendText: this.trashTypeManager.getItalianName(type.garbageType),
         showInLegend: true,
         // @ts-ignore
         indexLabelFontSize: 12,
@@ -183,7 +195,7 @@ export class MonthlyCostComponent implements OnInit {
         // @ts-ignore
         showInLegend: true,
         // @ts-ignore
-        color: trashTypeManager.getColorForTrashType(type.garbageType),
+        color: this.trashTypeManager.getColorForTrashType(type.garbageType),
         dataPoints: []
       }
       for (let month of type.months) {
@@ -193,15 +205,15 @@ export class MonthlyCostComponent implements OnInit {
           y: viewPrice ? Math.ceil(month.price * 100) / 100 : Math.ceil(month.quantity * 100) / 100,
           // @ts-ignore
           toolTipContent: monthName
-          + (month.quantity <= 0 ? "<div class='not-in-tool-tip'>" : "<div>")
-          + "{name}: <strong>" + month.quantity.toFixed(2) + "</strong>Kg <strong>"
-          + month.price.toFixed(2) + "</strong>€"
-          + "</div>"
+            + (month.quantity <= 0 ? "<div class='not-in-tool-tip'>" : "<div>")
+            + "{name}: <strong>" + month.quantity.toFixed(2) + "</strong>Kg <strong>"
+            + month.price.toFixed(2) + "</strong>€"
+            + "</div>"
           // + month.quantity <= 0 ? "" : ""
           ,
           indexLabel: (month.quantity > 0 && this.monthlyCostContainer.nativeElement.offsetWidth > 800
             // @ts-ignore
-            ? trashTypeManager.getItalianName(type.garbageType).substring(0, 5) : "")
+            ? this.trashTypeManager.getItalianName(type.garbageType).substring(0, 5) : "")
         })
       }
       firstType = false
@@ -235,9 +247,9 @@ export class MonthlyCostComponent implements OnInit {
     return dataC
   }
 
-
   updateDataChart() {
     this.userDepositsGroupedByTypeAndMonth = this.getMonthlyDepositsByType(this.userDeposits, this.depositsFromMonth, this.exclLastNMonths)
+    this.groupByMonthAndType()
     console.log("this.userDepositsGroupedByTypeAndMonth", this.userDepositsGroupedByTypeAndMonth)
     this.depositsDataCharts = this.userDepositsGroupedByTypeAndMonth.length > 0 ?
       this.getDataChart(this.userDepositsGroupedByTypeAndMonth, this.viewPrice)
@@ -274,16 +286,57 @@ export class MonthlyCostComponent implements OnInit {
         this.userDeposits = this.userInfoService.userDeposits = deposits
         this.monthDeposits = this.userDeposits.filter(deposit => deposit.date.getMonth() > (new Date()).getMonth() - 1)
         this.chart = new CanvasJS.Chart('chartContainer', this.getDepositCanvasOptions([]))
+        // console.log("this.chartContainer.nativeElement", this.chartContainer.nativeElement)
+
         this.updateDataChart()
+        console.log("this.userDepositsGroupedByTypeAndMonth", this.userDepositsGroupedByTypeAndMonth)
+
         // this.chart.render()
       },
       error: err => console.log(err)
     })
   }
 
+  // interface DepositByMonthType {
+  //   month: string,
+  //   garbageType: { typeName: string, quantity: number, price: number }[]
+  // }
+
+  groupByMonthAndType(){
+    let months: any[] = []
+    this.userDepositsGroupedByMonthAndType = []
+    console.log("this.userDepositsGroupedByTypeAndMonth[0].months[0]", this.userDepositsGroupedByTypeAndMonth[0].months[0])
+    this.userDepositsGroupedByTypeAndMonth[0].months.forEach(month => months.push(month.monthName))
+    console.log("months", months)
+    months.forEach(month=>{
+      let x = ""
+      let types:any[]=[]
+      this.userDepositsGroupedByTypeAndMonth.forEach(type=>{
+        let z:any
+        type.months
+          .filter(m=> m.monthName === month)
+          .forEach(month2=>{
+          // @ts-ignore
+          //   this.userDepositsGroupedByMonthAndType.push(month.monthName + " " +type.garbageTypeItalianName + " " + month2.quantity + " " + month2.price)
+           types.push({typeName: type.garbageTypeItalianName, quantity: Math.ceil(month2.quantity*100)/100,price:Math.ceil(month2.price*100)/100})
+            // x = " " +type.garbageTypeItalianName + " " + month2.quantity + " " + month2.price
+        })
+      })
+      this.userDepositsGroupedByMonthAndType.push({
+        month: month,
+        garbageType: types
+      })
+    })
+    console.log("this.userDepositsGroupedByMonthAndType", this.userDepositsGroupedByMonthAndType)
+  }
+
   changeViewPriceQuantity() {
     this.viewPrice = !this.viewPrice
     this.buttonTextViewChart = this.viewPrice ? "Cambia in grafico sulla quantità" : "Cambia in grafico sui prezzi"
     this.updateDataChart()
+  }
+
+  viewWrittenInformation() {
+    this.showWrittenInformation = !this.showWrittenInformation
   }
 }
