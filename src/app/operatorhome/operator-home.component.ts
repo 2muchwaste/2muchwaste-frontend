@@ -1,16 +1,22 @@
 import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core';
-import {User} from "../models/user";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Dumpster} from "../models/dumpster";
+import {Empty} from "../models/empty";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 import {Observable, Subscription} from "rxjs";
-import {UserResponse, UserResponseBuilder} from "../models/userresponse";
+import {UserResponse} from "../models/userresponse";
 import {AppConstants} from "../utils/constants";
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
+import {EmptyService} from "../services/backendcalls/emptyservice";
+import {OperatorService} from "../services/backendcalls/operatorservice"
+import {OperatorInformationService} from "../services/operatorinformationservice";
+import {UserInformationService} from "../services/userinformationservice";
+import {User} from "../models/user";
 import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
+import {LocalStorageService} from "../services/localstorageservice"
 
 
 export interface Coordinates {
@@ -21,31 +27,31 @@ export interface Coordinates {
 }
 
 @Component({
-  selector: 'app-operatorhome',
-  templateUrl: './operatorhome.component.html',
-  styleUrls: ['./operatorhome.component.scss']
+  selector: 'app-operator-home',
+  templateUrl: './operator-home.component.html',
+  styleUrls: ['./operator-home.component.scss']
 })
-export class OperatorhomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
-public dumpsters: Dumpster[] = []
+  public dumpsters: Dumpster[] = []
   public user!: UserResponse
-  public dump!: Dump[]
+  public empty!: Empty[]
   public userObs!: Observable<User>
-  public dumpObs!: Observable<Dump[]>
   private lastUserPosition!: Coordinates
   private map!: L.Map;
   private trashTypeManager
   isButtonsVisible: Boolean = false
   viewMapDumpsters = false
-  showBorderMap = false;
+  showBorderMap = false
 
   constructor(
     private operatorHomeDialog: MatDialog,
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
-    private dumpService: DumpService,
+    private emptyService: EmptyService,
     public userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
+    private lStorageService: LocalStorageService
   ) {
     this.trashTypeManager = new TrashTypeManager()
   }
@@ -57,7 +63,7 @@ public dumpsters: Dumpster[] = []
     if (this.user == null)
       this.setUser()
     // console.log(this.user);
-    this.setDump()
+    this.setEmpty()
     console.log("OnInit operatorhome uscita")
   }
 
@@ -86,10 +92,7 @@ public dumpsters: Dumpster[] = []
       iconUrl: 'assets/icons/user-position-pic.png',
 
       iconSize: [38, 38], // size of the icon
-      // shadowSize: [50, 64], // size of the shadow
       iconAnchor: [19, 19], // point of the icon which will correspond to marker's location
-      // shadowAnchor: [4, 62],  // the same for the shadow
-      // popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
 
     this.userInfoService.nearestDumpsters.forEach(dump => {
@@ -119,24 +122,28 @@ public dumpsters: Dumpster[] = []
     console.log(this.user);
   }
 
-  setDumps() {
+  setEmpty() {
     // @ts-ignore
-    this.dumpService.getDumpFromUser(localStorage.getItem(AppConstants.lSUserID))
+    this.emptyService.getEmptyFromUser(localStorage.getItem(AppConstants.lSUserID))
       .subscribe({
         next: (res) => {
           let lastMonthDate = new Date()
           lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
-          this.dumps = res
-            .map(dump => {
-              dump.date = new Date(dump.date)
-              return dump
+          this.empty = res
+            .map(empty => {
+              empty.date = new Date(empty.date)
+              return empty
             })
-            .filter(dump => dump.date > lastMonthDate)
+            .filter(empty => empty.date > lastMonthDate)
         },
         error: (err) => {
-          console.log(err);
+          console.log(err)
         }
       })
+  }
+
+  emptyGarbage() {
+    this.isButtonsVisible = !this.isButtonsVisible
   }
 
   private setDumpsters(userPosition: Coordinates) {
@@ -148,8 +155,6 @@ public dumpsters: Dumpster[] = []
               next: (res) => {
                 this.userInfoService.setNearestDumpsters(res)
                 this.lastUserPosition = userPosition
-                // setTimeout(() => this.initMap(userPosition), 1000)
-                // setTimeout(() => this.initMap(userPosition), 1000)
               }
             })
           },
@@ -182,7 +187,7 @@ public dumpsters: Dumpster[] = []
 
 
   private openDialog(errorTitle: string, errorMessage: string) {
-    return this.customerHomeDialog.open(CustomerHomeDialogComponent, {
+    return this.operatorHomeDialog.open(OperatorHomeDialogComponent, {
       data: {
         errorTitle: errorTitle,
         errorMessage: errorMessage
@@ -217,15 +222,10 @@ public dumpsters: Dumpster[] = []
     }
   }
 
-  ngOnDestroy(): void {
-    localStorage.setItem('acic', 'bonobo')
-
-  }
-
   getNearDumpsters() {
     if ('geolocation' in navigator) {
       console.log('geolocation present')
-      let nearestDumpstersDialog = this.operatorHomeDialog.open(OperatorHomeThrowGarbageDialogComponent)
+      let nearestDumpstersDialog = this.operatorHomeDialog.open(OperatorHomeEmptyGarbageDialogComponent)
       navigator.geolocation.getCurrentPosition(
         (position: Coordinates) => {
           console.log(position)
@@ -240,9 +240,6 @@ public dumpsters: Dumpster[] = []
               }, 1000)
             }
           })
-          // nearestDumpstersDialog.componentInstance.
-
-          // nearestDumpstersDialog.afterClosed()
         },
         (error: any) => {
           this.positionNotFound(error)
@@ -300,7 +297,6 @@ public dumpsters: Dumpster[] = []
           }))
         })
       })
-      // obs.next(this.userInfoService.setNearestDumpsters(dumpsterAndDistance))
       obs.next(dumpsterAndDistance)
     })
   }
@@ -308,12 +304,12 @@ public dumpsters: Dumpster[] = []
 }
 
 @Component({
-  selector: 'app-operatorhome-throw-garbage-dialog',
-  templateUrl: './operatorhome-throw-garbage-dialog.html',
-  styleUrls: ['./operatorhome.component.scss', './operatorhome-throw-garbage-dialog.scss']
+  selector: 'app-operator-home-empty-garbage-dialog',
+  templateUrl: './operator-home-empty-garbage-dialog.html',
+  styleUrls: ['./operator-home.component.scss', './operator-home-empty-garbage-dialog.scss']
 
 })
-export class OperatorHomeThrowGarbageDialogComponent {
+export class OperatorHomeEmptyGarbageDialogComponent {
   // public dumpsters: {dumpster: Dumpster,distance: number}[]
 
   @Output() showMapEvent = new EventEmitter<boolean>()
@@ -325,34 +321,28 @@ export class OperatorHomeThrowGarbageDialogComponent {
   public lowValue
   public highValue
   public dumpsterForPage = 10
-  // public functionShowMap:()=>{}
-
-  // public distance: number
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
   ) {
-    // this.functionShowMap = injectedData.mapShowFunction
     console.log('here');
-    this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
+    this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe((dumpsters:any) => {
       this.nearestDumpstersSet = true
     })
     this.lowValue = 0
     this.highValue = 10
-    // this.distance = injectedData.distance
   }
 
   showDumpstersOnMap() {
     this.showMap = true
     this.showMapEvent.emit(true)
-    // this.functionShowMap()
   }
 
   getPaginatorData(event: PageEvent) {
-    this.lowValue = event.pageIndex * event.pageSize;
-    this.highValue = this.lowValue + event.pageSize;
-    return event;
+    this.lowValue = event.pageIndex * event.pageSize
+    this.highValue = this.lowValue + event.pageSize
+    return event
   }
 
   movePageDumpsters(number: number) {
@@ -367,9 +357,9 @@ export class OperatorHomeThrowGarbageDialogComponent {
 
 
 @Component({
-  selector: 'app-operatorhome-position-error',
-  templateUrl: './operatorhome-position-error.html',
-  styleUrls: ['./operatorhome-position-error.scss', './operatorhome.component.scss']
+  selector: 'app-operator-home-position-error',
+  templateUrl: './operator-home-position-error.html',
+  styleUrls: ['./operator-home-position-error.scss', './operator-home.component.scss']
 })
 export class OperatorHomeDialogComponent {
 

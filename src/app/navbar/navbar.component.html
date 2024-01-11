@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-* navbar-light bg-light fixed-top" #navbar>
   <div class="container-fluid container-in-nav">
 
-    <a class="navbar-brand navbar-title" routerLink="{{userInfoService.isLogged()? '/customerhome' : '/' }}">2MuchWaste</a>
+    <a class="navbar-brand navbar-title" routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">2MuchWaste</a>
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
             class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
       <mat-icon [matBadge]=notificationNotRead?.length >notifications</mat-icon>

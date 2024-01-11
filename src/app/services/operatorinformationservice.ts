@@ -9,10 +9,10 @@ import {LocalStorageService} from "./localstorageservice"
 @Injectable({
   providedIn: "root"
 })
-export class UserInformationService {
-  private SERVICE_TAG = 'UserInformationService:'
+export class OperatorInformationService {
+  private SERVICE_TAG = 'OperatorInformationService:'
   public user!: UserResponse
-  public userEmptied!: Empty[]
+  public userEmpty!: Empty[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
 
@@ -40,7 +40,7 @@ export class UserInformationService {
     this.logged = false
     this.lStorageService.clearLocalStorage()
     // @ts-ignore
-    this.userEmptied = undefined
+    this.userEmpty = undefined
     // @ts-ignore
     this.user = undefined
     // @ts-ignore

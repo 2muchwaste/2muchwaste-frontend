@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {UserResponse} from "../models/userresponse"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
-import {UserInformationService} from "../services/userinformationservice"
+import {OperatorInformationService} from "../services/operatorinformationservice"
 import {EmptyService} from "../services/backendcalls/emptyservice"
-import {EMpty} from "../models/empty"
+import {Empty} from "../models/empty"
 import {PageEvent} from "@angular/material/paginator"
 import {TrashTypeManager} from "../models/trashtype"
 import {Subscription} from "rxjs"
@@ -17,7 +17,7 @@ import {LocalStorageService} from "../services/localstorageservice"
 export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   public user!: UserResponse
-  userEMptied!: Empty[]
+  userEmpty!: Empty[]
   lowValue: number = 0
   highValue: number = 10
   trashTypesManager: TrashTypeManager = new TrashTypeManager()
@@ -25,31 +25,31 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   constructor(
     private authorizationService: Authorizationservice,
-    private userInfoService: UserInformationService,
+    private operatorInfoService: OperatorInformationService,
     private emptyService: EmptyService,
     private lStorageService: LocalStorageService
   ) {
     this.subscriptionToNewNotification =
-      this.userInfoService.userNewNotificationObservable.subscribe(userResponse => {
-        this.setEmptied()
+      this.operatorInfoService.userNewNotificationObservable.subscribe(userResponse => {
+        this.setEmpty()
       })
   }
 
   ngOnInit(): void {
     console.log('OperatorInformation enter OnInit')
     this.authorizationService.checkAuthDataORRedirect()
-    this.setEmptied()
+    this.setEmpty()
   }
 
   ngOnDestroy(): void {
     this.subscriptionToNewNotification.unsubscribe()
   }
 
-  private setEmptied() {
+  private setEmpty() {
     // @ts-ignore
-    this.emptyService.getEmptiedFromUser(this.lStorageService.getUserID()).subscribe({
+    this.emptyService.getEmptyFromUser(this.lStorageService.getUserID()).subscribe({
       next: res => {
-        this.userEMptied = this.userInfoService.userEmptied
+        this.userEmpty = this.operatorInfoService.userEmpty
           = res.map(empty => {
           empty.date = new Date(empty.date)
           return empty
@@ -59,7 +59,7 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
     })
   }
 
-  public getPaginatorData(event: PageEvent): PageEvent {
+  public getPaginatorData(event: any): any {
     this.lowValue = event.pageIndex * event.pageSize
     this.highValue = this.lowValue + event.pageSize
     return event

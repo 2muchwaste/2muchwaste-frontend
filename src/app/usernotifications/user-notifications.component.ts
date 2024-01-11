@@ -4,6 +4,7 @@ import {UserNotification} from "../models/UserNotification";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {CustomerService} from "../services/backendcalls/customerservice";
+import {OperatorService} from '../services/backendcalls/operatorservice';
 import {UserResponse} from "../models/userresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 
@@ -29,6 +30,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     public userInfoService: UserInformationService,
     private authorizationService: Authorizationservice,
     private customerService: CustomerService,
+    private operatorService: OperatorService,
   ) {
     this.subscriptionToNewNotification = this.userInfoService.userNewNotificationObservable.subscribe(userResponse => {
       this.setNotifications(userResponse);
@@ -81,6 +83,25 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     let notificationToReadNumber = 1
     this.notificationToTickAsRead.forEach(notificationID => {
       this.customerService.readNotification(this.userInfoService.user.cf, notificationID).subscribe({
+        next: (res) => {
+
+          newUser = res
+          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newUser);
+          if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
+            newUser.notifications[newUser.notifications.findIndex(noti => noti._id === notificationID)].read = true
+            console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
+            this.userInfoService.readNotifications(newUser)
+            this.notifications = this.userInfoService.getNotifications()
+          }
+          notificationToReadNumber += 1
+        },
+        error: (err) => {
+
+        }
+      })
+    })
+    this.notificationToTickAsRead.forEach(notificationID => {
+      this.operatorService.readNotification(this.userInfoService.user.cf, notificationID).subscribe({
         next: (res) => {
 
           newUser = res

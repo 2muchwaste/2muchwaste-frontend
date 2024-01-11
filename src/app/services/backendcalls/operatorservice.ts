@@ -5,6 +5,7 @@ import {HttpRequestService} from "./httprequestservice";
 import {User} from "../../models/user";
 import {Observable} from "rxjs";
 import {District} from "../../models/district";
+import {UserResponse} from "../../models/userresponse";
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class OperatorService {
   }
 
   getOperatorByID(operatorID: string) {
-    return this.httpReqService.getRequest<User>(this.backendOperatorURL + operatorID)
+    return this.httpReqService.getRequest<UserResponse>(this.backendOperatorURL + operatorID)
   }
 
   getOperatorDistrictByCF(operatorCF: string) {
@@ -81,8 +82,8 @@ export class OperatorService {
   deleteOperatorByID(operatorID: string) {
     return this.httpReqService.deleteRequest(this.backendOperatorURL + operatorID)
   }
-  
-  
+
+
    getNotificationsFromUser(operatorCF: string) {
     return this.httpReqService.getRequest(this.backendOperatorURL + operatorCF + '/notifications')
   }
@@ -96,6 +97,4 @@ export class OperatorService {
     return this.httpReqService.postRequest(
       this.backendOperatorURL + operatorCF + '/notifications', {text: notification})
   }
-}
-
 }
