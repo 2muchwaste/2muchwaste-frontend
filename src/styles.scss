@@ -7,6 +7,16 @@ body, .mat-paginator-container {
   background-color: #fcfacf;
 }
 
+.bground-btn-dgreen {
+  background-color: #696c43 !important;
+}
+
+// Add dashed border to see which element has focus for accessibility
+*:focus {
+  outline: 3px dashed #a60000!important;
+  outline-offset: 3px!important;
+}
+
 // Color for notification number
 .mat-badge-content {
   background: saddlebrown;
