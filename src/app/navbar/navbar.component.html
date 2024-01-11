@@ -4,7 +4,7 @@
     <a class="navbar-brand navbar-title" routerLink="{{userInfoService.isLogged()? '/customerhome' : '/' }}">2MuchWaste</a>
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
             class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
-      <mat-icon [matBadge]=notificationNotRead?.length>notifications</mat-icon>
+      <mat-icon [matBadge]=notificationNotRead?.length >notifications</mat-icon>
       <mat-menu #beforeMenu="matMenu" xPosition="before">
         <ul class="notifications-list" *ngIf="userInfoService.user">
           <li *ngFor="let notification of (notificationNotRead| slice : 0 : 10)" class="notification-list-item">
@@ -23,10 +23,10 @@
         </ul>
       </mat-menu>
     </button>
-    <button #navbarbutton class="navbar-toggler" type="button" data-bs-toggle="collapse"
+    <button #navbarbutton class="navbar-toggler navbar-toggler-icon" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Espandi navbar">
+
     </button>
     <div class="collapse navbar-collapse" #collapsablePartNavbar id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-navbar" aria-label="link presenti nella navbar">
