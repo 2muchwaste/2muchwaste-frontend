@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-* navbar-light bg-light fixed-top" #navbar>
   <div class="container-fluid container-in-nav">
 
-    <a class="navbar-brand navbar-title" routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">2MuchWaste</a>
+    <a class="navbar-brand navbar-title" routerLink="{{user && user.role === 'customer' ? '/customerhome' : '/operatorhome' }}">2MuchWaste</a>
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
             class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
       <mat-icon [matBadge]=notificationNotRead?.length >notifications</mat-icon>
@@ -34,13 +34,13 @@
 
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">Home</a>
+               routerLink="{{user && user.role === 'customer' ? '/customerhome' : '/operatorhome' }}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome'}}">Dati personali</a>
+               routerLink='/userinformation'>Dati personali</a>
           </li>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === 'customer'">
+          <ng-container *ngIf="user && user.role === 'customer'">
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink='/depositsinformation'>Elenco depositi</a>
@@ -54,7 +54,7 @@
                routerLink='/paymentstatus'>Pagamenti</a>
           </li>
           </ng-container>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === 'operator'">
+          <ng-container *ngIf="user && user.role === 'operator'">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/emptyinformation'>Elenco svuotamenti</a>
