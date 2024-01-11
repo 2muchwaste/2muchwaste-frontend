@@ -34,7 +34,7 @@
 
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink='/customerhome'>Home</a>
+            routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"

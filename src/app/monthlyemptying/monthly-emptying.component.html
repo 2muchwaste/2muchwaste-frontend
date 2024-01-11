@@ -1,19 +1,37 @@
-<div #monthlyCostContainer>
-  <div id="chartContainer" style="height: 370px; width: 100%; margin:auto;"></div>
+<div #monthlyEmptyingContainer>
+  <div id="chartContainer" style="height: 370px; width: 100%; margin:auto;"
+       aria-label="Grafico degli svuotamenti"></div>>
   <div class="row">
     <div class="col-12">
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <button class="col-12" mat-raised-button color="primary" (click)="previousMonth()">
+      <button class="col-12 bground-btn-dgreen" mat-raised-button color="primary" (click)="previousMonth()">
         Mese Precedente
       </button>
     </div>
     <div class="col-md-6">
-      <button class="col-12" mat-raised-button color="primary" (click)="nextMonth()">
+      <button class="col-12 bground-btn-dgreen" mat-raised-button color="primary" (click)="nextMonth()">
         Mese Successivo
       </button>
+    </div>
+  </div>
+  <div class="row trash-information-written" *ngIf="showWrittenInformation">
+    <div class="col-12">
+      <div class="row trash-information-single" *ngFor="let month of userEmptyGroupedByMonthAndType">
+        <div class="col-12 month-name">
+          {{month.month}}
+        </div>
+        <div class="row trash-type-information" *ngFor="let type of month.garbageType">
+          <div class="col-6 trash-type">
+            {{type.typeName}}:
+          </div>
+          <div class="col-3 trash-quantity">
+            {{type.quantity.toFixed(2)}}Kg
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

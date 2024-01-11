@@ -57,6 +57,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     let operatorIDStored = this.lStorageService.getUserID()
     // let userIDStored = this.userInfoService.user._id
     if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
+    if (operatorIDStored && !this.userInfoService.user) this.restoreOperator(operatorIDStored)
   }
 
   ngAfterViewInit() {
@@ -76,8 +77,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(err)
       }
     })
-
-if (operatorIDStored) {
+  }
+  private restoreOperator(operatorIDStored: string) {
     this.operatorService.getOperatorByID(operatorIDStored).subscribe({
         next: (operatorResponse) => {
           console.log(this.CLASS_TAG, " Inizio collegamento socket")
@@ -92,7 +93,7 @@ if (operatorIDStored) {
         }
       })
     }
- }
+ 
 
   private initializeUserAfterLogin(userResponse: UserResponse) {    this.lStorageService.setUserID(userResponse._id)
     this.lStorageService.setUserObject(userResponse)

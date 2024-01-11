@@ -63,7 +63,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     if (this.user == null)
       this.setUser()
     // console.log(this.user);
-    this.setEmpty()
+    // this.setEmpty()
     console.log("OnInit operatorhome uscita")
   }
 
@@ -124,7 +124,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   setEmpty() {
     // @ts-ignore
-    this.emptyService.getEmptyFromUser(localStorage.getItem(AppConstants.lSUserID))
+    this.emptyService.getEmptyFromUser(sessionStorage.getItem(AppConstants.lSUserID))
       .subscribe({
         next: (res) => {
           let lastMonthDate = new Date()

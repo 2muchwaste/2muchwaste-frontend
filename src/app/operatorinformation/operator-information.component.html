@@ -2,12 +2,9 @@
     <div class="col operatorempty-col">
       <div class="d-none d-md-block">
         <div class="row table-row-headers list-item-headers">
-          <div class="col-4 date-header data-header">DATA <i class="fa fa-calendar"
-                                                             style="color: rgba(80,80,80,.8)"></i></div>
-          <div class="col-3 type-header data-header">TIPO <i class="fa fa-recycle"
-                                                             style="color: rgba(80,80,80,.8)"></i></div>
-        </div>
-          <div class="col-2 quantity-header data-header">PESO <span style="color: rgba(80,80,80,.8)">Kg</span>
+          <div class="col-4 date-header data-header">DATA</div>
+          <div class="col-3 type-header data-header">TIPO</div>
+          <div class="col-2 quantity-header data-header">PESO</div>
         </div>
       </div>
       <ng-container *ngFor="let empty of (userEmpty | slice: lowValue : highValue)">

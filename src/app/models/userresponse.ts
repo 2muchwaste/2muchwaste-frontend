@@ -28,6 +28,7 @@ export class UserResponseBuilder {
   private _id: string = "";
   private __t: string = "";
   private notifications: [] = [];
+  private empties: [] = [];
   private __v: number = 0;
   private user: User = new UserBuilder().build()
 
@@ -43,6 +44,11 @@ export class UserResponseBuilder {
 
   setNotifications(notifications: []): UserResponseBuilder {
     this.notifications = notifications;
+    return this;
+  }
+
+  setEmpties(empties: []): UserResponseBuilder {
+    this.empties = empties;
     return this;
   }
 

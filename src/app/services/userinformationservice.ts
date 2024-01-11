@@ -7,6 +7,8 @@ import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
 import {Payment} from "../models/payment"
 import {LocalStorageService} from "./localstorageservice"
+import { OperatorService } from "./backendcalls/operatorservice"
+
 
 @Injectable({
   providedIn: "root"
@@ -36,7 +38,8 @@ export class UserInformationService {
   newNearestDumpsterObservable = this.newNearestDumpster.asObservable()
 
   constructor(
-    private lStorageService: LocalStorageService
+    private lStorageService: LocalStorageService,
+    private operatorService: OperatorService
   ) {
   }
 
@@ -58,8 +61,10 @@ export class UserInformationService {
   public login(userResponse: UserResponse, userToken: string) {
     this.lStorageService.setUserToken(userToken)
     this.lStorageService.setUserID(userResponse._id)
+    console.log(userResponse)
     this.lStorageService.setUserObject(userResponse)
     console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse)
+    userResponse.notifications = []
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
     this.logged = true
@@ -82,6 +87,7 @@ export class UserInformationService {
   }
 
   private getSortedNotificationsByData(userNotifications: UserNotification[]) {
+    
     return userNotifications
       .map(noti => {
         noti.date = new Date(noti.date)
