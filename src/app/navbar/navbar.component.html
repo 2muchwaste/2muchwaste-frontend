@@ -2,7 +2,12 @@
   <div class="container-fluid container-in-nav">
 
 
-    <a class="navbar-brand navbar-title" routerLink="{{userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' : '/operatorhome' }}">2MuchWaste</a>
+    <a class="navbar-brand navbar-title"
+       routerLink="{{
+       !userInfoService.user ? '/' :
+       userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' :
+       userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :
+       '/'}}">2MuchWaste</a>
 
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
             class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
@@ -43,7 +48,7 @@
                }}">Home</a>
           </li>
           <li class="nav-item">
-<!--            Ho messo un unico link perché potremmo utilizzare la stessa pagina ma modificarne il contenuto con gli ng if-->
+            <!--            Ho messo un unico link perché potremmo utilizzare la stessa pagina ma modificarne il contenuto con gli ng if-->
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink="/userinformation">Dati personali</a>
           </li>
