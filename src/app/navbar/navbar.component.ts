@@ -15,6 +15,7 @@ import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
+import {WebsiteRole} from "../models/role";
 
 @Component({
   selector: 'app-navbar',
@@ -29,6 +30,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscriptionUserReadNotification: Subscription
   public isLogged = false
   private subscriptionUser: Subscription
+  readonly WebsiteRole = WebsiteRole
   @ViewChild('navbarbutton') navbarButton!: ElementRef<HTMLElement>
   @ViewChild('collapsablePartNavbar') collapsableNavbar!: ElementRef
 
@@ -57,8 +59,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     let userIDStored = this.lStorageService.getUserID()
     let operatorIDStored = this.lStorageService.getUserID()
     // let userIDStored = this.userInfoService.user._id
-    if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
-    if (operatorIDStored && !this.userInfoService.user) this.restoreOperator(operatorIDStored)
+    if (userIDStored && !this.userInfoService.user && this.lStorageService.getUserRole() === WebsiteRole.CUSTOMER) this.restoreUser(userIDStored)
+    else if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRole() === WebsiteRole.OPERATOR) this.restoreOperator(operatorIDStored)
   }
 
   ngAfterViewInit() {
@@ -81,19 +83,19 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   private restoreOperator(operatorIDStored: string) {
     this.operatorService.getOperatorByID(operatorIDStored).subscribe({
-        next: (operatorResponse) => {
-          console.log(this.CLASS_TAG, " Inizio collegamento socket")
-          console.log(this.CLASS_TAG, " operatorResponse",operatorResponse)
-          this.initializeSocketNotifications(operatorResponse)
-          this.operatorInfoService.setUser(operatorResponse)
-          this.notificationNotRead = this.userInfoService.getNotReadNotifications()
-          this.isLogged = true
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      })
-    }
+      next: (operatorResponse) => {
+        console.log(this.CLASS_TAG, " Inizio collegamento socket")
+        console.log(this.CLASS_TAG, " operatorResponse",operatorResponse)
+        this.initializeSocketNotifications(operatorResponse)
+        this.operatorInfoService.setUser(operatorResponse)
+        this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+        this.isLogged = true
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
 
 
   private initializeUserAfterLogin(userResponse: UserResponse) { this.lStorageService.setUserID(userResponse._id)
@@ -133,4 +135,5 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
       this.performBurgerButtonClick()
     }
   }
+
 }

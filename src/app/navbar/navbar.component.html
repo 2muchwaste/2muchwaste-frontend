@@ -1,10 +1,11 @@
 <nav class="navbar navbar-expand-* navbar-light bg-light fixed-top" #navbar>
   <div class="container-fluid container-in-nav">
 
-    <a class="navbar-brand navbar-title" routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">2MuchWaste</a>
+    <a class="navbar-brand navbar-title"
+       routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">2MuchWaste</a>
     <button mat-raised-button [matMenuTriggerFor]="beforeMenu" *ngIf="userInfoService.user"
             class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
-      <mat-icon [matBadge]=notificationNotRead?.length >notifications</mat-icon>
+      <mat-icon [matBadge]=notificationNotRead?.length>notifications</mat-icon>
       <mat-menu #beforeMenu="matMenu" xPosition="before">
         <ul class="notifications-list" *ngIf="userInfoService.user">
           <li *ngFor="let notification of (notificationNotRead| slice : 0 : 10)" class="notification-list-item">
@@ -34,25 +35,30 @@
 
           <li class="nav-item">
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome' }}">Home</a>
+               routerLink="{{
+                 userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' :
+                 userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :
+                 '#'
+               }}">Home</a>
           </li>
           <li class="nav-item">
+<!--            Ho messo un unico link perché potremmo utilizzare la stessa pagina ma modificarne il contenuto con gli ng if-->
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink="{{userInfoService.isLogged()? '/customerhome' : '/operatorhome'}}">Dati personali</a>
+               routerLink="/userinformation">Dati personali</a>
           </li>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === 'customer'">
-          <li class="nav-item">
-            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink='/depositsinformation'>Elenco depositi</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink='/monthlycost'>Grafico dei depositi</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-               routerLink='/paymentstatus'>Pagamenti</a>
-          </li>
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.CUSTOMER">
+            <li class="nav-item">
+              <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+                 routerLink='/depositsinformation'>Elenco depositi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+                 routerLink='/monthlycost'>Grafico dei depositi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+                 routerLink='/paymentstatus'>Pagamenti</a>
+            </li>
           </ng-container>
           <ng-container *ngIf="userInfoService.user && userInfoService.user.role === 'operator'">
             <li class="nav-item">
