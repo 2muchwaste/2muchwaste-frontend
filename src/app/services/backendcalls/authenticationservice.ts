@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HttpRequestService} from "./httprequestservice";
 import {AppConstants} from "../../utils/constants";
-import {InvalidRoleError, WebsiteRole} from "../../models/role";
+import {InvalidRoleError, WebsiteRole, WebSiteRoleHelper} from "../../models/role";
 import {User} from "../../models/user";
-import {SigninResponse} from "../../models/signinresponse";
+import {SignInResponse} from "../../models/signInResponse";
 import {UserResponse} from "../../models/userresponse";
 
 
@@ -19,22 +19,23 @@ export class AuthenticationService {
 
   signup(user: User, role: WebsiteRole) {
     return this.httpReqService.postRequest(
-      this.authenticationBackendURL + role + '/signup',
+      this.authenticationBackendURL + WebSiteRoleHelper.getNameRole(role) + '/signup',
       user
     )
   }
 
   signin(email: string, password: string, role: WebsiteRole) {
-    return this.httpReqService.postRequest<SigninResponse>(
-      this.authenticationBackendURL + role + '/signin',
+    return this.httpReqService.postRequest<SignInResponse>(
+      this.authenticationBackendURL + WebSiteRoleHelper.getNameRole(role) + '/signin',
       {email: email, password: password}
     )
   }
 
   signout(role: WebsiteRole) {
     return this.httpReqService.postRequest(
-      this.authenticationBackendURL + role + '/signout',
+      this.authenticationBackendURL + WebSiteRoleHelper.getNameRole(role) + '/signout',
       {}
     )
   }
+
 }
