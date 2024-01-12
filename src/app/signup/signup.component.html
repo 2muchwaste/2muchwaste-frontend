@@ -103,9 +103,9 @@
         <mat-form-field class="col-12">
           <mat-label>Ruolo</mat-label>
           <mat-select [formControl]="roleFormControl">
-            <mat-option value="admin">Admin</mat-option>
-            <mat-option value="customer">Cliente</mat-option>
-            <mat-option value="operator">Operatore</mat-option>
+            <mat-option value="{{this.WebsiteRole.ADMIN}}">Admin</mat-option>
+            <mat-option value="{{this.WebsiteRole.CUSTOMER}}">Cliente</mat-option>
+            <mat-option value="{{this.WebsiteRole.OPERATOR}}">Operatore</mat-option>
           </mat-select>
           <mat-error *ngIf="roleFormControl.hasError('required')">
             Il ruolo è <strong>richiesto</strong>

@@ -13,11 +13,14 @@ import {UserResponse} from "../../models/userresponse";
 export class AuthenticationService {
 
   private authenticationBackendURL = AppConstants.serverURL + AppConstants.versionBackend + "auth/"
+  private CLASS_TAG = "AuthenticationService";
 
   constructor(private httpReqService: HttpRequestService) {
   }
 
   signup(user: User, role: WebsiteRole) {
+    user.role = WebSiteRoleHelper.getNameRole(role)
+    console.log(this.CLASS_TAG + ": user", user)
     return this.httpReqService.postRequest(
       this.authenticationBackendURL + WebSiteRoleHelper.getNameRole(role) + '/signup',
       user

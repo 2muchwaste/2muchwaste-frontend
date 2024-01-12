@@ -20,6 +20,7 @@ import {LocalStorageService} from "../services/localstorageservice";
 
 export class SignupComponent implements OnInit {
 
+  readonly WebsiteRole = WebsiteRole
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
