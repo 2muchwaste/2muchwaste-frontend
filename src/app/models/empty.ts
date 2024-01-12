@@ -10,3 +10,8 @@ export class Empty {
   ) {
   }
 }
+
+export enum EmptyStatus {
+  PENDING = 'pending',
+  COMPLETE = 'complete',
+}

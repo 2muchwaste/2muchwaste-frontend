@@ -60,7 +60,7 @@ export class MonthlyEmptyingComponent implements OnInit {
     private lStorageService: LocalStorageService
   ) {
     console.log('Monthlycost constuctor')
-    console.log(this.operatorInfoService)
+    console.log(this.userInfoService)
     this.userEmptyGroupedByMonthAndType = []
     this.buttonTextViewChart = "Cambia in grafico sulla quantità"
   }
@@ -123,7 +123,7 @@ export class MonthlyEmptyingComponent implements OnInit {
   private setUser() {
     // @ts-ignore
     this.operatorService.getOperatorByID(this.lStorageService.getUserID()).subscribe({
-      next: (res) => this.user = this.operatorInfoService.user = res,
+      next: (res) => this.user = this.userInfoService.user = res,
       error: err => console.log(err)
     })
   }

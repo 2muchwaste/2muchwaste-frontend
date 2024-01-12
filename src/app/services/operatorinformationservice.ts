@@ -53,8 +53,10 @@ export class OperatorInformationService {
   public login(userResponse: UserResponse, userToken: string) {
     this.lStorageService.setUserToken(userToken)
     this.lStorageService.setUserID(userResponse._id)
+    console.log(userResponse)
     this.lStorageService.setUserObject(userResponse)
     console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse)
+    userResponse.notifications = []
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
     this.logged = true

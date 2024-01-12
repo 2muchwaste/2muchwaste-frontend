@@ -68,7 +68,6 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     console.log("OnInit operatorhome uscita")
   }
 
-
   ngAfterViewInit() {
   }
 
