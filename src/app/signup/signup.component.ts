@@ -21,6 +21,7 @@ import {LocalStorageService} from "../services/localstorageservice";
 export class SignupComponent implements OnInit {
 
   readonly WebsiteRole = WebsiteRole
+
   constructor(
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -76,7 +77,7 @@ export class SignupComponent implements OnInit {
       .setSurname(this.surnameFormControl.value)
       .setBirthday(
         this.birthdayFormControl.value.getFullYear() + '-'
-        + (this.birthdayFormControl.value.getMonth()+1) + '-'
+        + (this.birthdayFormControl.value.getMonth() + 1) + '-'
         + this.birthdayFormControl.value.getDate()
       )
       .setCF(this.CFFormControl.value)
@@ -115,28 +116,28 @@ export class SignupComponent implements OnInit {
     ).subscribe({
       next: (signinResponse) => {
         this.lStorageService.setUserToken(signinResponse.token)
-        if (this.roleFormControl.value === 'customer') {
-        this.customerService.getCustomerByID(signinResponse.id).subscribe({
-          next: (userResponse) => {
-            this.userInfoService.login(userResponse, signinResponse.token)
-            this.router.navigate(['/customerhome'])
-          },
-          error: (err) => {
-            this.dialog.open(SigninErrorDialogComponent)
-          }
-        })
-      } else if (this.roleFormControl.value === 'operator') {
-        this.operatorService.getOperatorByID(signinResponse.id).subscribe({
-          next: (userResponse) => {
-            this.userInfoService.login(userResponse, signinResponse.token)
-            this.router.navigate(['/operatorhome'])
-        },
-        error: (err) => {
-          this.dialog.open(SigninErrorDialogComponent)
+        if (this.roleFormControl.value === WebsiteRole.CUSTOMER) {
+          this.customerService.getCustomerByID(signinResponse.id).subscribe({
+            next: (userResponse) => {
+              this.userInfoService.login(userResponse, signinResponse.token)
+              this.router.navigate(['/customerhome'])
+            },
+            error: (err) => {
+              this.dialog.open(SigninErrorDialogComponent)
+            }
+          })
+        } else if (this.roleFormControl.value === WebsiteRole.OPERATOR) {
+          this.operatorService.getOperatorByID(signinResponse.id).subscribe({
+            next: (userResponse) => {
+              this.userInfoService.login(userResponse, signinResponse.token)
+              this.router.navigate(['/operatorhome'])
+            },
+            error: (err) => {
+              this.dialog.open(SigninErrorDialogComponent)
+            }
+          })
         }
-      })
-    }
-  },
+      },
       error: (err) => {
         this.dialog.open(SignupErrorDialogComponent, {
           data: {
