@@ -47,14 +47,14 @@ export class SignInComponent implements OnInit {
   ) {
     this.loginObservable = this.userInfoService.userSetObservable.subscribe({
       next: (res) => {
-        if (res && res.role === 'customer') {
-        this.router.navigate(['/customerhome'])
-      } else if (res && res.role === 'operator') {
-        this.router.navigate(['/operatorhome']);
+        if (res && res.role === WebsiteRole.CUSTOMER) {
+          this.router.navigate(['/customerhome'])
+        } else if (res && res.role === WebsiteRole.OPERATOR) {
+          this.router.navigate(['/operatorhome']);
+        }
       }
-    }
-  })
-}
+    })
+  }
 
   ngOnInit() {
   }
@@ -86,27 +86,26 @@ export class SignInComponent implements OnInit {
           console.log(signinResponse)
           this.lStorageService.setUserToken(signinResponse.token)
           this.lStorageService.setUserRole(role)
-          if(role===WebsiteRole.CUSTOMER){
-          this.customerService.getCustomerByID(signinResponse.id).subscribe({
-            next: (userResponse) => {
-              this.userInfoService.login(userResponse, signinResponse.token)
-              this.router.navigate(['/customerhome'])
-            },
-            error: (err) => {
-              this.dialog.open(SigninErrorDialogComponent)
-            }
-          })
-          }
-          else if(role===WebsiteRole.OPERATOR) {
-           this.operatorService.getOperatorByID(signinResponse.id).subscribe({
-                      next: (userResponse) => {
-                        this.userInfoService.login(userResponse, signinResponse.token)
-                        this.router.navigate(['/operatorhome'])
-                      },
-                      error: (err) => {
-                        this.dialog.open(SigninErrorDialogComponent)
-                      }
-                    })
+          if (role === WebsiteRole.CUSTOMER) {
+            this.customerService.getCustomerByID(signinResponse.id).subscribe({
+              next: (userResponse) => {
+                this.userInfoService.login(userResponse, signinResponse.token)
+                this.router.navigate(['/customerhome'])
+              },
+              error: (err) => {
+                this.dialog.open(SigninErrorDialogComponent)
+              }
+            })
+          } else if (role === WebsiteRole.OPERATOR) {
+            this.operatorService.getOperatorByID(signinResponse.id).subscribe({
+              next: (userResponse) => {
+                this.userInfoService.login(userResponse, signinResponse.token)
+                this.router.navigate(['/operatorhome'])
+              },
+              error: (err) => {
+                this.dialog.open(SigninErrorDialogComponent)
+              }
+            })
           }
         },
         error: (err) => {
