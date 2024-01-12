@@ -59,10 +59,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.lStorageService.getUserObject())
     const role = this.lStorageService.getUserObject().role
     console.log(role)
-    if (role === 'customer') {
+    if (role === WebsiteRole.CUSTOMER) {
       let userIDStored = this.lStorageService.getUserID()
       if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
-    } else if (role === 'operator') {
+    } else if (role === WebsiteRole.OPERATOR) {
       let operatorIDStored = this.lStorageService.getUserID()
       // let userIDStored = this.userInfoService.user._id
       if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRole() === WebsiteRole.OPERATOR) this.restoreOperator(operatorIDStored)
