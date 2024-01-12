@@ -22,6 +22,8 @@ import {LocalStorageService} from "../services/localstorageservice"
 })
 export class SignInComponent implements OnInit {
 
+  readonly WebsiteRole = WebsiteRole;
+  private CLASS_TAG = 'SignInComponent'
   emailFormControl = new FormControl('', [Validators.required, Validators.email])
   passwordFormControl = new FormControl('', [Validators.required])
   roleFormControl = new FormControl('', [Validators.required])
@@ -83,6 +85,7 @@ export class SignInComponent implements OnInit {
         next: (signinResponse) => {
           console.log(signinResponse)
           this.lStorageService.setUserToken(signinResponse.token)
+          this.lStorageService.setUserRole(role)
           if(role===WebsiteRole.CUSTOMER){
           this.customerService.getCustomerByID(signinResponse.id).subscribe({
             next: (userResponse) => {
