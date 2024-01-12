@@ -26,6 +26,7 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   constructor(
     private authorizationService: Authorizationservice,
+    private userInfoService: UserInformationService,
     private operatorInfoService: OperatorInformationService,
     private emptyService: EmptyService,
     private lStorageService: LocalStorageService

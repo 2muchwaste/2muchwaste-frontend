@@ -61,10 +61,10 @@
                  routerLink='/paymentstatus'>Pagamenti</a>
             </li>
           </ng-container>
-          <ng-container *ngIf="user && user.role === 'operator'">
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.OPERATOR">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
-                 routerLink='/emptyinformation'>Elenco svuotamenti</a>
+                 routerLink='/operatorinformation'>Elenco svuotamenti</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"

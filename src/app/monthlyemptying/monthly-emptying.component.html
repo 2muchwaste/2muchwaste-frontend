@@ -17,6 +17,13 @@
       </button>
     </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="col-12 bground-btn-dgreen" mat-raised-button color="primary" (click)="viewWrittenInformation()">
+        {{ !showWrittenInformation ? "Visualizza dati sotto forma scritta" : "Visualizza solo il grafico"}}
+      </button>
+    </div>
+  </div>
   <div class="row trash-information-written" *ngIf="showWrittenInformation">
     <div class="col-12">
       <div class="row trash-information-single" *ngFor="let month of userEmptyGroupedByMonthAndType">
