@@ -75,14 +75,14 @@ export class MonthlyEmptyingComponent implements OnInit {
     this.setEmpty()
   }
 
-  private getSlicedEmpty(emptys: Empty[], fromMonth?: number, exlNLastMonths?: number) {
+  private getSlicedEmpty(operators: Empty[], fromMonth?: number, exlNLastMonths?: number) {
     let date = new Date(), y = date.getFullYear(), m = date.getMonth()
     let firstDay = new Date(y, m, 1)
     let lastDay = new Date(y, m + 1, 1)
 
     firstDay.setMonth(firstDay.getMonth() - (fromMonth || 0))
     lastDay.setMonth(lastDay.getMonth() - (exlNLastMonths || 0))
-    return emptys
+    return operators
       .filter(empty => empty.date >= firstDay)
       .filter(empty => empty.date < lastDay)
   }
@@ -135,8 +135,8 @@ export class MonthlyEmptyingComponent implements OnInit {
   }
 
 
-  getMonthlyEmptyByType(emptys: Empty[], fromMonth: number, exlNLastMonths: number) {
-    let emptyLimited = this.getSlicedEmpty(emptys, fromMonth, exlNLastMonths)
+  getMonthlyEmptyByType(operators: Empty[], fromMonth: number, exlNLastMonths: number) {
+    let emptyLimited = this.getSlicedEmpty(operators, fromMonth, exlNLastMonths)
 
     let types = emptyLimited
       .map(empty => empty.type)
@@ -273,13 +273,13 @@ export class MonthlyEmptyingComponent implements OnInit {
   private setEmpty() {
 
     // @ts-ignore
-    this.emptyService.getEmptyFromUser(this.lStorageService.getUserID()).subscribe({
+    this.operatorService.getOperatorEmptiesByCF(this.lStorageService.getUserID()).subscribe({
       next: res => {
-        let emptys = res.map(empty => {
+        let operators = res.map(empty => {
           empty.date = new Date(empty.date)
           return empty
         })
-        this.userEmpty = this.operatorInfoService.userEmpty = emptys
+        this.userEmpty = this.operatorInfoService.userEmpty = operators
         this.monthEmpty = this.userEmpty.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
         this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
         this.updateDataChart()

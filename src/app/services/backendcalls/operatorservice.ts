@@ -47,7 +47,7 @@ export class OperatorService {
     (this.backendOperatorURL + operatorCF + '/districts');
   }
 
-  getOperatorEmptiesByCF(operatorCF: string) {
+  getOperatorEmptiesByCF(operatorCF: string){
     return new Observable(obs => {
       this.httpReqService.getRequest<{
         empties: {date:Date,dumpsterID:string,_id:string}[]

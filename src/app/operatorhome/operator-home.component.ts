@@ -35,7 +35,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   public dumpsters: Dumpster[] = []
   public user!: UserResponse
-  public emptys!: Empty[]
+  public operators!: Empty[]
   public userObs!: Observable<User>
   private lastUserPosition!: Coordinates
   private map!: L.Map;
@@ -124,12 +124,12 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   setEmpty() {
     // @ts-ignore
-    this.emptyService.getEmptyFromUser(this.lStorageService.getUserID())
+    this.operatorService.getOperatorEmptiesByCF(this.lStorageService.getUserID())
       .subscribe({
         next: (res) => {
           let lastMonthDate = new Date()
           lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
-          this.emptys = res
+          this.operators = res
             .map(empty => {
               empty.date = new Date(empty.date)
               return empty
