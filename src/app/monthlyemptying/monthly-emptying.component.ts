@@ -75,14 +75,14 @@ export class MonthlyEmptyingComponent implements OnInit {
     this.setEmpty()
   }
 
-  private getSlicedEmpty(empty: Empty[], fromMonth?: number, exlNLastMonths?: number) {
+  private getSlicedEmpty(emptys: Empty[], fromMonth?: number, exlNLastMonths?: number) {
     let date = new Date(), y = date.getFullYear(), m = date.getMonth()
     let firstDay = new Date(y, m, 1)
     let lastDay = new Date(y, m + 1, 1)
 
     firstDay.setMonth(firstDay.getMonth() - (fromMonth || 0))
     lastDay.setMonth(lastDay.getMonth() - (exlNLastMonths || 0))
-    return empty
+    return emptys
       .filter(empty => empty.date >= firstDay)
       .filter(empty => empty.date < lastDay)
   }
@@ -135,8 +135,8 @@ export class MonthlyEmptyingComponent implements OnInit {
   }
 
 
-  getMonthlyEmptyByType(empty: Empty[], fromMonth: number, exlNLastMonths: number) {
-    let emptyLimited = this.getSlicedEmpty(empty, fromMonth, exlNLastMonths)
+  getMonthlyEmptyByType(emptys: Empty[], fromMonth: number, exlNLastMonths: number) {
+    let emptyLimited = this.getSlicedEmpty(emptys, fromMonth, exlNLastMonths)
 
     let types = emptyLimited
       .map(empty => empty.type)
@@ -275,11 +275,11 @@ export class MonthlyEmptyingComponent implements OnInit {
     // @ts-ignore
     this.emptyService.getEmptyFromUser(this.lStorageService.getUserID()).subscribe({
       next: res => {
-        let empty = res.map(empty => {
+        let emptys = res.map(empty => {
           empty.date = new Date(empty.date)
           return empty
         })
-        this.userEmpty = this.operatorInfoService.userEmpty = empty
+        this.userEmpty = this.operatorInfoService.userEmpty = emptys
         this.monthEmpty = this.userEmpty.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
         this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
         this.updateDataChart()

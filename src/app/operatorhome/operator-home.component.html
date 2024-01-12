@@ -1,10 +1,10 @@
-<div class="container" *ngIf="user && empty">
+<div class="container" *ngIf="user && emptys">
   <div class="row">
     <h1 class="col-12">Bentornato {{user.name}}</h1>
   </div>
   <div class="row">
     <p class="col-9">Cassonetti svuotati questo mese:</p>
-    <p class="col-3 empty-monthly-col">{{empty.length}}</p>
+    <p class="col-3 emptys-monthly-col">{{emptys.length}}</p>
   </div>
   <ng-container *ngIf="isButtonsVisible">
     <div class="maps-button-description appearbutton">
