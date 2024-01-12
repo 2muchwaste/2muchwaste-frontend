@@ -1,7 +1,7 @@
 export enum WebsiteRole {
-  CUSTOMER = 'customer',
-  OPERATOR = 'operator',
-  ADMIN = 'admin'
+  CUSTOMER = '64f9b828b41dd3d66ae73efa',
+  OPERATOR = '64f9b828b41dd3d66ae73efb',
+  ADMIN = '64f9b828b41dd3d66ae73efc'
 }
 
 export class InvalidRoleError extends Error {
@@ -12,6 +12,20 @@ export class InvalidRoleError extends Error {
 }
 
 export class WebSiteRoleHelper {
+
+  static getNameRole(role: WebsiteRole): string {
+    switch (role) {
+      case WebsiteRole.CUSTOMER:
+        return 'customer'
+      case WebsiteRole.OPERATOR:
+        return 'operator'
+      case WebsiteRole.ADMIN:
+        return 'admin'
+      default:
+        throw new InvalidRoleError(role)
+
+    }
+  }
 
   static getRoleByName(roleName: string): WebsiteRole {
     const normalizedRoleName = roleName.trim().toLowerCase();
