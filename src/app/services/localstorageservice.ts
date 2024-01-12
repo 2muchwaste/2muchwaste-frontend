@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core'
 import {AppConstants} from "../utils/constants"
+import {WebsiteRole} from "../models/role";
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,14 @@ export class LocalStorageService {
 
   getUserToken(): string | null {
     return localStorage.getItem(this.USER_TOKEN_KEY)
+  }
+
+  setUserRole(userRole: WebsiteRole) {
+    localStorage.setItem(this.USER_ROLE, userRole)
+  }
+
+  getUserRole() {
+    return localStorage.getItem(this.USER_ROLE)
   }
 
   setUserObject(userObject: any): void {
