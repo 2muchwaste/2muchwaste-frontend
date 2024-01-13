@@ -51,7 +51,7 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
     // @ts-ignore
     this.emptyService.getEmptyFromUser(this.lStorageService.getUserID()).subscribe({
       next: res => {
-        this.userEmpty = this.userInfoService.userEmpty
+        this.userEmpty = this.userInfoService.userEmpties
           = res.map(empty => {
           empty.date = new Date(empty.date)
           return empty
