@@ -98,7 +98,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatDividerModule,
     MatIconModule,
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]

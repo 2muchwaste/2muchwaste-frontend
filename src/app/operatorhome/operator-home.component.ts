@@ -18,7 +18,6 @@ import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
 import {LocalStorageService} from "../services/localstorageservice"
 
-
 export interface Coordinates {
   coords: {
     latitude: number,
@@ -35,7 +34,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   public dumpsters: Dumpster[] = []
   public user!: UserResponse
-  public operators!: Empty[]
+  public empties!: Empty[]
   public userObs!: Observable<User>
   private lastUserPosition!: Coordinates
   private map!: L.Map;
@@ -43,13 +42,14 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   isButtonsVisible: Boolean = false
   viewMapDumpsters = false
   showBorderMap = false
+  private CLASS_TAG = "OperatorHomeComponent"
 
   constructor(
     private operatorHomeDialog: MatDialog,
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
-    public operatorInfoService : OperatorInformationService,
+    public operatorInfoService: OperatorInformationService,
     public userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
     private lStorageService: LocalStorageService
@@ -63,8 +63,9 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     this.user = this.userInfoService.user
     if (this.user == null)
       this.setUser()
+    // @ts-ignore
+    this.setEmpties()
     // console.log(this.user);
-     this.setEmpty()
     console.log("OnInit operatorhome uscita")
   }
 
@@ -117,29 +118,37 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     this.showBorderMap = true
   }
 
-
   printUser() {
     console.log(this.user);
   }
 
-  setEmpty() {
+  setEmpties() {
     // @ts-ignore
-    this.operatorService.getOperatorEmptiesByCF(this.lStorageService.getUserID())
-      .subscribe({
-        next: (res) => {
-          let lastMonthDate = new Date()
-          lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
-          this.operators = res
-            .map(empty => {
-              empty.date = new Date(empty.date)
-              return empty
-            })
-            .filter(empty => empty.date > lastMonthDate)
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      })
+    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
+      next: (res) => {
+        console.log(this.CLASS_TAG + ": res", res)
+        this.userInfoService.userEmpties = this.empties = []
+        res.empties.forEach(empty => {
+          this.dumpsterService.getDumpsterByID(empty.dumpsterID).subscribe({
+            next: (res) => {
+              this.userInfoService.userEmpties.push({
+                // @ts-ignore
+                userID: this.lStorageService.getUserID(),
+                dumpster: res,
+                date: empty.date,
+                quantity: 0
+              })
+              this.empties = this.userInfoService.userEmpties
+              console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
+            },
+            error: (err) => {
+            }
+          })
+        })
+      },
+      error: (err) => {
+      }
+    })
   }
 
   emptyGarbage() {
@@ -170,7 +179,6 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     this.viewMapDumpsters = false
   }
 
-
   private positionNotFound(geoError: GeolocationPositionError) {
     if (geoError.code == GeolocationPositionError.PERMISSION_DENIED)
       this.openDialog(
@@ -184,7 +192,6 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
       )
 
   }
-
 
   private openDialog(errorTitle: string, errorMessage: string) {
     return this.operatorHomeDialog.open(OperatorHomeDialogComponent, {
@@ -325,7 +332,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
-    public operatorInfoService : OperatorInformationService,
+    public operatorInfoService: OperatorInformationService,
   ) {
     console.log('here');
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
@@ -355,7 +362,6 @@ export class OperatorHomeEmptyGarbageDialogComponent {
 
   }
 }
-
 
 @Component({
   selector: 'app-operator-home-position-error',

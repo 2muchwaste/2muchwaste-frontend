@@ -16,6 +16,8 @@ import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
 import {WebsiteRole} from "../models/role";
+import {OperatorNotification} from "../models/operatornotification";
+import {OperatorNotificationService} from "../services/backendcalls/operatornotificationservice";
 
 @Component({
   selector: 'app-navbar',
@@ -26,7 +28,8 @@ import {WebsiteRole} from "../models/role";
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   public user: any
   private CLASS_TAG = "NavbarComponent:"
-  public notificationNotRead: UserNotification[] = []
+  public customerNotificationNotRead: UserNotification[] = []
+  public operatorNotificationNotRead: OperatorNotification[] = []
   private subscriptionUserReadNotification: Subscription
   public isLogged = false
   private subscriptionUser: Subscription
@@ -36,6 +39,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     public userInfoService: UserInformationService,
+    private operatorNotificationService: OperatorNotificationService,
     public operatorInfoService: OperatorInformationService,
     private notificationService: SocketService,
     private customerService: CustomerService,
@@ -44,14 +48,15 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     private lStorageService: LocalStorageService
   ) {
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
-      this.initializeUserAfterLogin(userResponse)
+      if (userResponse.role === WebsiteRole.CUSTOMER) this.initializeUserAfterLogin(userResponse)
+      else if (userResponse.role === WebsiteRole.OPERATOR) this.initializeOperatorAfterLogin(userResponse)
     })
 
     // Quando arriva una nuova notifica bisogna aggiornare l'array inerente della navbar
     this.subscriptionUserReadNotification = this.userInfoService.userReadNotificationObservable.subscribe(userResponse => {
-      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, user arrived, OLD this.notificationNotRead: ", this.notificationNotRead)
-      this.notificationNotRead = userResponse.notifications.filter(noti => !noti.read)
-      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, this.notificationNotRead", this.notificationNotRead)
+      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, user arrived, OLD this.notificationNotRead: ", this.customerNotificationNotRead)
+      this.customerNotificationNotRead = userResponse.notifications.filter(noti => !noti.read)
+      console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, this.notificationNotRead", this.customerNotificationNotRead)
     })
   }
 
@@ -82,7 +87,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.user = usrResponse
         this.initializeSocketNotifications(usrResponse)
         this.userInfoService.setUser(usrResponse)
-        this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+        this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
         this.isLogged = true
       },
       error: (err) => {
@@ -98,8 +103,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.CLASS_TAG, " operatorResponse", operatorResponse)
         this.user = operatorResponse
         this.initializeSocketNotifications(operatorResponse)
-        this.operatorInfoService.setUser(operatorResponse)
-        this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+        this.setOperatoNotifications()
+        // usare direttamente user info service
+        // this.operatorInfoService.setUser(operatorResponse)
+        this.userInfoService.setUser(operatorResponse)
         this.isLogged = true
       },
       error: (err) => {
@@ -114,15 +121,37 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.CLASS_TAG, " Inizio collegamento socket")
     this.initializeSocketNotifications(userResponse)
     this.isLogged = true
-    this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+    this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
 
+  }
+
+  private initializeOperatorAfterLogin(userResponse: UserResponse) {
+    this.lStorageService.setUserID(userResponse._id)
+    this.lStorageService.setUserObject(userResponse)
+    console.log(this.CLASS_TAG, " Inizio collegamento socket")
+    this.initializeSocketNotifications(userResponse)
+    this.setOperatoNotifications()
+    this.isLogged = true
+    this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
   }
 
   private initializeSocketNotifications(userResponse: UserResponse) {
     this.notificationService.listen(userResponse._id).subscribe({
       next: (newNotification) => {
         this.userInfoService.addNotification(newNotification)
-        this.notificationNotRead = this.userInfoService.getNotReadNotifications()
+        this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
+      }
+    })
+  }
+
+  private setOperatoNotifications() {
+    this.operatorNotificationService.getOperatorNotifications().subscribe({
+      next: (res) => {
+        console.log(this.CLASS_TAG + ": operator notification", res)
+        this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = res
+        console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
+      },
+      error: (err) => {
       }
     })
   }

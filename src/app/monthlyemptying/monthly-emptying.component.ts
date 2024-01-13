@@ -9,6 +9,7 @@ import {EmptyService} from "../services/backendcalls/emptyservice"
 import {CanvasJS} from "@canvasjs/angular-charts"
 import {TrashTypeManager} from "../models/trashtype"
 import {LocalStorageService} from "../services/localstorageservice"
+import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 
 interface DataChart {
   type: string,
@@ -38,7 +39,7 @@ interface EmptyByMonthType {
 export class MonthlyEmptyingComponent implements OnInit {
 
   public user!: UserResponse
-  public userEmpty!: Empty[]
+  public userEmpties!: Empty[]
   public emptyDataCharts!: DataChart[]
   public userEmptyGroupedByTypeAndMonth!: EmptyByTypeMonthly[]
   public userEmptyGroupedByMonthAndType: EmptyByMonthType[]
@@ -50,10 +51,13 @@ export class MonthlyEmptyingComponent implements OnInit {
   public trashTypeManager = new TrashTypeManager()
   private monthEmpty!: Empty[]
   buttonTextViewChart: string
+  private CLASS_TAG = "MonthlyEmptyingComponent"
 
   constructor(
     private userInfoService: UserInformationService,
+    private dumpsterService: DumpsterService,
     private operatorInfoService: OperatorInformationService,
+    private userinfoService: UserInformationService,
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
@@ -66,7 +70,6 @@ export class MonthlyEmptyingComponent implements OnInit {
   }
 
   @ViewChild('monthlyEmptyingContainer') monthlyEmptyingContainer!: ElementRef
-
 
   ngOnInit(): void {
     console.log('MonthlyCost OnInit')
@@ -134,12 +137,11 @@ export class MonthlyEmptyingComponent implements OnInit {
     return dateFormat.charAt(0).toUpperCase() + dateFormat.slice(1)
   }
 
-
   getMonthlyEmptyByType(operators: Empty[], fromMonth: number, exlNLastMonths: number) {
     let emptyLimited = this.getSlicedEmpty(operators, fromMonth, exlNLastMonths)
 
     let types = emptyLimited
-      .map(empty => empty.type)
+      .map(empty => empty.dumpster.type)
       .filter((emptyType, index, self) => index === self.indexOf(emptyType))
 
     let months: Date[] = []
@@ -157,10 +159,12 @@ export class MonthlyEmptyingComponent implements OnInit {
         garbageTypeItalianName: this.trashTypeManager.getItalianName(type),
         months: []
       }
+      // AAA: la quantità degli scarichi non è salvata da nessuna parte quindi non può essere usata
+      // per calcoli vari
       for (let month of months) {
         let quantityMonthResult: number = 0
         emptyLimited
-          .filter(empty => empty.type === type)
+          .filter(empty => empty.dumpster.type === type)
           .filter(empty => empty.date.getMonth() === month.getMonth())
           .forEach(dep => {
             quantityMonthResult = quantityMonthResult + dep.quantity
@@ -201,12 +205,12 @@ export class MonthlyEmptyingComponent implements OnInit {
         let monthName = firstType ? month.monthName + "<br>" : ""
         emptyOfType.dataPoints.push({
           label: month.monthName,
-         // @ts-ignore
+          // @ts-ignore
           toolTipContent: monthName
-          + (month.quantity <= 0 ? "<div class='not-in-tool-tip'>" : "<div>")
-          + "{name}: <strong>" + month.quantity.toFixed(2) + "</strong>Kg <strong>"
-         + "</div>"
-         ,
+            + (month.quantity <= 0 ? "<div class='not-in-tool-tip'>" : "<div>")
+            + "{name}: <strong>" + month.quantity.toFixed(2) + "</strong>Kg <strong>"
+            + "</div>"
+          ,
           indexLabel: (month.quantity > 0 && this.monthlyEmptyingContainer.nativeElement.offsetWidth > 800
             // @ts-ignore
             ? this.trashTypeManager.getItalianName(type.garbageType).substring(0, 5) : "")
@@ -243,9 +247,8 @@ export class MonthlyEmptyingComponent implements OnInit {
     return dataC
   }
 
-
   updateDataChart() {
-    this.userEmptyGroupedByTypeAndMonth = this.getMonthlyEmptyByType(this.userEmpty, this.emptyFromMonth, this.exclLastNMonths)
+    this.userEmptyGroupedByTypeAndMonth = this.getMonthlyEmptyByType(this.userEmpties, this.emptyFromMonth, this.exclLastNMonths)
     this.groupByMonthAndType()
     console.log("this.userEmptyGroupedByTypeAndMonth", this.userEmptyGroupedByTypeAndMonth)
     this.emptyDataCharts = this.userEmptyGroupedByTypeAndMonth.length > 0 ?
@@ -273,42 +276,71 @@ export class MonthlyEmptyingComponent implements OnInit {
   private setEmpty() {
 
     // @ts-ignore
-    this.operatorService.getOperatorEmptiesByCF(this.lStorageService.getUserID()).subscribe({
-      next: res => {
-        let operators = res.map(empty => {
+    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserID()).subscribe({
+      next: (res) => {
+        let emptiesServerResponse = res.empties.map(empty => {
           empty.date = new Date(empty.date)
           return empty
         })
-        this.userEmpty = this.operatorInfoService.userEmpty = operators
-        this.monthEmpty = this.userEmpty.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
-        this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
-        this.updateDataChart()
-        console.log("this.userEmptyGroupedByTypeAndMonth", this.userEmptyGroupedByTypeAndMonth)
+        this.setEmpties()
         // this.chart.render()
       },
-      error: err => console.log(err)
+      error: (err) => console.log(err)
     })
   }
 
-  groupByMonthAndType(){
+  setEmpties() {
+    // @ts-ignore
+    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
+      next: (res) => {
+        console.log(this.CLASS_TAG + ": res", res)
+        this.userInfoService.userEmpties = this.userEmpties = []
+        res.empties.forEach(empty => {
+          this.dumpsterService.getDumpsterByID(empty.dumpsterID).subscribe({
+            next: (res) => {
+              this.userInfoService.userEmpties.push({
+                // @ts-ignore
+                userID: this.lStorageService.getUserID(),
+                dumpster: res,
+                date: empty.date,
+                quantity: 0
+              })
+              this.userEmpties = this.userInfoService.userEmpties
+              console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
+              this.monthEmpty = this.userEmpties.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
+              this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
+              this.updateDataChart()
+              console.log("this.userEmptyGroupedByTypeAndMonth", this.userEmptyGroupedByTypeAndMonth)
+            },
+            error: (err) => {
+            }
+          })
+        })
+      },
+      error: (err) => {
+      }
+    })
+  }
+
+  groupByMonthAndType() {
     let months: any[] = []
     this.userEmptyGroupedByMonthAndType = []
     console.log("this.userEmptyGroupedByTypeAndMonth[0].months[0]", this.userEmptyGroupedByTypeAndMonth[0].months[0])
     this.userEmptyGroupedByTypeAndMonth[0].months.forEach(month => months.push(month.monthName))
     console.log("months", months)
-    months.forEach(month=>{
+    months.forEach(month => {
       let x = ""
-      let types:any[]=[]
-      this.userEmptyGroupedByTypeAndMonth.forEach(type=>{
-        let z:any
+      let types: any[] = []
+      this.userEmptyGroupedByTypeAndMonth.forEach(type => {
+        let z: any
         type.months
-          .filter(m=> m.monthName === month)
-          .forEach(month2=>{
-          // @ts-ignore
-          //   this.userEmptyGroupedByMonthAndType.push(month.monthName + " " +type.garbageTypeItalianName + " " + month2.quantity)
-           types.push({typeName: type.garbageTypeItalianName, quantity: Math.ceil(month2.quantity*100)/100})
+          .filter(m => m.monthName === month)
+          .forEach(month2 => {
+            // @ts-ignore
+            //   this.userEmptyGroupedByMonthAndType.push(month.monthName + " " +type.garbageTypeItalianName + " " + month2.quantity)
+            types.push({typeName: type.garbageTypeItalianName, quantity: Math.ceil(month2.quantity * 100) / 100})
             // x = " " +type.garbageTypeItalianName + " " + month2.quantity
-        })
+          })
       })
       this.userEmptyGroupedByMonthAndType.push({
         month: month,

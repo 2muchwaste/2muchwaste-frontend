@@ -6,6 +6,7 @@ import {User} from "../../models/user";
 import {Observable} from "rxjs";
 import {District} from "../../models/district";
 import {UserResponse} from "../../models/userresponse";
+import {EmptyServerResponse} from "../../models/emptyserverresponse";
 
 @Injectable({
   providedIn: 'root',
@@ -47,21 +48,18 @@ export class OperatorService {
     (this.backendOperatorURL + operatorCF + '/districts');
   }
 
-  getOperatorEmptiesByCF(operatorCF: string){
-    return new Observable(obs => {
-      this.httpReqService.getRequest<{
-        empties: {date:Date,dumpsterID:string,_id:string}[]
-      }[]>(this.backendOperatorURL + operatorCF + '/empties')
-        .pipe()
-        .subscribe({
-          next: (res) => {
-            console.log(res[0].empties);
-            obs.next(res)
-          },
-          error: (err) => {
-            obs.error(err)
-          }
-        })
+  getOperatorEmptiesByCFRaw(operatorCF: string) {
+    return new Observable<EmptyServerResponse>(obs => {
+      this.httpReqService.getRequest<EmptyServerResponse[]>(
+        this.backendOperatorURL + operatorCF + '/empties'
+      ).subscribe({
+        next: (res) => {
+          obs.next(res[0])
+        },
+        error: (err) => {
+          obs.error(err)
+        }
+      })
     })
   }
 
@@ -70,7 +68,6 @@ export class OperatorService {
       this.backendOperatorURL + operatorCF + '/empties',
       this.objectForEmptyDumpster(dumpsterID))
   }
-
 
   addDistrictToOperator(operatorCF: string, zipCode: number, name: string) {
     return this.httpReqService.postRequest(
@@ -83,14 +80,13 @@ export class OperatorService {
     return this.httpReqService.deleteRequest(this.backendOperatorURL + operatorID)
   }
 
-
-   getNotificationsFromUser(operatorCF: string) {
+  getNotificationsFromUser(operatorCF: string) {
     return this.httpReqService.getRequest(this.backendOperatorURL + operatorCF + '/notifications')
   }
 
   readNotification(operatorCF: string, notificationID: string) {
     return this.httpReqService.patchRequest<UserResponse>(
-      this.backendOperatorURL + operatorCF + '/notifications/' + notificationID,null)
+      this.backendOperatorURL + operatorCF + '/notifications/' + notificationID, null)
   }
 
   addNotificationFromUser(operatorCF: string, notification: string) {

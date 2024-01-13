@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {AppConstants} from "../../utils/constants";
 import {HttpRequestService} from "./httprequestservice";
 import {DumpsterErrorType} from "../../models/dumpstererrortype";
-import {OperatorNotificationStatus} from "../../models/operatornotificationstatus";
+import {OperatorNotification, OperatorNotificationStatus} from "../../models/operatornotification";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,8 @@ export class OperatorNotificationService {
   ) {
   }
 
-  getOperatorNotification() {
-    return this.httpReqService.getRequest(this.backendOpNotificationURL)
+  getOperatorNotifications() {
+    return this.httpReqService.getRequest<OperatorNotification[]>(this.backendOpNotificationURL)
   }
 
   getPendingNotification() {
