@@ -10,6 +10,7 @@ export class LocalStorageService {
   private readonly USER_TOKEN_KEY = AppConstants.lSToken
   private readonly USER_OBJECT_KEY = AppConstants.userObject
   private readonly USER_ROLE = AppConstants.lSuserRole
+  private readonly USER_CF_KEY = AppConstants.lSuserCF
 
   setUserID(userID: string): void {
     localStorage.setItem(this.USER_ID_KEY, userID)
@@ -17,6 +18,14 @@ export class LocalStorageService {
 
   getUserID(): string | null {
     return localStorage.getItem(this.USER_ID_KEY)
+  }
+
+  setUserCF(userCF: string): void {
+    localStorage.setItem(this.USER_CF_KEY, userCF)
+  }
+
+  getUserCF(): string | null {
+    return localStorage.getItem(this.USER_CF_KEY)
   }
 
   setUserToken(userToken: string): void {
