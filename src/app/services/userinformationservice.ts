@@ -7,17 +7,19 @@ import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
 import {Payment} from "../models/payment"
 import {LocalStorageService} from "./localstorageservice"
-import {OperatorService} from "./backendcalls/operatorservice"
+import {WebsiteRole} from "../models/role";
+import {OperatorNotification} from "../models/operatornotification";
 
 
 @Injectable({
   providedIn: "root"
 })
 export class UserInformationService {
-  private SERVICE_TAG = 'UserInformationService:'
+  private CLASS_TAG = 'UserInformationService:'
   public user!: UserResponse
   public userDeposits!: Deposit[]
-  public userEmpty!: Empty[]
+  public userEmpties!: Empty[]
+  public operatorNotifications!: OperatorNotification[]
   payments!: Payment[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
@@ -39,7 +41,6 @@ export class UserInformationService {
 
   constructor(
     private lStorageService: LocalStorageService,
-    private operatorService: OperatorService
   ) {
   }
 
@@ -51,19 +52,22 @@ export class UserInformationService {
     // @ts-ignore
     this.userDeposits = undefined
     // @ts-ignore
-    this.userEmpty = undefined
+    this.userEmpties = undefined
     // @ts-ignore
     this.user = undefined
     // @ts-ignore
     this.nearestDumpsters = undefined
+    // @ts-ignore
+    this.userEmpties = undefined
   }
 
   public login(userResponse: UserResponse, userToken: string) {
     this.lStorageService.setUserToken(userToken)
     this.lStorageService.setUserID(userResponse._id)
+    this.lStorageService.setUserCF(userResponse.cf)
     console.log(userResponse)
     this.lStorageService.setUserObject(userResponse)
-    console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse)
+    console.log(this.CLASS_TAG, 'login2023_11_24_01 called, userResponse:', userResponse)
     userResponse.notifications = []
     userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
@@ -80,7 +84,7 @@ export class UserInformationService {
   }
 
   readNotifications(userWithNewNotifications: UserResponse) {
-    console.log(this.SERVICE_TAG, "this.readNotifications(), userWithReadNotifications ", userWithNewNotifications)
+    console.log(this.CLASS_TAG, "this.readNotifications(), userWithReadNotifications ", userWithNewNotifications)
     userWithNewNotifications.notifications = this.getSortedNotificationsByData(userWithNewNotifications.notifications)
     this.user = userWithNewNotifications
     this.userReadNotification.next(userWithNewNotifications)
@@ -98,14 +102,14 @@ export class UserInformationService {
   }
 
   addNotification(userWithNewNotification: UserResponse) {
-    console.log(this.SERVICE_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification)
+    console.log(this.CLASS_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification)
     this.user = userWithNewNotification
     this.user.notifications = this.getSortedNotificationsByData(this.user.notifications)
     this.userNewNotificationSubject.next(this.user)
   }
 
   setUser(userResponse: UserResponse) {
-    userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
+    if (userResponse.role === WebsiteRole.CUSTOMER) userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
     this.logged = true
     this.newUserSet.next(this.user)
