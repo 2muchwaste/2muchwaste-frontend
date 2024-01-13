@@ -99,6 +99,7 @@ export class SignInComponent implements OnInit {
           } else if (role === WebsiteRole.OPERATOR) {
             this.operatorService.getOperatorByID(signinResponse.id).subscribe({
               next: (userResponse) => {
+                this.lStorageService.setUserCF(userResponse.cf)
                 this.userInfoService.login(userResponse, signinResponse.token)
                 this.router.navigate(['/operatorhome'])
               },
