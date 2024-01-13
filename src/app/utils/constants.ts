@@ -10,11 +10,15 @@ export class AppConstants {
   /**
    * Key for local storage to set and get logged user's token
    */
-  static lSToken = "token";
+  static lSToken = "token"
   /**
    * Key for local storage to set and get user object
    */
-  static userObject = 'userObject';
+  static userObject = 'userObject'
+  /**
+   * Key for local storage to set and get user cf
+   */
+  static lSuserCF = "userCF"
 
   public static get serverURL(): string {
     return "http://localhost:3456"
