@@ -16,7 +16,7 @@ import {Dumpster} from "../models/dumpster"
   styleUrls: ['./empty-dumpster.component.scss']
 })
 export class EmptyDumpsterComponent implements OnInit{
-  private userEmpty!: Empty[]
+  private userEmpties!: Empty[]
   private userSetSubscription!: Subscription
   @Input() weight: undefined | number;
 

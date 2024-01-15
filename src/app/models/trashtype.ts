@@ -23,8 +23,8 @@ export class TrashTypeManager {
     this.typeToColorMap.set(TrashTypes.MEDICAL, {color: '#800080', italianName: 'Rifiuti Medici'}); // Purple
     this.typeToColorMap.set(TrashTypes.ELECTRICAL, {color: '#FFA500', italianName: 'Elettrico'}); // Orange
     this.typeToColorMap.set(TrashTypes.OIL, {color: '#06c7c7', italianName: 'Olio'}); // Cyan
-    this.typeToColorMap.set(TrashTypes.MIXED, {color: '#A0522D', italianName: 'Misto'}); // Sienna
-    this.typeToColorMap.set(TrashTypes.ORGANIC, {color: '#88d73f', italianName: 'Organico'}); // Lime Green
+    this.typeToColorMap.set(TrashTypes.MIXED, {color: '#A0522D', italianName: 'Misto'}); // Grey
+    this.typeToColorMap.set(TrashTypes.ORGANIC, {color: '#88d73f', italianName: 'Organico'}); // Brown
 
 
   }

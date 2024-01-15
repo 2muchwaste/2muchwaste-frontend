@@ -1,4 +1,4 @@
-<div class="row operatorempty-row" *ngIf="userEmpty">
+<div class="row operatorempty-row" *ngIf="userEmpties">
     <div class="col operatorempty-col">
       <div class="d-none d-md-block">
         <div class="row table-row-headers list-item-headers">
@@ -7,8 +7,8 @@
           <div class="col-2 quantity-header data-header">PESO</div>
         </div>
       </div>
-<!--      <ng-container *ngFor="let empty of (userEmpty | slice: lowValue : highValue)">-->
-<!--        <div class="row userempty-list-item">-->
+<!--      <ng-container *ngFor="let empty of (userEmpties | slice: lowValue : highValue)">-->
+<!--        <div class="row userempties-list-item">-->
 <!--          <div class="col-5 col-sm-3 order-sm-2 type-value">{{trashTypesManager.getItalianName(empty.type)}}</div>-->
 <!--          <div class="col-3 col-sm-2 order-sm-3 quantity-value">{{empty.quantity}} Kg</div>-->
 <!--          <div class="col-12 col-sm-4 order-sm-1 date-value">{{empty.date | date : "YYYY-MM-dd HH:mm" }}-->
@@ -16,7 +16,7 @@
 <!--          <mat-divider></mat-divider>-->
 <!--        </div>-->
 <!--      </ng-container>-->
-      <mat-paginator [length]="userEmpty.length"
+      <mat-paginator [length]="userEmpties.length"
                      [pageSize]="10"
                      [pageSizeOptions]="[10, 20, 30]"
                      (page)="getPaginatorData($event)"

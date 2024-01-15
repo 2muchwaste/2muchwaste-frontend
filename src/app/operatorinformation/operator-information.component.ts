@@ -3,7 +3,7 @@ import {UserResponse} from "../models/userresponse"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 import {OperatorInformationService} from "../services/operatorinformationservice"
 import {UserInformationService} from "../services/userinformationservice"
-import {EmptyService} from "../services/backendcalls/emptyservice"
+import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Empty} from "../models/empty"
 import {PageEvent} from "@angular/material/paginator"
 import {TrashTypeManager} from "../models/trashtype"
@@ -18,7 +18,7 @@ import {LocalStorageService} from "../services/localstorageservice"
 export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   public user!: UserResponse
-  userEmpty!: Empty[]
+  userEmpties!: Empty[]
   lowValue: number = 0
   highValue: number = 10
   trashTypesManager: TrashTypeManager = new TrashTypeManager()
@@ -28,11 +28,10 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
     private authorizationService: Authorizationservice,
     private userInfoService: UserInformationService,
     private operatorInfoService: OperatorInformationService,
-    private emptyService: EmptyService,
     private lStorageService: LocalStorageService
   ) {
     this.subscriptionToNewNotification =
-      this.operatorInfoService.userNewNotificationObservable.subscribe(userResponse => {
+      this.userInfoService.userNewNotificationObservable.subscribe(userResponse => {
         this.setEmpty()
       })
   }
@@ -49,9 +48,9 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   private setEmpty() {
     // @ts-ignore
-    this.emptyService.getEmptyFromUser(this.lStorageService.getUserID()).subscribe({
+    this.operatorService.getOperatorsEmptiesByCF(this.lStorageService.getUserID()).subscribe({
       next: res => {
-        this.userEmpty = this.userInfoService.userEmpties
+        this.userEmpties = this.userInfoService.userEmpties
           = res.map(empty => {
           empty.date = new Date(empty.date)
           return empty

@@ -5,7 +5,6 @@ import {Empty} from "../models/empty"
 import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 import {UserResponse} from "../models/userresponse"
-import {EmptyService} from "../services/backendcalls/emptyservice"
 import {CanvasJS} from "@canvasjs/angular-charts"
 import {TrashTypeManager} from "../models/trashtype"
 import {LocalStorageService} from "../services/localstorageservice"
@@ -60,7 +59,6 @@ export class MonthlyEmptyingComponent implements OnInit {
     private userinfoService: UserInformationService,
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
-    private emptyService: EmptyService,
     private lStorageService: LocalStorageService
   ) {
     console.log('Monthlycost constuctor')
@@ -78,14 +76,14 @@ export class MonthlyEmptyingComponent implements OnInit {
     this.setEmpty()
   }
 
-  private getSlicedEmpty(operators: Empty[], fromMonth?: number, exlNLastMonths?: number) {
+  private getSlicedEmpty(empties: Empty[], fromMonth?: number, exlNLastMonths?: number) {
     let date = new Date(), y = date.getFullYear(), m = date.getMonth()
     let firstDay = new Date(y, m, 1)
     let lastDay = new Date(y, m + 1, 1)
 
     firstDay.setMonth(firstDay.getMonth() - (fromMonth || 0))
     lastDay.setMonth(lastDay.getMonth() - (exlNLastMonths || 0))
-    return operators
+    return empties
       .filter(empty => empty.date >= firstDay)
       .filter(empty => empty.date < lastDay)
   }
@@ -137,8 +135,8 @@ export class MonthlyEmptyingComponent implements OnInit {
     return dateFormat.charAt(0).toUpperCase() + dateFormat.slice(1)
   }
 
-  getMonthlyEmptyByType(operators: Empty[], fromMonth: number, exlNLastMonths: number) {
-    let emptyLimited = this.getSlicedEmpty(operators, fromMonth, exlNLastMonths)
+  getMonthlyEmptyByType(empties: Empty[], fromMonth: number, exlNLastMonths: number) {
+    let emptyLimited = this.getSlicedEmpty(empties, fromMonth, exlNLastMonths)
 
     let types = emptyLimited
       .map(empty => empty.dumpster.type)
@@ -282,7 +280,8 @@ export class MonthlyEmptyingComponent implements OnInit {
           empty.date = new Date(empty.date)
           return empty
         })
-        this.setEmpties()
+
+         this.setEmpties()
         // this.chart.render()
       },
       error: (err) => console.log(err)

@@ -14,7 +14,7 @@ import {OperatorService} from "./backendcalls/operatorservice"
 export class OperatorInformationService {
   private SERVICE_TAG = 'OperatorInformationService:'
   public user!: UserResponse
-  public userEmpty!: Empty[]
+  public userEmpties!: Empty[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
 
@@ -43,7 +43,7 @@ export class OperatorInformationService {
     this.logged = false
     this.lStorageService.clearLocalStorage()
     // @ts-ignore
-    this.userEmpty = undefined
+    this.userEmpties = undefined
     // @ts-ignore
     this.user = undefined
     // @ts-ignore
