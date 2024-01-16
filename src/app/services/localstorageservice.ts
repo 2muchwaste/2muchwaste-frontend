@@ -60,5 +60,6 @@ export class LocalStorageService {
     localStorage.removeItem(this.USER_TOKEN_KEY)
     localStorage.removeItem(this.USER_OBJECT_KEY)
     localStorage.removeItem(this.USER_ROLE)
+    localStorage.removeItem(this.USER_CF_KEY)
   }
 }
