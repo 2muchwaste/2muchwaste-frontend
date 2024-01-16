@@ -1,3 +1,6 @@
+import {TrashTypes} from "./trashtype";
+
+
 export class EmptyServerResponse {
   constructor(
     public empties: {
