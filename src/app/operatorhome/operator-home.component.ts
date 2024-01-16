@@ -2,6 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Outpu
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Dumpster} from "../models/dumpster";
 import {Empty} from "../models/empty";
+import {EmptyServerResponse} from "../models/emptyserverresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 import {Observable, Subscription} from "rxjs";
 import {UserResponse} from "../models/userresponse";
@@ -11,13 +12,14 @@ import {EmptyService} from "../services/backendcalls/emptyservice";
 import {OperatorService} from "../services/backendcalls/operatorservice"
 import {OperatorInformationService} from "../services/operatorinformationservice";
 import {UserInformationService} from "../services/userinformationservice";
+import {LocalStorageService} from "../services/localstorageservice"
+import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 import {User} from "../models/user";
 import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
-import {LocalStorageService} from "../services/localstorageservice"
-import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
+
 
 export interface Coordinates {
   coords: {
