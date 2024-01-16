@@ -6,6 +6,7 @@ export class Empty {
     public userID: string,
     public dumpster: Dumpster,
     public date: Date,
+    public type: TrashTypes,
     public quantity: number,
   ) {
   }

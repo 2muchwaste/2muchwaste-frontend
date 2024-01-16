@@ -1,8 +1,8 @@
-.row.operatorempty-row {
+.row.userempties-row {
   justify-content: center;
 }
 
-.col.operatorempty-col {
+.col.userempties-col {
   max-width: 900px;
 }
 
@@ -17,7 +17,7 @@
 .quantity-header, .quantity-value {
   text-align: end;
 }
-.row.operatorempty-list-item {
+.row.userempty-list-item {
   min-height: 45px;
   align-items: center;
 }
@@ -28,7 +28,7 @@
 }
 
 @media screen and (max-width: 575px) {
-  .row.operatorempty-list-item {
+  .row.userempty-list-item {
     min-height: 60px;
   }
 
