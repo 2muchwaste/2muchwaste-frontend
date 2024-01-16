@@ -9,6 +9,7 @@ import {PageEvent} from "@angular/material/paginator"
 import {TrashTypeManager} from "../models/trashtype"
 import {Subscription} from "rxjs"
 import {LocalStorageService} from "../services/localstorageservice"
+import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 
 @Component({
   selector: 'app-operator-information',
@@ -27,6 +28,7 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
   constructor(
     private authorizationService: Authorizationservice,
     private userInfoService: UserInformationService,
+    private operatorDumpsterService: OperatorDumpsterService,
     private operatorInfoService: OperatorInformationService,
     private lStorageService: LocalStorageService
   ) {
@@ -48,15 +50,10 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   private setEmpty() {
     // @ts-ignore
-    this.operatorService.getOperatorsEmptiesByCF(this.lStorageService.getUserID()).subscribe({
-      next: res => {
-        this.userEmpties = this.userInfoService.userEmpties
-          = res.map(empty => {
-          empty.date = new Date(empty.date)
-          return empty
-        }).reverse()
-      },
-      error: err => console.log(err)
+    this.operatorDumpsterService.getEmptiesWithSpecificDumpsterByCF(this.lStorageService.getUserCF()).subscribe({
+      next: (res) => {
+        this.userEmpties = this.userInfoService.userEmpties = res
+      }
     })
   }
 

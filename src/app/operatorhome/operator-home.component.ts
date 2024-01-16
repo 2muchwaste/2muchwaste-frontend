@@ -17,6 +17,7 @@ import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
 import {LocalStorageService} from "../services/localstorageservice"
+import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 
 export interface Coordinates {
   coords: {
@@ -46,7 +47,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private operatorHomeDialog: MatDialog,
-    private operatorService: OperatorService,
+    private operatorDumpsterService: OperatorDumpsterService,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
     public operatorInfoService: OperatorInformationService,
@@ -124,29 +125,9 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   setEmpties() {
     // @ts-ignore
-    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
+    this.operatorDumpsterService.getEmptiesWithSpecificDumpsterByCF(this.lStorageService.getUserCF()).subscribe({
       next: (res) => {
-        console.log(this.CLASS_TAG + ": res", res)
-        this.userInfoService.userEmpties = this.empties = []
-        res.empties.forEach(empty => {
-          this.dumpsterService.getDumpsterByID(empty.dumpsterID).subscribe({
-            next: (res) => {
-              this.userInfoService.userEmpties.push({
-                // @ts-ignore
-                userID: this.lStorageService.getUserID(),
-                dumpster: res,
-                date: empty.date,
-                quantity: 0
-              })
-              this.empties = this.userInfoService.userEmpties
-              console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
-            },
-            error: (err) => {
-            }
-          })
-        })
-      },
-      error: (err) => {
+        this.userInfoService.userEmpties = this.empties = res
       }
     })
   }
@@ -204,7 +185,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
   private setUser() {
     // @ts-ignore
-    this.operatorService.getOperatorByID(this.lStorageService.getUserID()).subscribe({
+    this.operatorDumpsterService.getOperatorByID(this.lStorageService.getUserID()).subscribe({
       next: (res) => {
         this.user = res
       },
