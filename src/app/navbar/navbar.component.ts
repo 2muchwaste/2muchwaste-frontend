@@ -114,13 +114,17 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initializeUserAfterLogin(userResponse: UserResponse) {
-    this.lStorageService.setUserID(userResponse._id)
-    this.lStorageService.setUserObject(userResponse)
-    console.log(this.CLASS_TAG, " Inizio collegamento socket")
-    this.initializeSocketNotifications(userResponse)
-    this.isLogged = true
-    this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
-
+    this.customerService.getCustomerByID(userResponse._id).subscribe({
+      next: (res) => {
+        userResponse.notifications = res.notifications
+        this.lStorageService.setUserID(userResponse._id)
+        this.lStorageService.setUserObject(userResponse)
+        console.log(this.CLASS_TAG, " Inizio collegamento socket")
+        this.initializeSocketNotifications(userResponse)
+        this.isLogged = true
+        this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
+      }
+    })
   }
 
   private initializeOperatorAfterLogin(userResponse: UserResponse) {
