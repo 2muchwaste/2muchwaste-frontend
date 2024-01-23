@@ -9,7 +9,7 @@
        userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :
        '/'}}">2MuchWaste</a>
 
-    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.CUSTOMER">
+    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">
       <button mat-raised-button [matMenuTriggerFor]="beforeMenu"
               class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
         <mat-icon [matBadge]=customerNotificationNotRead?.length>notifications</mat-icon>
@@ -81,7 +81,7 @@
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink="/userinformation">Dati personali</a>
           </li>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.CUSTOMER">
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/depositsinformation'>Elenco depositi</a>
@@ -95,7 +95,7 @@
                  routerLink='/paymentstatus'>Pagamenti</a>
             </li>
           </ng-container>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.OPERATOR">
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.OPERATOR">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/operatorinformation'>Elenco svuotamenti</a>

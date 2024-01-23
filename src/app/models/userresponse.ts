@@ -1,11 +1,13 @@
 import {User, UserBuilder} from "./user";
 import {UserNotification} from "./UserNotification";
+import { EmptyServerResponse } from "./emptyserverresponse";
 
 export class UserResponse extends User {
   constructor(
     public _id: string,
     public __t: string,
     public notifications: UserNotification[],
+    public empties: [] = [],
     public __v: number,
     user: User
   ) {
@@ -63,6 +65,6 @@ export class UserResponseBuilder {
   }
 
   build(): UserResponse {
-    return new UserResponse(this._id, this.__t, this.notifications, this.__v, this.user);
+    return new UserResponse(this._id, this.__t, this.notifications, this.empties, this.__v, this.user);
   }
 }

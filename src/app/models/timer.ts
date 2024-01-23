@@ -29,13 +29,13 @@ export class Timer {
     if (this.countdownMilliseconds > 0) {
       console.log("Timer.runTimer() " + this.countdownMilliseconds + " codMilli");
       // "Timer.runTimer()"
-      this.timer = setTimeout(() => {
-        this.func()
-        console.log("AAA");
-        console.log(this.countdownMilliseconds);
-        this.countdownMilliseconds -= this.clockFreq
-        this.runTimer()
-      }, this.clockFreq)
+     // this.timer = setTimeout(() => {
+     //   this.func()
+     //   console.log("AAA");
+     //   console.log(this.countdownMilliseconds);
+     //   this.countdownMilliseconds -= this.clockFreq
+     //   this.runTimer()
+     // }, this.clockFreq)
     }
   }
 
