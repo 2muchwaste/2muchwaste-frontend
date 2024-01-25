@@ -1,7 +1,6 @@
 <nav class="navbar navbar-expand-* navbar-light bg-light fixed-top" #navbar>
   <div class="container-fluid container-in-nav">
 
-
     <a class="navbar-brand navbar-title"
        routerLink="{{
        !userInfoService.user ? '/' :
@@ -34,7 +33,7 @@
       </button>
     </ng-container>
 
-    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.OPERATOR">
+    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.OPERATOR">
       <button mat-raised-button [matMenuTriggerFor]="beforeMenu"
               class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
         <mat-icon [matBadge]=operatorNotificationNotRead?.length>notifications</mat-icon>
@@ -51,7 +50,7 @@
               <mat-divider></mat-divider>
             </li>
             <li class="notification-list-item notification-all-list" routerLink="/usernotifications"
-                *ngIf="this.userInfoService.user.notifications.length>0">
+                *ngIf=" this.userInfoService.user.notifications && this.userInfoService.user.notifications.length>0">
               <a href="#" routerLink="/usernotifications">Vedi tutte le notifiche</a>
             </li>
           </ul>

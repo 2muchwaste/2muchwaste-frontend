@@ -1,7 +1,7 @@
 export enum WebsiteRole {
-  CUSTOMER = '65a6564b370c19239067a90c',
-  OPERATOR = '65a6564b370c19239067a90d',
-  ADMIN = '65a6564b370c19239067a90e'
+  CUSTOMER = '65b21ceb02edf1845a13d15d',
+  OPERATOR = '65b21ceb02edf1845a13d15e', 
+  ADMIN = '65b21ceb02edf1845a13d15f'
 }
 
 export class InvalidRoleError extends Error {

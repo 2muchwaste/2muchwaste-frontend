@@ -56,7 +56,6 @@ export class MonthlyEmptyingComponent implements OnInit {
     private userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
     private operatorInfoService: OperatorInformationService,
-    private userinfoService: UserInformationService,
     private operatorService: OperatorService,
     private authorizationService: Authorizationservice,
     private lStorageService: LocalStorageService
@@ -276,7 +275,7 @@ export class MonthlyEmptyingComponent implements OnInit {
     // @ts-ignore
     this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserID()).subscribe({
       next: (res) => {
-        let empties = res.empties.map(empty => {
+        let emptiesServerResponse = res.empties.map(empty => {
           empty.date = new Date(empty.date)
           return empty
         })
