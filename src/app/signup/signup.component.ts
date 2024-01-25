@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core'
 import {User, UserBuilder} from "../models/user"
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms"
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog"
-import {WebsiteRole} from "../models/role"
+// import {WebsiteRole} from "../models/role"
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
 import {Router} from "@angular/router"
 import {UserInformationService} from "../services/userinformationservice"
@@ -11,6 +11,7 @@ import {SigninErrorDialogComponent} from "../signin/sign-in.component"
 import {CustomerService} from "../services/backendcalls/customerservice"
 import {OperatorService} from '../services/backendcalls/operatorservice'
 import {LocalStorageService} from "../services/localstorageservice";
+import {RoleService} from "../services/backendcalls/roleservice";
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +21,7 @@ import {LocalStorageService} from "../services/localstorageservice";
 
 export class SignupComponent implements OnInit {
 
-  readonly WebsiteRole = WebsiteRole
+  // readonly WebsiteRole = WebsiteRole
 
   constructor(
     private dialog: MatDialog,
@@ -31,7 +32,8 @@ export class SignupComponent implements OnInit {
     private operatorInfoService: OperatorInformationService,
     private customerService: CustomerService,
     private operatorService: OperatorService,
-    private lStorageService: LocalStorageService
+    private lStorageService: LocalStorageService,
+    public roleService: RoleService,
   ) {
     this.signupForm = this.fb.group({
       name: this.nameFormControl,
@@ -46,9 +48,10 @@ export class SignupComponent implements OnInit {
       role: this.roleFormControl
     })
 
-    for (const role in WebsiteRole) {
-      this.roles.push(role)
-    }
+    this.roles.push(
+      this.roleService.getCustomerName(),
+      this.roleService.getOperatorName(),
+      this.roleService.getAdminName())
   }
 
   private signupForm!: FormGroup
@@ -116,7 +119,7 @@ export class SignupComponent implements OnInit {
     ).subscribe({
       next: (signinResponse) => {
         this.lStorageService.setUserToken(signinResponse.token)
-        if (this.roleFormControl.value === WebsiteRole.CUSTOMER) {
+        if (this.roleFormControl.value === this.roleService.getCustomerName()) {
           this.customerService.getCustomerByID(signinResponse.id).subscribe({
             next: (userResponse) => {
               this.userInfoService.login(userResponse, signinResponse.token)
@@ -126,7 +129,7 @@ export class SignupComponent implements OnInit {
               this.dialog.open(SigninErrorDialogComponent)
             }
           })
-        } else if (this.roleFormControl.value === WebsiteRole.OPERATOR) {
+        } else if (this.roleFormControl.value === this.roleService.getOperatorName()) {
           this.operatorService.getOperatorByID(signinResponse.id).subscribe({
             next: (userResponse) => {
               this.userInfoService.login(userResponse, signinResponse.token)

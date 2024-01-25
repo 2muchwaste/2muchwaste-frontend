@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {FormControl, Validators} from '@angular/forms'
 import {MatDialog} from '@angular/material/dialog'
 import {AuthenticationService} from "../services/backendcalls/authenticationservice"
-import {WebsiteRole} from "../models/role"
+// import {WebsiteRole} from "../models/role"
 import {Router} from "@angular/router"
 import {CustomerService} from "../services/backendcalls/customerservice"
 import {OperatorService} from "../services/backendcalls/operatorservice"
@@ -11,6 +11,8 @@ import {OperatorInformationService} from '../services/operatorinformationservice
 import {SocketService} from "../services/notificationsservice"
 import {Subscription} from "rxjs"
 import {LocalStorageService} from "../services/localstorageservice"
+import {RoleService} from "../services/backendcalls/roleservice";
+import {WebsiteRole} from "../models/role";
 
 /**
  * @title Input with error messages
@@ -22,7 +24,7 @@ import {LocalStorageService} from "../services/localstorageservice"
 })
 export class SignInComponent implements OnInit {
 
-  readonly WebsiteRole = WebsiteRole;
+  // readonly WebsiteRole = WebsiteRole;
   private CLASS_TAG = 'SignInComponent'
   emailFormControl = new FormControl('', [Validators.required, Validators.email])
   passwordFormControl = new FormControl('', [Validators.required])
@@ -43,17 +45,27 @@ export class SignInComponent implements OnInit {
     private userInfoService: UserInformationService,
     private operatorInfoService: OperatorInformationService,
     private notificationService: SocketService,
-    private lStorageService: LocalStorageService
+    private lStorageService: LocalStorageService,
+    public roleService: RoleService,
   ) {
     this.loginObservable = this.userInfoService.userSetObservable.subscribe({
       next: (res) => {
-        if (res && res.role === WebsiteRole.CUSTOMER) {
+        if (res && res.role === this.roleService.getCustomerCode()) {
           this.router.navigate(['/customerhome'])
-        } else if (res && res.role === WebsiteRole.OPERATOR) {
+        } else if (res && res.role === this.roleService.getOperatorCode()) {
           this.router.navigate(['/operatorhome']);
         }
       }
     })
+    // this.loginObservable = this.userInfoService.userSetObservable.subscribe({
+    //   next: (res) => {
+    //     if (res && res.role === WebsiteRole.CUSTOMER) {
+    //       this.router.navigate(['/customerhome'])
+    //     } else if (res && res.role === WebsiteRole.OPERATOR) {
+    //       this.router.navigate(['/operatorhome']);
+    //     }
+    //   }
+    // })
   }
 
   ngOnInit() {
@@ -79,14 +91,15 @@ export class SignInComponent implements OnInit {
     this.makeLogin(this.emailFormControl.value, this.passwordFormControl.value, this.roleFormControl.value)
   }
 
-  makeLogin(email: any, password: any, role: WebsiteRole) {
-    this.authenticationService.signin(email, password, role)
+  makeLogin(email: any, password: any, roleName: string) {
+    this.authenticationService.signin(email, password, roleName)
       .subscribe({
         next: (signinResponse) => {
           console.log(signinResponse)
           this.lStorageService.setUserToken(signinResponse.token)
-          this.lStorageService.setUserRole(role)
-          if (role === WebsiteRole.CUSTOMER) {
+          this.lStorageService.setUserRoleName(roleName)
+          // if (role === WebsiteRole.CUSTOMER) {
+          if (roleName === this.roleService.getCustomerName()) {
             this.customerService.getCustomerByID(signinResponse.id).subscribe({
               next: (userResponse) => {
                 this.userInfoService.login(userResponse, signinResponse.token)
@@ -96,7 +109,7 @@ export class SignInComponent implements OnInit {
                 this.dialog.open(SigninErrorDialogComponent)
               }
             })
-          } else if (role === WebsiteRole.OPERATOR) {
+          } else if (roleName === this.roleService.getOperatorName()) {
             this.operatorService.getOperatorByID(signinResponse.id).subscribe({
               next: (userResponse) => {
                 this.lStorageService.setUserCF(userResponse.cf)

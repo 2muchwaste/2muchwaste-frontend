@@ -17,7 +17,7 @@ import {OperatorDumpsterService} from "../services/middleware/operatordumpsterse
   styleUrls: ['./operator-information.component.scss']
 })
 export class OperatorInformationComponent implements OnInit, OnDestroy {
-
+  private CLASS_TAG = "OperatorInformationComponent"
   public user!: UserResponse
   userEmpties!: Empty[]
   lowValue: number = 0
@@ -53,6 +53,7 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
     this.operatorDumpsterService.getEmptiesWithSpecificDumpsterByCF(this.lStorageService.getUserCF()).subscribe({
       next: (res) => {
         this.userEmpties = this.userInfoService.userEmpties = res
+        console.log(this.CLASS_TAG + ": res", res)
       }
     })
   }

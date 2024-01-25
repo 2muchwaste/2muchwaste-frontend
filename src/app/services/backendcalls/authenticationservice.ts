@@ -18,18 +18,18 @@ export class AuthenticationService {
   constructor(private httpReqService: HttpRequestService) {
   }
 
-  signup(user: User, role: WebsiteRole) {
-    user.role = WebSiteRoleHelper.getNameRole(role)
+  signup(user: User, role: string) {
+    // user.role = WebSiteRoleHelper.getNameRole(role)
     console.log(this.CLASS_TAG + ": user", user)
     return this.httpReqService.postRequest(
-      this.authenticationBackendURL + WebSiteRoleHelper.getNameRole(role) + '/signup',
+      this.authenticationBackendURL + role + '/signup',
       user
     )
   }
 
-  signin(email: string, password: string, role: WebsiteRole) {
+  signin(email: string, password: string, role: string) {
     return this.httpReqService.postRequest<SignInResponse>(
-      this.authenticationBackendURL + WebSiteRoleHelper.getNameRole(role) + '/signin',
+      this.authenticationBackendURL + role + '/signin',
       {email: email, password: password}
     )
   }

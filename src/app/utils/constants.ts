@@ -2,23 +2,35 @@ export class AppConstants {
   /**
    * Key for local storage to set and get user ID logged
    */
-  static lSUserID = "userid"
+  static readonly lSUserID = "userid"
   /**
    * Key for local storage to set and get user role
    */
-  static lSuserRole = "role"
+  static readonly lSuserRole = "role"
   /**
    * Key for local storage to set and get logged user's token
    */
-  static lSToken = "token"
+  static readonly lSToken = "token"
   /**
    * Key for local storage to set and get user object
    */
-  static userObject = 'userObject'
+  static readonly userObject = 'userObject'
   /**
    * Key for local storage to set and get user cf
    */
-  static lSuserCF = "userCF"
+  static readonly lSuserCF = "userCF"
+  /**
+   * Key for role name customer
+   */
+  static readonly customerRoleName = "customer"
+  /**
+   * Key for role name operator
+   */
+  static readonly operatorRoleName = "operator"
+  /**
+   * Key for role name admin
+   */
+  static readonly adminRoleName = "admin"
 
   public static get serverURL(): string {
     return "http://localhost:3456"

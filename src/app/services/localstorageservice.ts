@@ -36,12 +36,36 @@ export class LocalStorageService {
     return localStorage.getItem(this.USER_TOKEN_KEY)
   }
 
-  setUserRole(userRole: WebsiteRole) {
+  setUserRoleName(userRole: string) {
     localStorage.setItem(this.USER_ROLE, userRole)
   }
 
-  getUserRole() {
+  getUserRoleName() {
     return localStorage.getItem(this.USER_ROLE)
+  }
+
+  setRoleCustomerCode(roleCode: string) {
+    localStorage.setItem(AppConstants.customerRoleName, roleCode)
+  }
+
+  setRoleOperatorCode(roleCode: string) {
+    localStorage.setItem(AppConstants.operatorRoleName, roleCode)
+  }
+
+  setRoleAdminCode(roleCode: string) {
+    localStorage.setItem(AppConstants.adminRoleName, roleCode)
+  }
+
+  getRoleCustomerCode() {
+    return localStorage.getItem(AppConstants.customerRoleName)
+  }
+
+  getRoleOperatorCode() {
+    return localStorage.getItem(AppConstants.operatorRoleName)
+  }
+
+  getRoleAdminCode() {
+    return localStorage.getItem(AppConstants.adminRoleName)
   }
 
   setUserObject(userObject: any): void {

@@ -7,8 +7,9 @@ import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
 import {Payment} from "../models/payment"
 import {LocalStorageService} from "./localstorageservice"
-import {WebsiteRole} from "../models/role";
+// import {WebsiteRole} from "../models/role";
 import {OperatorNotification} from "../models/operatornotification";
+import {RoleService} from "./backendcalls/roleservice";
 
 
 @Injectable({
@@ -41,6 +42,7 @@ export class UserInformationService {
 
   constructor(
     private lStorageService: LocalStorageService,
+    private roleService: RoleService,
   ) {
   }
 
@@ -109,7 +111,8 @@ export class UserInformationService {
   }
 
   setUser(userResponse: UserResponse) {
-    if (userResponse.role === WebsiteRole.CUSTOMER) userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
+    // if (userResponse.role === WebsiteRole.CUSTOMER) userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
+    if (userResponse.role === this.roleService.getCustomerCode()) userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
     this.user = userResponse
     this.logged = true
     this.newUserSet.next(this.user)

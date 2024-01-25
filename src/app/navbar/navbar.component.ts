@@ -15,9 +15,10 @@ import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
-import {WebsiteRole} from "../models/role";
+// import {WebsiteRole} from "../models/role";
 import {OperatorNotification} from "../models/operatornotification";
 import {OperatorNotificationService} from "../services/backendcalls/operatornotificationservice";
+import {RoleService} from "../services/backendcalls/roleservice";
 
 @Component({
   selector: 'app-navbar',
@@ -33,7 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscriptionUserReadNotification: Subscription
   public isLogged = false
   private subscriptionUser: Subscription
-  readonly WebsiteRole = WebsiteRole
+  // readonly WebsiteRole = WebsiteRole
   @ViewChild('navbarbutton') navbarButton!: ElementRef<HTMLElement>
   @ViewChild('collapsablePartNavbar') collapsableNavbar!: ElementRef
 
@@ -45,11 +46,18 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     private customerService: CustomerService,
     private operatorService: OperatorService,
     private eRef: ElementRef,
-    private lStorageService: LocalStorageService
+    private lStorageService: LocalStorageService,
+    public roleService: RoleService,
   ) {
+    // this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
+    //   if (userResponse.role === WebsiteRole.CUSTOMER) this.initializeUserAfterLogin(userResponse)
+    //   else if (userResponse.role === WebsiteRole.OPERATOR) this.initializeOperatorAfterLogin(userResponse)
+    // })
+
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
-      if (userResponse.role === WebsiteRole.CUSTOMER) this.initializeUserAfterLogin(userResponse)
-      else if (userResponse.role === WebsiteRole.OPERATOR) this.initializeOperatorAfterLogin(userResponse)
+      console.log(this.CLASS_TAG + ": AAAAAuserResponse", userResponse)
+      if (userResponse.role === this.roleService.getCustomerCode()) this.initializeUserAfterLogin(userResponse)
+      else if (userResponse.role === this.roleService.getOperatorCode()) this.initializeOperatorAfterLogin(userResponse)
     })
 
     // Quando arriva una nuova notifica bisogna aggiornare l'array inerente della navbar
@@ -60,15 +68,30 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
+  // ngOnInit() {
+  //   const user = this.lStorageService.getUserObject()
+  //   if (user && user.role === WebsiteRole.CUSTOMER) {
+  //     let userIDStored = this.lStorageService.getUserID()
+  //     if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
+  //   } else if (user && user.role === WebsiteRole.OPERATOR) {
+  //     let operatorIDStored = this.lStorageService.getUserID()
+  //     // let userIDStored = this.userInfoService.user._id
+  //     if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRole() === WebsiteRole.OPERATOR) this.restoreOperator(operatorIDStored)
+  //
+  //   }
+  // }
+
   ngOnInit() {
     const user = this.lStorageService.getUserObject()
-    if (user && user.role === WebsiteRole.CUSTOMER) {
+    console.log(this.CLASS_TAG + ": ABBAuser", user)
+    console.log(this.CLASS_TAG + ": ABBAthis.roleService.getCustomerCode()", this.roleService.getCustomerCode())
+    if (user && user.role === this.roleService.getCustomerCode()) {
       let userIDStored = this.lStorageService.getUserID()
       if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
-    } else if (user && user.role === WebsiteRole.OPERATOR) {
+    } else if (user && user.role === this.roleService.getOperatorCode()) {
       let operatorIDStored = this.lStorageService.getUserID()
       // let userIDStored = this.userInfoService.user._id
-      if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRole() === WebsiteRole.OPERATOR) this.restoreOperator(operatorIDStored)
+      if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRoleName() === this.roleService.getOperatorName()) this.restoreOperator(operatorIDStored)
 
     }
   }

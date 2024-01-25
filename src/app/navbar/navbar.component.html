@@ -1,14 +1,23 @@
 <nav class="navbar navbar-expand-* navbar-light bg-light fixed-top" #navbar>
   <div class="container-fluid container-in-nav">
 
+
+    <!--    <a class="navbar-brand navbar-title"-->
+    <!--       routerLink="{{-->
+    <!--       !userInfoService.user ? '/' :-->
+    <!--       userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' :-->
+    <!--       userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :-->
+    <!--       '/'}}">2MuchWaste</a>-->
+
     <a class="navbar-brand navbar-title"
        routerLink="{{
        !userInfoService.user ? '/' :
-       userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' :
-       userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :
+       userInfoService.user.role === this.roleService.getCustomerCode() ? '/customerhome' :
+       userInfoService.user.role === this.roleService.getOperatorCode() ? '/operatorhome' :
        '/'}}">2MuchWaste</a>
 
-    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">
+    <!--    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">-->
+    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getCustomerCode()">
       <button mat-raised-button [matMenuTriggerFor]="beforeMenu"
               class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
         <mat-icon [matBadge]=customerNotificationNotRead?.length>notifications</mat-icon>
@@ -33,7 +42,8 @@
       </button>
     </ng-container>
 
-    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.OPERATOR">
+    <!--    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === WebsiteRole.OPERATOR">-->
+    <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getOperatorCode()">
       <button mat-raised-button [matMenuTriggerFor]="beforeMenu"
               class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
         <mat-icon [matBadge]=operatorNotificationNotRead?.length>notifications</mat-icon>
@@ -50,7 +60,7 @@
               <mat-divider></mat-divider>
             </li>
             <li class="notification-list-item notification-all-list" routerLink="/usernotifications"
-                *ngIf=" this.userInfoService.user.notifications && this.userInfoService.user.notifications.length>0">
+                *ngIf="this.userInfoService.user.notifications.length>0">
               <a href="#" routerLink="/usernotifications">Vedi tutte le notifiche</a>
             </li>
           </ul>
@@ -68,10 +78,16 @@
         <ng-container *ngIf="isLogged">
 
           <li class="nav-item">
+            <!--            <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"-->
+            <!--               routerLink="{{-->
+            <!--                 userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' :-->
+            <!--                 userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :-->
+            <!--                 '#'-->
+            <!--               }}">Home</a>-->
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink="{{
-                 userInfoService.user.role === this.WebsiteRole.CUSTOMER ? '/customerhome' :
-                 userInfoService.user.role === this.WebsiteRole.OPERATOR ? '/operatorhome' :
+                 userInfoService.user.role === this.roleService.getCustomerCode() ? '/customerhome' :
+                 userInfoService.user.role === this.roleService.getOperatorCode() ? '/operatorhome' :
                  '#'
                }}">Home</a>
           </li>
@@ -80,7 +96,8 @@
             <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                routerLink="/userinformation">Dati personali</a>
           </li>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">
+          <!--          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">-->
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getCustomerCode()">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/depositsinformation'>Elenco depositi</a>
@@ -94,7 +111,8 @@
                  routerLink='/paymentstatus'>Pagamenti</a>
             </li>
           </ng-container>
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.OPERATOR">
+          <!--          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.OPERATOR">-->
+          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getOperatorCode()">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/operatorinformation'>Elenco svuotamenti</a>
