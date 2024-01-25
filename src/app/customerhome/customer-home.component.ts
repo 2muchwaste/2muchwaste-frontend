@@ -315,6 +315,8 @@ export class CustomerHomeThrowGarbageDialogComponent {
   // public dumpsters: {dumpster: Dumpster,distance: number}[]
 
   @Output() showMapEvent = new EventEmitter<boolean>()
+  trashTypesManager: TrashTypeManager = new TrashTypeManager()
+
   public nearestDumpstersSet = false
 
   public newNearestDumpster: Subscription
@@ -355,6 +357,7 @@ export class CustomerHomeThrowGarbageDialogComponent {
     this.highValue = newHighValue <= this.dumpsterForPage ? this.dumpsterForPage : newHighValue
 
   }
+
 }
 
 @Component({

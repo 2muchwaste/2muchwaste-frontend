@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <ng-container *ngIf="nearestDumpstersSet && !showMap; else loadingTemplate">
     <p *ngFor="let dump of userInfoService.nearestDumpsters | slice: lowValue: highValue">{{dump.dumpster.address}}
-      , {{dump.dumpster.city}} - {{dump.dumpster.type}}, distance: {{dump.distance.toFixed(2)}}</p>
+      , {{dump.dumpster.city}} - {{trashTypesManager.getItalianName(dump.dumpster.type)}}, Distanza: {{dump.distance.toFixed(2)}} Km</p>
     <mat-divider></mat-divider>
 
     <button class="col-6 application-button-primary" mat-raised-button color="primary"
