@@ -60,7 +60,7 @@
               <mat-divider></mat-divider>
             </li>
             <li class="notification-list-item notification-all-list" routerLink="/usernotifications"
-                *ngIf="this.userInfoService.user.notifications.length>0">
+                *ngIf=" this.userInfoService.user.notifications && this.userInfoService.user.notifications.length>0">
               <a href="#" routerLink="/usernotifications">Vedi tutte le notifiche</a>
             </li>
           </ul>
