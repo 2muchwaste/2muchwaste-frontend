@@ -16,13 +16,7 @@ import {PageEvent} from "@angular/material/paginator"
 import {LocalStorageService} from "../services/localstorageservice"
 import {Router} from "@angular/router";
 import {CreateDepositService} from "../services/middleware/createdepositservice";
-
-export interface Coordinates {
-  coords: {
-    latitude: number,
-    longitude: number
-  }
-}
+import {Coordinates} from "../utils/geoutils";
 
 export interface Dialog {
   title: string,
@@ -142,22 +136,15 @@ export class CustomerHomeComponent implements OnInit {
   }
 
   private setDumpsters(userPosition: Coordinates) {
-    this.dumpsterService.getDumpsters()
-      .subscribe(
-        {
-          next: (response) => {
-            this.computateNearestDumpsters(userPosition, response).subscribe({
-              next: (res) => {
-                this.userInfoService.setNearestDumpsters(res)
-                this.lastUserPosition = userPosition
-              }
-            })
-          },
-          error: (errorObject) => {
-            console.log(errorObject)
-          }
-        }
-      )
+    this.dumpsterService.getNearDumpsters(userPosition).subscribe({
+      next: (res) => {
+        this.userInfoService.setNearestDumpsters(res)
+        this.lastUserPosition = userPosition
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   closeMap() {
@@ -265,51 +252,6 @@ export class CustomerHomeComponent implements OnInit {
 
   }
 
-  getDistanceFromTwoPoints(p1: Coordinates, p2: Coordinates) {
-    var R = 6371 // Radius of the earth in km
-    let lat1 = p1.coords.latitude
-    let lon1 = p1.coords.longitude
-
-    let lat2 = p2.coords.latitude
-    let lon2 = p2.coords.longitude
-    var distanceLatitudes = this.deg2rad(lat2 - lat1)  // deg2rad below
-    var distanceLongitudes = this.deg2rad(lon2 - lon1)
-    var a =
-      Math.sin(distanceLatitudes / 2) * Math.sin(distanceLatitudes / 2) +
-      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
-      Math.sin(distanceLongitudes / 2) * Math.sin(distanceLongitudes / 2)
-
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    return R * c // Distance in km
-  }
-
-  deg2rad(deg: number) {
-    return deg * (Math.PI / 180)
-  }
-
-  computateNearestDumpsters(userPosition: Coordinates, response: Dumpster[]) {
-
-    return new Observable<{ dumpster: Dumpster, distance: number }[]>(obs => {
-      let dumpsterAndDistance: { dumpster: Dumpster, distance: number }[] = []
-      response.sort((p1, p2) => {
-        let x = {coords: {latitude: p1.latitude, longitude: p1.longitude}}
-        let y = {coords: {latitude: p2.latitude, longitude: p2.longitude}}
-        return this.getDistanceFromTwoPoints(userPosition, x) - this.getDistanceFromTwoPoints(userPosition, y)
-      }).forEach(d => {
-        dumpsterAndDistance.push({
-          dumpster: d,
-          distance: (this.getDistanceFromTwoPoints(userPosition, {
-            coords: {
-              latitude: d.latitude,
-              longitude: d.longitude
-            }
-          }))
-        })
-      })
-      obs.next(dumpsterAndDistance)
-    })
-  }
-
 }
 
 @Component({
@@ -368,11 +310,11 @@ export class CustomerHomeThrowGarbageDialogComponent {
   }
 
   openDialog(dump: { dumpster: Dumpster; distance: number }) {
+    this.createDepositService.dumpster = dump.dumpster
     let dialog: Dialog = {
       title: 'Deposito',
       message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
     }
-    this.createDepositService.dumpster = dump.dumpster
     let dialogRef = this.dialog.open(CustomerHomeDialogYesNoComponent, {
       data: dialog,
     })
