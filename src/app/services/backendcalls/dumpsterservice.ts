@@ -5,6 +5,7 @@ import {Dumpster} from "../../models/dumpster"
 import {Authorizationservice} from "./authorizationservice"
 import {HttpRequestService} from "./httprequestservice"
 import {LocalStorageService} from "../localstorageservice"
+import {GeoUtils} from "../../utils/geoutils";
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,6 @@ export class DumpsterService {
   private backendDumpsterURL = AppConstants.serverURL + AppConstants.versionBackend + 'dumpsters/'
 
   constructor(
-    // private http: HttpClient,
     private authService: Authorizationservice,
     private httpRequestService: HttpRequestService,
     private lStorageService: LocalStorageService
@@ -23,6 +23,32 @@ export class DumpsterService {
 
   getDumpsters(): Observable<Dumpster[]> {
     return this.getDumpstersInfo('')
+  }
+
+  getNearDumpsters(userPosition: {coords: {latitude: number,longitude: number}}){
+    return new Observable<{ dumpster: Dumpster, distance: number }[]>(obs=>{
+      this.getDumpsters().subscribe({
+        next:(response)=>{
+          let dumpsterAndDistance: { dumpster: Dumpster, distance: number }[] = []
+          response.sort((p1, p2) => {
+            let x = {coords: {latitude: p1.latitude, longitude: p1.longitude}}
+            let y = {coords: {latitude: p2.latitude, longitude: p2.longitude}}
+            return GeoUtils.getDistanceFromTwoPoints(userPosition, x) - GeoUtils.getDistanceFromTwoPoints(userPosition, y)
+          }).forEach(d => {
+            dumpsterAndDistance.push({
+              dumpster: d,
+              distance: (GeoUtils.getDistanceFromTwoPoints(userPosition, {
+                coords: {
+                  latitude: d.latitude,
+                  longitude: d.longitude
+                }
+              }))
+            })
+          })
+          obs.next(dumpsterAndDistance)
+        }
+      })
+    })
   }
 
   getDumpsterByID(dumpsterID: string): Observable<Dumpster> {
