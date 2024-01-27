@@ -3,10 +3,8 @@
     <div class="d-none d-md-block">
       <div class="row table-row-headers list-item-headers">
         <div class="col-1"></div>
-        <div class="col-3 date-header">DATA <i class="fa fa-calendar"
-                                               style="color: rgba(80,80,80,.8)"></i></div>
-        <div class="col-8 text-header">COMUNICAZIONE <i class="fa fa-recycle"
-                                                        style="color: rgba(80,80,80,.8)"></i></div>
+        <div class="col-3 date-header">DATA</div>
+        <div class="col-8 text-header">COMUNICAZIONE</div>
       </div>
     </div>
 
@@ -16,7 +14,7 @@
         <div class="col-1 quantity-value text-center">
 
           <!-- Necessario quel confronto con true-->
-          <mat-checkbox [checked]="noti.read === true" disabled="{{noti.read}}"
+          <mat-checkbox [checked]="noti.read === true" aria-label="checkbox to check notification" disabled="{{noti.read}}"
                         (change)="tickNotification($event.checked, noti._id)"></mat-checkbox>
 
         </div>
@@ -39,12 +37,12 @@
                    [pageSize]="10"
                    [pageSizeOptions]="[10, 20, 30]"
                    (page)="getPaginatorData($event)"
-                   aria-label="Seleziona la pagina" *ngIf="notifications" #matPaginator>
+                   aria-label="Seleziona la pagina" #prova *ngIf="notifications" #matPaginator>
     </mat-paginator>
     <div class="row">
 
       <div class="col-md-6">
-        <button class="col-12 application-button-primary" mat-raised-button color="primary"
+        <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"
                 (click)="filterNotificationsRead()">
           <ng-container *ngIf="showReadNotification; else notShowReadNotifications">
             Non Mostrare Notifiche Già Lette
@@ -56,7 +54,7 @@
       </div>
 
       <div class="col-md-6">
-        <button class="col-12 application-button-primary" mat-raised-button color="primary"
+        <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"
                 [disabled]="notificationToTickAsRead.size<=0"
                 (click)="tickNotificationsAsRead()">Segna come lette
         </button>
