@@ -47,6 +47,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {CreateDepositComponent} from './createdeposit/create-deposit.component';
+import {DialogYesNoComponent} from "./dialogs/DialogYesNo";
+import {DialogSimpleComponent} from "./dialogs/DialogSimple";
 import {CreateDumpsterComponent} from './createdumpster/createdumpster.component';
 
 
@@ -70,6 +72,8 @@ import {CreateDumpsterComponent} from './createdumpster/createdumpster.component
     MonthlyEmptyingComponent,
     OperatorInformationComponent,
     OperatorNotificationsComponent,
+    DialogYesNoComponent,
+    DialogSimpleComponent,
     SourceNotFoundComponent,
     ForbiddenResourceComponent,
     FooterComponent,
