@@ -1,0 +1,30 @@
+<form class="example-form" (ngSubmit)="submit()">
+  <div class="row gx-0">
+    <div class="col-12 col-row-forms">
+      <div class="row before-form">
+
+        <!------- QUANTITÀ -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Quantità (Kg)</mat-label>
+          <input placeholder="Ex. 1" type="text" matInput [formControl]="quantityFormControl">
+          <mat-error *ngIf="quantityFormControl.hasError('required')">
+            La quantità è <strong>richiesta</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!------- TEMPO -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Tempo (secondi)</mat-label>
+          <input placeholder="Ex. 10" type="text" matInput [formControl]="timeFormControl">
+          <mat-error *ngIf="timeFormControl.hasError('required')">
+            Il tempo è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="button-container">
+          <button class="col-12 application-button signup" mat-raised-button>Crea deposito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

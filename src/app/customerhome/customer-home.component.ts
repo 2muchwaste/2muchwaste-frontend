@@ -14,12 +14,19 @@ import * as L from "leaflet"
 import {TrashTypeManager} from "../models/trashtype"
 import {PageEvent} from "@angular/material/paginator"
 import {LocalStorageService} from "../services/localstorageservice"
+import {Router} from "@angular/router";
+import {CreateDepositService} from "../services/middleware/createdepositservice";
 
 export interface Coordinates {
   coords: {
     latitude: number,
     longitude: number
   }
+}
+
+export interface Dialog {
+  title: string,
+  message: string
 }
 
 @Component({
@@ -175,8 +182,8 @@ export class CustomerHomeComponent implements OnInit {
   private openDialog(errorTitle: string, errorMessage: string) {
     return this.customerHomeDialog.open(CustomerHomeDialogComponent, {
       data: {
-        errorTitle: errorTitle,
-        errorMessage: errorMessage
+        title: errorTitle,
+        message: errorMessage
       }
     })
   }
@@ -329,6 +336,8 @@ export class CustomerHomeThrowGarbageDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
+    public dialog: MatDialog,
+    private createDepositService: CreateDepositService,
   ) {
     console.log('here')
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
@@ -358,22 +367,68 @@ export class CustomerHomeThrowGarbageDialogComponent {
 
   }
 
+  openDialog(dump: { dumpster: Dumpster; distance: number }) {
+    let dialog: Dialog = {
+      title: 'Deposito',
+      message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
+    }
+    this.createDepositService.dumpster = dump.dumpster
+    let dialogRef = this.dialog.open(CustomerHomeDialogYesNoComponent, {
+      data: dialog,
+    })
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        this.dialog.closeAll()
+      }
+    })
+  }
+
 }
 
 @Component({
   selector: 'app-customer-home-position-error',
-  templateUrl: './customer-home-position-error.html',
+  templateUrl: 'customer-home-position-error.html',
   styleUrls: ['./customer-home-position-error.scss', './customer-home.component.scss']
 })
 export class CustomerHomeDialogComponent {
 
+  private readonly CLASS_TAG = 'CustomerHomeDialogComponent'
   public title: string
   public message: string
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private injectedData: any,
+    @Inject(MAT_DIALOG_DATA) private injectedData: Dialog,
   ) {
-    this.title = injectedData.errorTitle
-    this.message = injectedData.errorMessage
+    console.log(this.CLASS_TAG + ": injectedData", injectedData)
+    this.title = injectedData.title
+    this.message = injectedData.message
   }
 }
+
+@Component({
+  selector: 'app-customer-home-yes-no',
+  templateUrl: 'customer-home-yes-no.html',
+  styleUrls: ['./customer-home-position-error.scss', './customer-home.component.scss']
+})
+export class CustomerHomeDialogYesNoComponent {
+
+  private readonly CLASS_TAG = 'CustomerHomeDialogComponent'
+  public title: string
+  public message: string
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private injectedData: Dialog,
+    private router: Router,
+    private createDepositService: CreateDepositService,
+  ) {
+    console.log(this.CLASS_TAG + ": injectedData", injectedData)
+    this.title = injectedData.title
+    this.message = injectedData.message
+  }
+
+  createDeposit() {
+    console.log(this.CLASS_TAG + ": this.createDepositService.dumpster", this.createDepositService.dumpster)
+    this.router.navigate(['/createdeposit'])
+  }
+}
+

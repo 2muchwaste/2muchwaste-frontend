@@ -18,7 +18,8 @@ import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
 import {EmptyDumpsterComponent} from "./emptydumpster/empty-dumpster.component";
 import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
 import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
-import {OperatorNotificationsComponent } from "./operatornotifications/operator-notifications.component";
+import {OperatorNotificationsComponent} from "./operatornotifications/operator-notifications.component";
+import {CreateDepositComponent} from "./createdeposit/create-deposit.component";
 import {CreateDumpsterComponent} from "./createdumpster/createdumpster.component";
 
 const routes: Routes = [
@@ -35,12 +36,14 @@ const routes: Routes = [
   getRouteComponent('depositsinformation', UserDepositsInformationComponent),
   getRouteComponent('monthlycost', MonthlyCostComponent),
   getRouteComponent('usernotifications', UserNotificationsComponent),
-  getRouteComponent('paymentstatus',PaymentsComponent),
-  getRouteComponent('whoweare',WhoWeAreComponent),
-  getRouteComponent('contactus',ContactUsComponent),
-  getRouteComponent('createdumpster',CreateDumpsterComponent),
+  getRouteComponent('paymentstatus', PaymentsComponent),
+  getRouteComponent('whoweare', WhoWeAreComponent),
+  getRouteComponent('contactus', ContactUsComponent),
+  getRouteComponent('createdeposit', CreateDepositComponent),
+   getRouteComponent('createdumpster',CreateDumpsterComponent),
+
   {path: '', redirectTo: 'signin', pathMatch: 'full'},
-  getRouteComponent('**',SourceNotFoundComponent)
+  getRouteComponent('**', SourceNotFoundComponent)
 ]
 
 function getRouteComponent(path: string, component: any) {

@@ -4,7 +4,7 @@ export class Dumpster {
 
   constructor(
     // public __v: string,
-    // public _id: string,
+    public _id: string,
     public actualWeight: number,
     public address: string,
     public area: string,
@@ -36,7 +36,8 @@ export class DumpsterBuilder {
   private type!: TrashTypes
   private zipCode!: number
 
-  constructor() {}
+  constructor() {
+  }
 
   // Setters for the properties
   setActualWeight(actualWeight: number) {
@@ -102,6 +103,7 @@ export class DumpsterBuilder {
   // Build method to create a Dumpster object
   build() {
     return new Dumpster(
+      "",
       this.actualWeight,
       this.address,
       this.area,

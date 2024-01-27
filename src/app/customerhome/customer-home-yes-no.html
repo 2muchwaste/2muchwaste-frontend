@@ -1,0 +1,10 @@
+<div class="container-dialog-error">
+  <h1 mat-dialog-title>{{title}}</h1>
+  <div mat-dialog-content class="message-error">
+    {{message}}
+  </div>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>Chiudi</button>
+    <button mat-button mat-dialog-close (click)="createDeposit()">Si</button>
+  </mat-dialog-actions>
+</div>

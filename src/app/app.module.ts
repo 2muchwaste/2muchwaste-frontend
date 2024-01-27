@@ -18,30 +18,35 @@ import {SignInComponent, SigninErrorDialogComponent} from './signin/sign-in.comp
 
 import {
   CustomerHomeComponent,
-  CustomerHomeDialogComponent,
+  CustomerHomeDialogComponent, CustomerHomeDialogYesNoComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customer-home.component';
-import {OperatorHomeComponent, OperatorHomeDialogComponent, OperatorHomeEmptyGarbageDialogComponent} from './operatorhome/operator-home.component';
+import {
+  OperatorHomeComponent,
+  OperatorHomeDialogComponent,
+  OperatorHomeEmptyGarbageDialogComponent
+} from './operatorhome/operator-home.component';
 import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
 import {EmptyDumpsterComponent} from './emptydumpster/empty-dumpster.component';
 import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
 import {OperatorInformationComponent} from './operatorinformation/operator-information.component';
-import {OperatorNotificationsComponent } from './operatornotifications/operator-notifications.component';
+import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
 import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
 import {FooterComponent} from './footer/footer.component';
 import {UserInformationComponent} from './userinformation/user-information.component';
 import {UserDepositsInformationComponent} from './userdepositsinformation/user-deposits-information.component';
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
-import { MonthlyCostComponent } from './monthlycost/monthly-cost.component';
+import {MonthlyCostComponent} from './monthlycost/monthly-cost.component';
 import {UserInformationService} from "./services/userinformationservice";
-import { UserNotificationsComponent } from './usernotifications/user-notifications.component';
+import {UserNotificationsComponent} from './usernotifications/user-notifications.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
-import { WhoWeAreComponent } from './whoweare/who-we-are.component';
-import { ContactUsComponent } from './contactus/contact-us.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
+import {WhoWeAreComponent} from './whoweare/who-we-are.component';
+import {ContactUsComponent} from './contactus/contact-us.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
+import {CreateDepositComponent} from './createdeposit/create-deposit.component';
 import {CreateDumpsterComponent} from './createdumpster/createdumpster.component';
 
 
@@ -58,6 +63,7 @@ import {CreateDumpsterComponent} from './createdumpster/createdumpster.component
     CustomerHomeThrowGarbageDialogComponent,
     CustomerHomeDialogComponent,
     OperatorHomeComponent,
+    CustomerHomeDialogYesNoComponent,
     OperatorHomeEmptyGarbageDialogComponent,
     OperatorHomeDialogComponent,
     EmptyDumpsterComponent,
@@ -75,6 +81,7 @@ import {CreateDumpsterComponent} from './createdumpster/createdumpster.component
     PaymentDialogComponent,
     WhoWeAreComponent,
     ContactUsComponent,
+    CreateDepositComponent,
     CreateDumpsterComponent
   ],
   imports: [
@@ -105,12 +112,13 @@ import {CreateDumpsterComponent} from './createdumpster/createdumpster.component
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule implements OnInit{
+export class AppModule implements OnInit {
 
   constructor(
     private userInfoService: UserInformationService
   ) {
   }
+
   ngOnInit(): void {
     console.log("AppComponent OnInit");
   }
