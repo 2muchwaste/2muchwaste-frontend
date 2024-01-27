@@ -1,19 +1,27 @@
 <h1 mat-dialog-title>Elenco bidoni nelle vicinanze</h1>
 <div mat-dialog-content>
   <ng-container *ngIf="nearestDumpstersSet && !showMap; else loadingTemplate">
-   <p *ngFor="let dump of userInfoService.nearestDumpsters | slice: lowValue: highValue">{{dump.dumpster.address}}
-    , {{dump.dumpster.city}} - {{trashTypesManager.getItalianName(dump.dumpster.type)}}, Distanza: {{dump.distance.toFixed(2)}} Km</p>
+    <div class="row dumpster">
+   <ng-container *ngFor="let dump of userInfoService.nearestDumpsters | slice: lowValue: highValue">
+    <button class="col-12 dumpster btn btn-light"
+                (click)="openDialog(dump)">
+                {{dump.dumpster.address}}, {{dump.dumpster.city}} - {{trashTypesManager.getItalianName(dump.dumpster.type)}},
+                Distanza: {{dump.distance.toFixed(2)}} Km
+              </button>
+            </ng-container>
+          </div>
     <mat-divider></mat-divider>
 
-    <button class="col-6 application-button-primary" mat-raised-button color="primary"
-            [disabled]="lowValue<=0"
-            (click)="movePageDumpsters(-1)"><
-    </button>
+    <div class="row">
+      <button class="col-6 application-button-primary" mat-raised-button color="primary"
+              [disabled]="lowValue<=0"
+              (click)="movePageDumpsters(-1)"><
+      </button>
 
-    <button class="col-6 application-button-primary" mat-raised-button color="primary"
-            [disabled]="highValue>=userInfoService.nearestDumpsters.length"
-            (click)="movePageDumpsters(1)">>
-    </button>
+      <button class="col-6 application-button-primary" mat-raised-button color="primary"
+      [disabled]="highValue>=userInfoService.nearestDumpsters.length"
+      (click)="movePageDumpsters(1)">>
+      </button>
 
     <button class="col-12 application-button-primary" mat-raised-button color="primary"
             (click)="showDumpstersOnMap()">

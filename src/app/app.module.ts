@@ -42,6 +42,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import {CreateDumpsterComponent} from './createdumpster/createdumpster.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { MatIconModule } from '@angular/material/icon';
     PaymentsComponent,
     PaymentDialogComponent,
     WhoWeAreComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    CreateDumpsterComponent
   ],
   imports: [
     BrowserModule,

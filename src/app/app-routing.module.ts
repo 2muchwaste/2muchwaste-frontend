@@ -19,6 +19,7 @@ import {EmptyDumpsterComponent} from "./emptydumpster/empty-dumpster.component";
 import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
 import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
 import {OperatorNotificationsComponent } from "./operatornotifications/operator-notifications.component";
+import {CreateDumpsterComponent} from "./createdumpster/createdumpster.component";
 
 const routes: Routes = [
   getRouteComponent('signin', SignInComponent),
@@ -37,6 +38,7 @@ const routes: Routes = [
   getRouteComponent('paymentstatus',PaymentsComponent),
   getRouteComponent('whoweare',WhoWeAreComponent),
   getRouteComponent('contactus',ContactUsComponent),
+  getRouteComponent('createdumpster',CreateDumpsterComponent),
   {path: '', redirectTo: 'signin', pathMatch: 'full'},
   getRouteComponent('**',SourceNotFoundComponent)
 ]

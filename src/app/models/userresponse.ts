@@ -1,5 +1,6 @@
 import {User, UserBuilder} from "./user";
 import {UserNotification} from "./UserNotification";
+import { OperatorNotification } from "./operatornotification";
 import { EmptyServerResponse } from "./emptyserverresponse";
 
 export class UserResponse extends User {

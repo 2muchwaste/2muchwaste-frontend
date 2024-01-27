@@ -3,9 +3,11 @@ import {UserResponse} from "../models/userresponse"
 import {Empty} from "../models/empty"
 import {Subject} from "rxjs"
 import {UserNotification} from "../models/UserNotification"
+import {OperatorNotification} from "../models/operatornotification"
 import {Dumpster} from "../models/dumpster"
 import {LocalStorageService} from "./localstorageservice"
 import {OperatorService} from "./backendcalls/operatorservice"
+import {RoleService} from "./backendcalls/roleservice"
 
 
 @Injectable({
@@ -15,6 +17,7 @@ export class OperatorInformationService {
   private SERVICE_TAG = 'OperatorInformationService:'
   public user!: UserResponse
   public userEmpties!: Empty[]
+  public operatorNotifications!: OperatorNotification[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
 
@@ -35,6 +38,7 @@ export class OperatorInformationService {
 
   constructor(
     private lStorageService: LocalStorageService,
+    private roleService: RoleService,
     private operatorService: OperatorService
   ) {
   }

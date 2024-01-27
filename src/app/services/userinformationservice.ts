@@ -59,8 +59,7 @@ export class UserInformationService {
     this.user = undefined
     // @ts-ignore
     this.nearestDumpsters = undefined
-    // @ts-ignore
-    this.userEmpties = undefined
+  
   }
 
   public login(userResponse: UserResponse, userToken: string) {

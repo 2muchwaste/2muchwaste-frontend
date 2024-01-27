@@ -1,0 +1,45 @@
+.row.operator-notification-row {
+    justify-content: center;
+  }
+  
+  .col.operator-notification-col {
+    max-width: 900px;
+  }
+  
+  .table-row-headers {
+    font-family: "Roboto", sans-serif;
+    font-weight: bolder;
+    letter-spacing: 2px;
+    //text-align: center;
+    background-color: rgba(216, 222, 191, .3);
+    padding: 10px 0 10px;
+  }
+  
+  .quantity-header, .quantity-value {
+    text-align: end;
+  }
+  
+  .read {
+    color: rgb(115, 115, 115);
+  }
+  
+  .row.operatornotification-list-item {
+    min-height: 45px;
+    align-items: center;
+  }
+  
+  .col-sm-4.date-value {
+    display: flex;
+    align-items: center;
+  }
+  
+  @media screen and (max-width: 575px) {
+    .row.operatornotification-list-item {
+      min-height: 60px;
+    }
+  
+    .date-value {
+      color: rgb(100, 100, 100);
+    }
+  }
+  

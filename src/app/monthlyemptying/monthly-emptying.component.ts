@@ -275,7 +275,7 @@ export class MonthlyEmptyingComponent implements OnInit {
     // @ts-ignore
     this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserID()).subscribe({
       next: (res) => {
-        let emptiesServerResponse = res.empties.map(empty => {
+        let empties = res.empties.map(empty => {
           empty.date = new Date(empty.date)
           return empty
         })
@@ -303,7 +303,7 @@ export class MonthlyEmptyingComponent implements OnInit {
                 date: empty.date,
                 quantity: 0
               })
-              this.userEmpties = this.userInfoService.userEmpties
+              this.userEmpties = this.userInfoService.userEmpties = empties
               console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
               this.monthEmpty = this.userEmpties.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
               this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
