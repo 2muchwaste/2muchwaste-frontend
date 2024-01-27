@@ -1,8 +1,13 @@
-<form class="example-form" (ngSubmit)="submit()">
+<form class="example-form" (ngSubmit)="submit()" *ngIf="dumpster">
   <div class="row gx-0">
     <div class="col-12 col-row-forms">
       <div class="row before-form">
-
+        <h1>{{"Deposito " + trashTypeManager.getItalianName(dumpster.type)}}</h1>
+        <div class="col-12">
+          <p>Stai depositando un rifiuto di tipo {{trashTypeManager.getItalianName(dumpster.type)}} nel bidone in {{dumpster.address+", "+dumpster.city}}</p>
+          <p>Si prega di inserire la quantità di materiale gettato e il tempo utilizzato indicati sullo schermo del bidone.</p>
+          <p>Se si intende utilizzare un differente bidone <a routerLink="/customerhome">clicca qui</a> per tornare alla pagina precedente.
+        </div>
         <!------- QUANTITÀ -------->
         <mat-form-field class="col-md-6">
           <mat-label>Quantità (Kg)</mat-label>
