@@ -1,0 +1,32 @@
+$width-min-md: 767px;
+
+.already-registered-link {
+  margin: 20px 0;
+}
+
+button.signup {
+  margin: 20px 0;
+}
+
+.row.gx-0 {
+  justify-content: center;
+}
+
+@media screen and (min-width: $width-min-md) {
+  .mat-form-field {
+    padding: 0 20px;
+  }
+}
+
+.col-12.col-row-forms {
+  max-width: 900px;
+}
+
+.button-container {
+  padding: 0 20px;
+}
+
+.application-button {
+  background-color: #696c43;
+  color: #EDF1D6
+}
