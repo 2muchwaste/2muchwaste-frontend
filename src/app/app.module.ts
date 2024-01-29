@@ -1,98 +1,90 @@
 import {NgModule, OnInit} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {HttpClientModule} from "@angular/common/http";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
-import {MaterialExampleModule} from '../material.module';
-
-import {NavbarComponent} from './navbar/navbar.component';
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {environment} from '../environments/environment';
-import {HomeComponent} from './home/home.component';
-
-import {SignupComponent, SignupErrorDialogComponent} from './signup/signup.component';
-import {SignInComponent, SigninErrorDialogComponent} from './signin/sign-in.component';
-
+import {AppRoutingModule} from './app-routing.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserModule} from '@angular/platform-browser';
+import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
+import {ContactUsComponent} from './contactus/contact-us.component';
+import {CreateDepositComponent} from './createdeposit/create-deposit.component';
+// import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
 import {
   CustomerHomeComponent,
   CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customer-home.component';
+import {DialogSimpleComponent} from "./dialogs/DialogSimple";
+import {DialogYesNoComponent} from "./dialogs/DialogYesNo";
+import {DumpstersListComponent} from './dumpsterslist/dumpsters-list.component';
+import {EmptyDumpsterComponent} from './emptydumpster/empty-dumpster.component';
+import {environment} from '../environments/environment';
+import {FooterComponent} from './footer/footer.component';
+import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HomeComponent} from './home/home.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDividerModule} from '@angular/material/divider';
+import {MaterialExampleModule} from '../material.module';
+import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MonthlyCostComponent} from './monthlycost/monthly-cost.component';
+// import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
+import {NavbarComponent} from './navbar/navbar.component';
 import {
   OperatorHomeComponent,
-  OperatorHomeDialogComponent, OperatorHomeDialogDumpsterComponent,
+  OperatorHomeDialogComponent,
+  OperatorHomeDialogDumpsterComponent,
   OperatorHomeEmptyGarbageDialogComponent
 } from './operatorhome/operator-home.component';
-import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
-import {EmptyDumpsterComponent} from './emptydumpster/empty-dumpster.component';
-// import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
 import {OperatorInformationComponent} from './operatorinformation/operator-information.component';
 // import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
-import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
-import {FooterComponent} from './footer/footer.component';
-import {UserInformationComponent} from './userinformation/user-information.component';
+import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {SignInComponent, SigninErrorDialogComponent} from './signin/sign-in.component';
+import {SignupComponent, SignupErrorDialogComponent} from './signup/signup.component';
+import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
 import {UserDepositsInformationComponent} from './userdepositsinformation/user-deposits-information.component';
-import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
-import {MonthlyCostComponent} from './monthlycost/monthly-cost.component';
+import {UserInformationComponent} from './userinformation/user-information.component';
 import {UserInformationService} from "./services/userinformationservice";
 import {UserNotificationsComponent} from './usernotifications/user-notifications.component';
-import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
 import {WhoWeAreComponent} from './whoweare/who-we-are.component';
-import {ContactUsComponent} from './contactus/contact-us.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
-import {CreateDepositComponent} from './createdeposit/create-deposit.component';
-import {DialogYesNoComponent} from "./dialogs/DialogYesNo";
-import {DialogSimpleComponent} from "./dialogs/DialogSimple";
-<<<<<<< HEAD
-import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
-
-=======
-import {DumpstersListComponent} from './dumpsterslist/dumpsters-list.component';
-import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
->>>>>>> 6b21b1aabf93b92db4692f499a64c2b2ccec2650
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    HomeComponent,
-    SignupComponent,
-    SignupErrorDialogComponent,
-    SignInComponent,
-    SigninErrorDialogComponent,
-    CustomerHomeComponent,
-    CustomerHomeThrowGarbageDialogComponent,
-    CustomerHomeDialogComponent,
-    OperatorHomeComponent,
-    MonthlyCostComponent,
-    PaymentsComponent,
-    PaymentDialogComponent,
-    OperatorHomeEmptyGarbageDialogComponent,
-    OperatorHomeEmptyGarbageDialogComponent,
-    EmptyDumpsterComponent,
-    // MonthlyEmptyingComponent,
-    CreateDumpsterComponent,
-    // OperatorNotificationsComponent,
-    OperatorHomeDialogComponent,
-    OperatorInformationComponent,
-    DialogYesNoComponent,
-    DialogSimpleComponent,
-    SourceNotFoundComponent,
-    ForbiddenResourceComponent,
-    FooterComponent,
-    UserInformationComponent,
-    UserDepositsInformationComponent,
-    UserNotificationsComponent,
-    WhoWeAreComponent,
     ContactUsComponent,
     CreateDepositComponent,
+    // CreateDumpsterComponent,
+    CustomerHomeComponent,
+    CustomerHomeDialogComponent,
+    CustomerHomeThrowGarbageDialogComponent,
+    DialogSimpleComponent,
+    DialogYesNoComponent,
     DumpstersListComponent,
+    EmptyDumpsterComponent,
+    FooterComponent,
+    ForbiddenResourceComponent,
+    HomeComponent,
+    MonthlyCostComponent,
+    // MonthlyEmptyingComponent,
+    NavbarComponent,
+    OperatorHomeComponent,
+    OperatorHomeDialogComponent,
+    OperatorHomeDialogDumpsterComponent,
+    OperatorHomeEmptyGarbageDialogComponent,
+    OperatorInformationComponent,
+    // OperatorNotificationsComponent,
+    PaymentDialogComponent,
+    PaymentsComponent,
+    SignInComponent,
+    SigninErrorDialogComponent,
+    SignupComponent,
+    SignupErrorDialogComponent,
+    SourceNotFoundComponent,
+    UserDepositsInformationComponent,
+    UserInformationComponent,
+    UserNotificationsComponent,
+    WhoWeAreComponent,
   ],
   imports: [
     BrowserModule,
