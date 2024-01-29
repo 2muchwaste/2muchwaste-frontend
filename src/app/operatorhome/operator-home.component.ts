@@ -19,6 +19,8 @@ import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
+import {CustomerHomeDialogYesNoComponent, Dialog} from "../customerhome/customer-home.component";
+import {DialogYesNoComponent} from "../dialogs/DialogYesNo";
 
 
 export interface Coordinates {
@@ -293,6 +295,9 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
 }
 
+/**
+ *
+ */
 @Component({
   selector: 'app-operator-home-empty-garbage-dialog',
   templateUrl: './operator-home-empty-garbage-dialog.html',
@@ -301,10 +306,11 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 })
 export class OperatorHomeEmptyGarbageDialogComponent {
   // public dumpsters: {dumpster: Dumpster,distance: number}[]
+  private readonly CLASS_TAG = "OperatorHomeEmptyGarbageDialogComponent"
 
   @Output() showMapEvent = new EventEmitter<boolean>()
   trashTypesManager: TrashTypeManager = new TrashTypeManager()
-  
+
   public nearestDumpstersSet = false
 
   public newNearestDumpster: Subscription
@@ -318,6 +324,8 @@ export class OperatorHomeEmptyGarbageDialogComponent {
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
     public operatorInfoService: OperatorInformationService,
+    private dumpsterService: DumpsterService,
+    private dialog: MatDialog,
   ) {
     console.log('here');
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
@@ -345,6 +353,40 @@ export class OperatorHomeEmptyGarbageDialogComponent {
     this.lowValue = newLowValue <= 0 ? 0 : newLowValue
     this.highValue = newHighValue <= this.dumpsterForPage ? this.dumpsterForPage : newHighValue
 
+  }
+
+  emptyDumpster(dump: { dumpster: Dumpster; distance: number }) {
+    let dialog: Dialog = {
+      title: 'Deposito',
+      message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
+    }
+    let finished = {finish:false}
+    let newWeight = 1.5
+    let dialogRef = this.dialog.open(DialogYesNoComponent, {
+      data: {
+        content: dialog,
+        positiveFunction: ()=> {
+          this.dumpsterService.setDumpsterWeight(dump.dumpster._id ,newWeight).subscribe({
+            next:(res)=> {
+              console.log(this.CLASS_TAG + ": res", res)
+              this.dumpsterService.setDumpsterAvailability(dump.dumpster._id,true).subscribe({
+                next:(res)=>{
+                  if(!res.hasOwnProperty('address')){
+                    dialog.message = `C'è stato un errore durante la procedura. Riprovare.`
+                  } else {
+                    dialog.message = `Svuotamento avvenuto con successo`
+                    this.userInfoService.nearestDumpsters.filter(dump2=>dump2.dumpster._id===dump.dumpster._id)
+                      .map(d=>d.dumpster.actualWeight = newWeight)
+                    finished.finish = true
+                  }
+                }
+              })
+            }
+          })
+        },
+        finished: finished
+      },
+    })
   }
 }
 
