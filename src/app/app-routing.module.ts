@@ -16,9 +16,9 @@ import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
 import {ContactUsComponent} from "./contactus/contact-us.component";
 import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
 import {EmptyDumpsterComponent} from "./emptydumpster/empty-dumpster.component";
-import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
+// import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
 import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
-import {OperatorNotificationsComponent} from "./operatornotifications/operator-notifications.component";
+// import {OperatorNotificationsComponent} from "./operatornotifications/operator-notifications.component";
 import {CreateDepositComponent} from "./createdeposit/create-deposit.component";
 import {CreateDumpsterComponent} from "./createdumpster/create-dumpster.component";
 import {DumpstersListComponent} from "./dumpsterslist/dumpsters-list.component";
@@ -29,9 +29,9 @@ const routes: Routes = [
   getRouteComponent('customerhome', CustomerHomeComponent),
   getRouteComponent('operatorhome', OperatorHomeComponent),
   getRouteComponent('emptydumpster', EmptyDumpsterComponent),
-  getRouteComponent('monthlyemptying', MonthlyEmptyingComponent),
+  // getRouteComponent('monthlyemptying', MonthlyEmptyingComponent),
   getRouteComponent('operatorinformation', OperatorInformationComponent),
-  getRouteComponent('operatornotifications', OperatorNotificationsComponent),
+  // getRouteComponent('operatornotifications', OperatorNotificationsComponent),
   getRouteComponent('forbiddenarea', ForbiddenResourceComponent),
   getRouteComponent('userinformation', UserInformationComponent),
   getRouteComponent('depositsinformation', UserDepositsInformationComponent),

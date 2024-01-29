@@ -1,6 +1,6 @@
 import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {Dialog} from "../customerhome/customer-home.component";
+import {Dialog} from "./Dialog";
 
 @Component({
   selector: 'app-customer-home-position-error',

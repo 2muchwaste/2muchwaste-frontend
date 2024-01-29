@@ -19,9 +19,9 @@ import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
-import {CustomerHomeDialogYesNoComponent, Dialog} from "../customerhome/customer-home.component";
 import {DialogYesNoComponent} from "../dialogs/DialogYesNo";
 import {DumpsterUtils} from "../utils/dumpsterutils";
+import {Dialog} from "../dialogs/Dialog";
 
 export interface Coordinates {
   coords: {
@@ -162,7 +162,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
                                   d.dumpster.actualWeight = newWeight
                                   return d
                                 })[0]
-                              marker.setPopupContent(popupText(dumpPopup.dumpster,dumpPopup.distance))
+                              marker.setPopupContent(popupText(dumpPopup.dumpster, dumpPopup.distance))
                               finished.finish = true
                             }
                           }
@@ -424,7 +424,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
   emptyDumpster(dump: { dumpster: Dumpster; distance: number }) {
     let dialog: Dialog = {
       title: 'Deposito',
-      message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
+      message: 'Sicurə di voler svuotare il bidone in ' + dump.dumpster.address + '?',
     }
     let finished = {finish: false}
     let newWeight = 1.5

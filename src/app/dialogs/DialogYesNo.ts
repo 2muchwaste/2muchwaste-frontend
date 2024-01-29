@@ -2,7 +2,7 @@ import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {CreateDepositService} from "../services/middleware/createdepositservice";
-import {Dialog} from "../customerhome/customer-home.component";
+import {Dialog} from "./Dialog";
 
 @Component({
   selector: 'app-dialog-yes-no',
@@ -27,13 +27,13 @@ export class DialogYesNoComponent {
   public message: string
   public dialog: Dialog
   public positiveFunction: () => void
-  public finished :{finish:boolean}
+  public finished: { finish: boolean }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: {
       content: Dialog,
       positiveFunction: () => void,
-      finished: {finish:boolean}
+      finished: { finish: boolean }
     },
     private router: Router,
     private createDepositService: CreateDepositService,

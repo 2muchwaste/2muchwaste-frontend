@@ -18,7 +18,7 @@ import {SignInComponent, SigninErrorDialogComponent} from './signin/sign-in.comp
 
 import {
   CustomerHomeComponent,
-  CustomerHomeDialogComponent, CustomerHomeDialogYesNoComponent,
+  CustomerHomeDialogComponent,
   CustomerHomeThrowGarbageDialogComponent
 } from './customerhome/customer-home.component';
 import {
@@ -28,9 +28,9 @@ import {
 } from './operatorhome/operator-home.component';
 import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
 import {EmptyDumpsterComponent} from './emptydumpster/empty-dumpster.component';
-import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
+// import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
 import {OperatorInformationComponent} from './operatorinformation/operator-information.component';
-import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
+// import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
 import {ForbiddenResourceComponent} from './forbiddenresource/forbidden-resource.component';
 import {FooterComponent} from './footer/footer.component';
 import {UserInformationComponent} from './userinformation/user-information.component';
@@ -65,16 +65,15 @@ import {CreateDumpsterComponent} from './createdumpster/create-dumpster.componen
     CustomerHomeThrowGarbageDialogComponent,
     CustomerHomeDialogComponent,
     OperatorHomeComponent,
-    CustomerHomeDialogYesNoComponent,
     MonthlyCostComponent,
     PaymentsComponent,
     PaymentDialogComponent,
     OperatorHomeEmptyGarbageDialogComponent,
     OperatorHomeEmptyGarbageDialogComponent,
     EmptyDumpsterComponent,
-    MonthlyEmptyingComponent,
+    // MonthlyEmptyingComponent,
     CreateDumpsterComponent,
-    OperatorNotificationsComponent,
+    // OperatorNotificationsComponent,
     OperatorHomeDialogComponent,
     OperatorInformationComponent,
     DialogYesNoComponent,

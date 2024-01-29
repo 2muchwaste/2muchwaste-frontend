@@ -17,11 +17,8 @@ import {LocalStorageService} from "../services/localstorageservice"
 import {Router} from "@angular/router";
 import {CreateDepositService} from "../services/middleware/createdepositservice";
 import {Coordinates} from "../utils/geoutils";
-
-export interface Dialog {
-  title: string,
-  message: string
-}
+import {DialogYesNoComponent} from "../dialogs/DialogYesNo";
+import {Dialog} from "../dialogs/Dialog";
 
 @Component({
   selector: 'app-customer-home',
@@ -280,6 +277,7 @@ export class CustomerHomeThrowGarbageDialogComponent {
     public userInfoService: UserInformationService,
     public dialog: MatDialog,
     private createDepositService: CreateDepositService,
+    private router: Router,
   ) {
     console.log('here')
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
@@ -313,10 +311,17 @@ export class CustomerHomeThrowGarbageDialogComponent {
     this.createDepositService.dumpster = dump.dumpster
     let dialog: Dialog = {
       title: 'Deposito',
-      message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
+      message: 'Sicurə di gettare i rifiuti nel bidone in ' + dump.dumpster.address + '?',
     }
-    let dialogRef = this.dialog.open(CustomerHomeDialogYesNoComponent, {
-      data: dialog,
+    let dialogRef = this.dialog.open(DialogYesNoComponent, {
+      data: {
+        content: dialog,
+        finished: false,
+        positiveFunction: () => {
+          this.router.navigate(['/createdeposit'])
+          this.dialog.closeAll()
+        }
+      },
     })
     dialogRef.afterClosed().subscribe({
       next: (res) => {
@@ -346,31 +351,3 @@ export class CustomerHomeDialogComponent {
     this.message = injectedData.message
   }
 }
-
-@Component({
-  selector: 'app-customer-home-yes-no',
-  templateUrl: 'customer-home-yes-no.html',
-  styleUrls: ['./customer-home-position-error.scss', './customer-home.component.scss']
-})
-export class CustomerHomeDialogYesNoComponent {
-
-  private readonly CLASS_TAG = 'CustomerHomeDialogComponent'
-  public title: string
-  public message: string
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private injectedData: Dialog,
-    private router: Router,
-    private createDepositService: CreateDepositService,
-  ) {
-    console.log(this.CLASS_TAG + ": injectedData", injectedData)
-    this.title = injectedData.title
-    this.message = injectedData.message
-  }
-
-  createDeposit() {
-    console.log(this.CLASS_TAG + ": this.createDepositService.dumpster", this.createDepositService.dumpster)
-    this.router.navigate(['/createdeposit'])
-  }
-}
-
