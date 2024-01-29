@@ -35,15 +35,18 @@ export class CustomerHomeComponent implements OnInit {
   isButtonsVisible: Boolean = false
   viewMapDumpsters = false
   showBorderMap = false
+  private readonly CLASS_TAG = "CustomerHomeComponent"
 
   constructor(
-    private customerHomeDialog: MatDialog,
+    private dialog: MatDialog,
     private customerService: CustomerService,
     private authorizationService: Authorizationservice,
     private depositService: DepositService,
     public userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
-    private lStorageService: LocalStorageService
+    private lStorageService: LocalStorageService,
+    private createDepositService: CreateDepositService,
+    private router: Router,
   ) {
     this.trashTypeManager = new TrashTypeManager()
   }
@@ -85,13 +88,50 @@ export class CustomerHomeComponent implements OnInit {
     this.userInfoService.nearestDumpsters.forEach(dump => {
       let elem = [dump.dumpster.latitude, dump.dumpster.longitude]
 
-      L.marker(elem as L.LatLngExpression)
+      let marker = L.marker(elem as L.LatLngExpression)
         .addTo(this.map)
-        .bindPopup(
-          `<p>${dump.dumpster.address}</p>
-          <p>Tipo: ${this.trashTypeManager.getItalianName(dump.dumpster.type)}</p>
-          <p>Distanza: ${(dump.distance * 1000).toFixed(2)}m</p>`
-        )
+        .bindPopup(`
+          <div class="row">
+            <div class="col-12">
+              <p>${dump.dumpster.address}</p>
+              <p>Tipo: ${this.trashTypeManager.getItalianName(dump.dumpster.type)}</p>
+              <p>Distanza: ${(dump.distance * 1000).toFixed(2)}m</p>
+            </div>
+            <div class="col-12" id="popupContent"></div>
+          </div>
+        `)
+
+      marker.on('click', () => {
+        const popupContent = document.getElementById('popupContent');
+        if (popupContent) {
+          console.log("PremutoPopup del bidone " + dump.dumpster._id);
+          // Render your button inside the popup content
+          popupContent.innerHTML = '<button class="col-12 dgreen-bground empty-button-map light-green-application-foreground" mat-raised-button color="primary" id="popupButton">Svuota</button>';
+
+          // Add a click event listener to the button
+          const popupButton = document.getElementById('popupButton');
+          if (popupButton) {
+            popupButton.addEventListener('click', () => {
+              let dialog: Dialog = {
+                title: 'Deposito',
+                message: 'Sicurə di gettare i rifiuti nel bidone in ' + dump.dumpster.address + '?',
+              }
+              this.createDepositService.dumpster = dump.dumpster
+
+              let dialogRef = this.dialog.open(DialogYesNoComponent, {
+                data: {
+                  content: dialog,
+                  finished: false,
+                  positiveFunction: () => {
+                    this.router.navigate(['/createdeposit'])
+                    this.dialog.closeAll()
+                  }
+                },
+              })
+            });
+          }
+        }
+      });
     })
 
     L.marker(
@@ -164,7 +204,7 @@ export class CustomerHomeComponent implements OnInit {
   }
 
   private openDialog(errorTitle: string, errorMessage: string) {
-    return this.customerHomeDialog.open(CustomerHomeDialogComponent, {
+    return this.dialog.open(CustomerHomeDialogComponent, {
       data: {
         title: errorTitle,
         message: errorMessage
@@ -218,7 +258,7 @@ export class CustomerHomeComponent implements OnInit {
   getNearDumpsters() {
     if ('geolocation' in navigator) {
       console.log('geolocation present')
-      let nearestDumpstersDialog = this.customerHomeDialog.open(CustomerHomeThrowGarbageDialogComponent)
+      let nearestDumpstersDialog = this.dialog.open(CustomerHomeThrowGarbageDialogComponent)
       navigator.geolocation.getCurrentPosition(
         (position: Coordinates) => {
           console.log(position)
@@ -313,7 +353,7 @@ export class CustomerHomeThrowGarbageDialogComponent {
       title: 'Deposito',
       message: 'Sicurə di gettare i rifiuti nel bidone in ' + dump.dumpster.address + '?',
     }
-    let dialogRef = this.dialog.open(DialogYesNoComponent, {
+    this.dialog.open(DialogYesNoComponent, {
       data: {
         content: dialog,
         finished: false,
@@ -322,11 +362,6 @@ export class CustomerHomeThrowGarbageDialogComponent {
           this.dialog.closeAll()
         }
       },
-    })
-    dialogRef.afterClosed().subscribe({
-      next: (res) => {
-        this.dialog.closeAll()
-      }
     })
   }
 

@@ -28,7 +28,11 @@ button.application-button-primary {
 }
 
 .dgreen-bground {
-  background-color: $darkgreen-application;
+  background-color: $darkgreen-application !important;
+}
+
+.margin-upside-down-application{
+  margin: 5px 0 !important;
 }
 
 .dgreen-stroke {
