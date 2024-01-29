@@ -93,7 +93,7 @@
         <mat-form-field class="col-md-7">
           <mat-label>Indirizzo</mat-label>
           <input type="text" matInput [formControl]="addressFormControl" placeholder="Ex. Via Minetti, 23">
-          <mat-error *ngIf="cityFormControl.hasError('required')">
+          <mat-error *ngIf="addressFormControl.hasError('required')">
             L'indirizzo è <strong>richiesto</strong>
           </mat-error>
         </mat-form-field>

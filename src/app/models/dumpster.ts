@@ -40,64 +40,64 @@ export class DumpsterBuilder {
   }
 
   // Setters for the properties
-  setActualWeight(actualWeight: number) {
+  setActualWeight(actualWeight: number): DumpsterBuilder {
     this.actualWeight = actualWeight
-    return this
+    return this;
   }
 
-  setAddress(address: string) {
+  setAddress(address: string): DumpsterBuilder {
     this.address = address
-    return this
+    return this;
   }
 
-  setArea(area: string) {
+  setArea(area: string): DumpsterBuilder {
     this.area = area
-    return this
+    return this;
   }
 
-  setAvailable(available: boolean) {
+  setAvailable(available: boolean): DumpsterBuilder {
     this.available = available
-    return this
+    return this;
   }
 
-  setCity(city: string) {
+  setCity(city: string): DumpsterBuilder {
     this.city = city
-    return this
+    return this;
   }
 
-  setLatitude(latitude: number) {
+  setLatitude(latitude: number): DumpsterBuilder {
     this.latitude = latitude
-    return this
+    return this;
   }
 
-  setLongitude(longitude: number) {
+  setLongitude(longitude: number): DumpsterBuilder {
     this.longitude = longitude
-    return this
+    return this;
   }
 
-  setLimitUsablePercentage(limitUsablePercentage: number) {
+  setLimitUsablePercentage(limitUsablePercentage: number): DumpsterBuilder {
     this.limitUsablePercentage = limitUsablePercentage
     return this;
   }
 
-  setMaxWeight(maxWeight: number) {
+  setMaxWeight(maxWeight: number): DumpsterBuilder {
     this.maxWeight = maxWeight
-    return this
+    return this;
   }
 
-  setOpeningSecondsDuration(openingSecondsDuration: number) {
+  setOpeningSecondsDuration(openingSecondsDuration: number): DumpsterBuilder{
     this.openingSecondsDuration = openingSecondsDuration
-    return this
+    return this;
   }
 
-  setType(type: TrashTypes) {
+  setType(type: TrashTypes): DumpsterBuilder {
     this.type = type
-    return this
+    return this;
   }
 
-  setZipCode(zipCode: number) {
+  setZipCode(zipCode: number): DumpsterBuilder {
     this.zipCode = zipCode
-    return this
+    return this;
   }
 
   // Build method to create a Dumpster object

@@ -13,6 +13,7 @@ import {GeoUtils} from "../../utils/geoutils";
 export class DumpsterService {
 
   private backendDumpsterURL = AppConstants.serverURL + AppConstants.versionBackend + 'dumpsters/'
+  public dumpster!: Dumpster
 
   constructor(
     private authService: Authorizationservice,

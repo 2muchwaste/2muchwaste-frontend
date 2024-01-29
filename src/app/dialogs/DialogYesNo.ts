@@ -2,6 +2,7 @@ import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {CreateDepositService} from "../services/middleware/createdepositservice";
+import {CreateDumpsterService} from "../services/middleware/createdumpsterservice";
 import {Dialog} from "../customerhome/customer-home.component";
 
 @Component({
@@ -37,6 +38,7 @@ export class DialogYesNoComponent {
     },
     private router: Router,
     private createDepositService: CreateDepositService,
+    private createDumpsterService: CreateDumpsterService
   ) {
     console.log(this.CLASS_TAG + ": injectedData", injectedData)
     this.dialog = injectedData.content

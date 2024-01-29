@@ -23,7 +23,7 @@ import {
 } from './customerhome/customer-home.component';
 import {
   OperatorHomeComponent,
-  OperatorHomeDialogComponent,
+  OperatorHomeDialogComponent, OperatorHomeDialogDumpsterComponent,
   OperatorHomeEmptyGarbageDialogComponent
 } from './operatorhome/operator-home.component';
 import {SourceNotFoundComponent} from './sourcenotfound/source-not-found.component';
@@ -49,7 +49,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {CreateDepositComponent} from './createdeposit/create-deposit.component';
 import {DialogYesNoComponent} from "./dialogs/DialogYesNo";
 import {DialogSimpleComponent} from "./dialogs/DialogSimple";
-import {CreateDumpsterComponent} from './createdumpster/createdumpster.component';
+import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
 
 
 @NgModule({
