@@ -14,12 +14,12 @@ import {LocalStorageService} from "../services/localstorageservice";
 import {RoleService} from "../services/backendcalls/roleservice";
 
 @Component({
-  selector: 'app-createdumpster',
-  templateUrl: './createdumpster.component.html',
-  styleUrls: ['./../app.component.scss', './createdumpster.component.scss']
+  selector: 'app-create-dumpster',
+  templateUrl: './create-dumpster.component.html',
+  styleUrls: ['./../app.component.scss', './create-dumpster.component.scss']
 })
 
-export class CreatedumpsterComponent implements OnInit {
+export class CreateDumpsterComponent implements OnInit {
 
   // readonly WebsiteRole = WebsiteRole
 

@@ -50,8 +50,7 @@ import {CreateDepositComponent} from './createdeposit/create-deposit.component';
 import {DialogYesNoComponent} from "./dialogs/DialogYesNo";
 import {DialogSimpleComponent} from "./dialogs/DialogSimple";
 import {DumpstersListComponent} from './dumpsterslist/dumpsters-list.component';
-
-import {CreateDumpsterComponent} from './createdumpster/createdumpster.component';
+import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +73,7 @@ import {CreateDumpsterComponent} from './createdumpster/createdumpster.component
     OperatorHomeEmptyGarbageDialogComponent,
     EmptyDumpsterComponent,
     MonthlyEmptyingComponent,
-    CreateDumpsterComponent
+    CreateDumpsterComponent,
     OperatorNotificationsComponent,
     OperatorHomeDialogComponent,
     OperatorInformationComponent,

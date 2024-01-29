@@ -20,7 +20,7 @@ import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.compo
 import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
 import {OperatorNotificationsComponent} from "./operatornotifications/operator-notifications.component";
 import {CreateDepositComponent} from "./createdeposit/create-deposit.component";
-import {CreateDumpsterComponent} from "./createdumpster/createdumpster.component";
+import {CreateDumpsterComponent} from "./createdumpster/create-dumpster.component";
 import {DumpstersListComponent} from "./dumpsterslist/dumpsters-list.component";
 
 const routes: Routes = [
