@@ -21,7 +21,7 @@ import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
 import {CustomerHomeDialogYesNoComponent, Dialog} from "../customerhome/customer-home.component";
 import {DialogYesNoComponent} from "../dialogs/DialogYesNo";
-
+import {DumpsterUtils} from "../utils/dumpsterutils";
 
 export interface Coordinates {
   coords: {
@@ -50,7 +50,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   private CLASS_TAG = "OperatorHomeComponent"
 
   constructor(
-    private operatorHomeDialog: MatDialog,
+    private dialog: MatDialog,
     private operatorDumpsterService: OperatorDumpsterService,
     private authorizationService: Authorizationservice,
     private emptyService: EmptyService,
@@ -78,6 +78,22 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   }
 
   private initMap(userPosition: Coordinates): void {
+    let popupText: (dumpster: Dumpster, distance: number) => string = (dumpster, distance) => {
+      return `
+          <div class="row">
+            <div class="col-12">
+              <p>${dumpster.address}</p>
+              <p>Tipo: ${this.trashTypeManager.getItalianName(dumpster.type)}</p>
+              <p>Distanza: ${(distance * 1000).toFixed(2)}m</p>
+              <p>${"Riempimento: " + DumpsterUtils.getUsagePercentage(dumpster).toFixed(2) + "%"}</p>
+              <p>${"Limite: " + dumpster.limitUsablePercentage + "%"}</p>
+              <p>${"Contenuto: " + dumpster.actualWeight + "Kg"}</p>
+            </div>
+           <div class="col-12" id="popupContent"></div>
+          </div>
+        `
+    }
+
     let centroid: L.LatLngExpression = [
       this.lastUserPosition.coords.latitude,
       this.lastUserPosition.coords.longitude
@@ -103,14 +119,64 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
     this.userInfoService.nearestDumpsters.forEach(dump => {
       let elem = [dump.dumpster.latitude, dump.dumpster.longitude]
-
-      L.marker(elem as L.LatLngExpression)
+      let marker = L.marker(elem as L.LatLngExpression)
         .addTo(this.map)
-        .bindPopup(
-          `<p>${dump.dumpster.address}</p>
-          <p>Tipo: ${this.trashTypeManager.getItalianName(dump.dumpster.type)}</p>
-          <p>Distanza: ${(dump.distance * 1000).toFixed(2)}m</p>`
-        )
+        .bindPopup(popupText(dump.dumpster, dump.distance))
+
+      marker.on('click', () => {
+        const popupContent = document.getElementById('popupContent');
+        if (popupContent) {
+          console.log("PremutoPopup del bidone " + dump.dumpster._id);
+          // Render your button inside the popup content
+          popupContent.innerHTML = '<button class="col-12 application-button-primary empty-button-map" mat-raised-button color="primary" id="popupButton">Svuota</button>';
+
+          // Add a click event listener to the button
+          const popupButton = document.getElementById('popupButton');
+          if (popupButton) {
+            popupButton.addEventListener('click', () => {
+              let dialog: Dialog = {
+                title: 'Deposito',
+                message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
+              }
+              let finished = {finish: false}
+              let newWeight = 1.5
+              let dialogRef = this.dialog.open(DialogYesNoComponent, {
+                data: {
+                  content: dialog,
+                  finished: finished,
+                  positiveFunction: () => {
+                    this.dumpsterService.setDumpsterWeight(dump.dumpster._id, newWeight).subscribe({
+                      next: (res) => {
+                        console.log(this.CLASS_TAG + ": res", res)
+                        this.dumpsterService.setDumpsterAvailability(dump.dumpster._id, true).subscribe({
+                          next: (res) => {
+                            if (!res.hasOwnProperty('address')) {
+                              dialog.message = `C'è stato un errore durante la procedura. Riprovare.`
+                            } else {
+                              dialog.message = `Svuotamento avvenuto con successo`
+                              let dumpPopup: {
+                                dumpster: Dumpster,
+                                distance: number
+                              } = this.userInfoService.nearestDumpsters.filter(dump2 => dump2.dumpster._id === dump.dumpster._id)
+                                .map(d => {
+                                  d.dumpster.actualWeight = newWeight
+                                  return d
+                                })[0]
+                              marker.setPopupContent(popupText(dumpPopup.dumpster,dumpPopup.distance))
+                              finished.finish = true
+                            }
+                          }
+                        })
+                      }
+                    })
+                  },
+                },
+              })
+            });
+          }
+        }
+      });
+
     })
 
     L.marker(
@@ -179,7 +245,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   }
 
   private openDialog(errorTitle: string, errorMessage: string) {
-    return this.operatorHomeDialog.open(OperatorHomeDialogComponent, {
+    return this.dialog.open(OperatorHomeDialogComponent, {
       data: {
         errorTitle: errorTitle,
         errorMessage: errorMessage
@@ -217,7 +283,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   getNearDumpsters() {
     if ('geolocation' in navigator) {
       console.log('geolocation present')
-      let nearestDumpstersDialog = this.operatorHomeDialog.open(OperatorHomeEmptyGarbageDialogComponent)
+      let nearestDumpstersDialog = this.dialog.open(OperatorHomeEmptyGarbageDialogComponent)
       navigator.geolocation.getCurrentPosition(
         (position: Coordinates) => {
           console.log(position)
@@ -360,23 +426,23 @@ export class OperatorHomeEmptyGarbageDialogComponent {
       title: 'Deposito',
       message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
     }
-    let finished = {finish:false}
+    let finished = {finish: false}
     let newWeight = 1.5
     let dialogRef = this.dialog.open(DialogYesNoComponent, {
       data: {
         content: dialog,
-        positiveFunction: ()=> {
-          this.dumpsterService.setDumpsterWeight(dump.dumpster._id ,newWeight).subscribe({
-            next:(res)=> {
+        positiveFunction: () => {
+          this.dumpsterService.setDumpsterWeight(dump.dumpster._id, newWeight).subscribe({
+            next: (res) => {
               console.log(this.CLASS_TAG + ": res", res)
-              this.dumpsterService.setDumpsterAvailability(dump.dumpster._id,true).subscribe({
-                next:(res)=>{
-                  if(!res.hasOwnProperty('address')){
+              this.dumpsterService.setDumpsterAvailability(dump.dumpster._id, true).subscribe({
+                next: (res) => {
+                  if (!res.hasOwnProperty('address')) {
                     dialog.message = `C'è stato un errore durante la procedura. Riprovare.`
                   } else {
                     dialog.message = `Svuotamento avvenuto con successo`
-                    this.userInfoService.nearestDumpsters.filter(dump2=>dump2.dumpster._id===dump.dumpster._id)
-                      .map(d=>d.dumpster.actualWeight = newWeight)
+                    this.userInfoService.nearestDumpsters.filter(dump2 => dump2.dumpster._id === dump.dumpster._id)
+                      .map(d => d.dumpster.actualWeight = newWeight)
                     finished.finish = true
                   }
                 }
