@@ -1,0 +1,30 @@
+<div class="row userdeposits-row" *ngIf="dumpsters">
+  <div class="col userdeposits-col">
+    <div class="d-none d-md-block">
+      <div class="row table-row-headers list-item-headers">
+        <div class="col-3 type-header data-header">TIPO</div>
+        <div class="col-5 address-header data-header">INDIRIZZO</div>
+        <div class="col-2 usage-header data-header">RIEMPIMENTO</div>
+        <div class="col-2 limit-header data-header">LIMITE</div>
+      </div>
+    </div>
+    <ng-container *ngFor="let dumpster of (dumpsters | slice: lowValue : highValue)">
+      <div class="row dumpster-list-item">
+        <div class="col-12 col-sm-5 order-sm-2 quantity-value">{{dumpster.address + ", " + dumpster.city}}</div>
+        <div class="col-6 col-sm-3 order-sm-1 type-value">{{trashTypesManager.getItalianName(dumpster.type)}}</div>
+        <div
+          class="col-3 col-sm-2 order-sm-3 usage-percentage">{{DumpsterUtils.getUsagePercentage(dumpster).toFixed(2)}}%
+        </div>
+        <div class="col-3 col-sm-2 order-sm-4 limit-percentage">{{dumpster.limitUsablePercentage}}%</div>
+        <mat-divider></mat-divider>
+      </div>
+    </ng-container>
+    <mat-paginator [length]="dumpsters.length"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[10, 20, 30]"
+                   (page)="getPaginatorData($event)"
+                   color="warn"
+                   aria-label="Seleziona la pagina">
+    </mat-paginator>
+  </div>
+</div>

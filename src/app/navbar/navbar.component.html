@@ -97,7 +97,8 @@
                routerLink="/userinformation">Dati personali</a>
           </li>
           <!--          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.CUSTOMER">-->
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getCustomerCode()">
+          <ng-container
+            *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getCustomerCode()">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/depositsinformation'>Elenco depositi</a>
@@ -112,7 +113,8 @@
             </li>
           </ng-container>
           <!--          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.WebsiteRole.OPERATOR">-->
-          <ng-container *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getOperatorCode()">
+          <ng-container
+            *ngIf="userInfoService.user && userInfoService.user.role === this.roleService.getOperatorCode()">
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/operatorinformation'>Elenco svuotamenti</a>
@@ -120,6 +122,10 @@
             <li class="nav-item">
               <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
                  routerLink='/monthlyemptying'>Grafico degli svuotamenti</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="performBurgerButtonClick()" aria-current="page"
+                 routerLink='/dumpsterslist'>Elenco dei bidoni</a>
             </li>
           </ng-container>
           <li class="nav-item">

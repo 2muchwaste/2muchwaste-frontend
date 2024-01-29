@@ -49,8 +49,13 @@ import {MatIconModule} from '@angular/material/icon';
 import {CreateDepositComponent} from './createdeposit/create-deposit.component';
 import {DialogYesNoComponent} from "./dialogs/DialogYesNo";
 import {DialogSimpleComponent} from "./dialogs/DialogSimple";
+<<<<<<< HEAD
 import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
 
+=======
+import {DumpstersListComponent} from './dumpsterslist/dumpsters-list.component';
+import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
+>>>>>>> 6b21b1aabf93b92db4692f499a64c2b2ccec2650
 
 @NgModule({
   declarations: [
@@ -66,12 +71,17 @@ import {CreateDumpsterComponent} from './createdumpster/create-dumpster.componen
     CustomerHomeDialogComponent,
     OperatorHomeComponent,
     CustomerHomeDialogYesNoComponent,
+    MonthlyCostComponent,
+    PaymentsComponent,
+    PaymentDialogComponent,
     OperatorHomeEmptyGarbageDialogComponent,
-    OperatorHomeDialogComponent,
+    OperatorHomeEmptyGarbageDialogComponent,
     EmptyDumpsterComponent,
     MonthlyEmptyingComponent,
-    OperatorInformationComponent,
+    CreateDumpsterComponent,
     OperatorNotificationsComponent,
+    OperatorHomeDialogComponent,
+    OperatorInformationComponent,
     DialogYesNoComponent,
     DialogSimpleComponent,
     SourceNotFoundComponent,
@@ -79,14 +89,11 @@ import {CreateDumpsterComponent} from './createdumpster/create-dumpster.componen
     FooterComponent,
     UserInformationComponent,
     UserDepositsInformationComponent,
-    MonthlyCostComponent,
     UserNotificationsComponent,
-    PaymentsComponent,
-    PaymentDialogComponent,
     WhoWeAreComponent,
     ContactUsComponent,
     CreateDepositComponent,
-    CreateDumpsterComponent
+    DumpstersListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,29 @@
+.table-row-headers {
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  background-color: rgba(216, 222, 191, .3);
+  padding: 10px 0 10px;
+}
+
+.usage-header, .limit-header {
+  text-align: end;
+}
+
+.row.dumpster-list-item {
+  min-height: 45px;
+  align-items: center;
+}
+
+@media screen and (min-width: 576px) {
+  .usage-percentage, .limit-percentage {
+    text-align: end;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .row.dumpster-list-item {
+    min-height: 60px;
+  }
+}
+
