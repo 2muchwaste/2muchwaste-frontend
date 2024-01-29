@@ -10,11 +10,13 @@ import {AppConstants} from "../utils/constants";
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 import {EmptyService} from "../services/backendcalls/emptyservice";
 import {OperatorService} from "../services/backendcalls/operatorservice"
+import { CreateDumpsterService } from '../services/middleware/createdumpsterservice';
 import {OperatorInformationService} from "../services/operatorinformationservice";
 import {UserInformationService} from "../services/userinformationservice";
 import {LocalStorageService} from "../services/localstorageservice"
 import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 import {User} from "../models/user";
+import {Router} from "@angular/router";
 import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
@@ -247,8 +249,8 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   private openDialog(errorTitle: string, errorMessage: string) {
     return this.dialog.open(OperatorHomeDialogComponent, {
       data: {
-        errorTitle: errorTitle,
-        errorMessage: errorMessage
+        title: errorTitle,
+        message: errorMessage
       }
     })
   }
@@ -392,6 +394,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
     public operatorInfoService: OperatorInformationService,
     private dumpsterService: DumpsterService,
     private dialog: MatDialog,
+    private createDumpsterService: CreateDumpsterService,
   ) {
     console.log('here');
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
@@ -463,13 +466,43 @@ export class OperatorHomeEmptyGarbageDialogComponent {
 })
 export class OperatorHomeDialogComponent {
 
+  private readonly CLASS_TAG = 'OperatorHomeDialogComponent'
   public title: string
   public message: string
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private injectedData: any,
+    @Inject(MAT_DIALOG_DATA) private injectedData: Dialog,
   ) {
-    this.title = injectedData.errorTitle
-    this.message = injectedData.errorMessage
+    console.log(this.CLASS_TAG + ": injectedData", injectedData)
+    this.title = injectedData.title
+    this.message = injectedData.message
   }
 }
+
+@Component({
+  selector: 'app-operator-home-dialog-dumpster',
+  templateUrl: 'operator-home-dialog-dumpster.html',
+  styleUrls: ['./operator-home-position-error.scss', './operator-home.component.scss']
+})
+export class OperatorHomeDialogDumpsterComponent {
+
+  private readonly CLASS_TAG = 'OperatorHomeDialogComponent'
+  public title: string
+  public message: string
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private injectedData: Dialog,
+    private router: Router,
+    private createDumpsterService: CreateDumpsterService,
+  ) {
+    console.log(this.CLASS_TAG + ": injectedData", injectedData)
+    this.title = injectedData.title
+    this.message = injectedData.message
+  }
+
+  createDumpster() {
+    console.log(this.CLASS_TAG + ": this.createDumpsterService.dumpster", this.createDumpsterService.dumpster)
+    this.router.navigate(['/createdumpster'])
+  }
+}
+

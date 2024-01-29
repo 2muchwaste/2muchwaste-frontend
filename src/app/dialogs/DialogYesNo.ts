@@ -1,7 +1,5 @@
 import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {Router} from "@angular/router";
-import {CreateDepositService} from "../services/middleware/createdepositservice";
 import {Dialog} from "./Dialog";
 
 @Component({
@@ -35,8 +33,6 @@ export class DialogYesNoComponent {
       positiveFunction: () => void,
       finished: { finish: boolean }
     },
-    private router: Router,
-    private createDepositService: CreateDepositService,
   ) {
     console.log(this.CLASS_TAG + ": injectedData", injectedData)
     this.dialog = injectedData.content
