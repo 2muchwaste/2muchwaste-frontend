@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { Dumpster, DumpsterBuilder } from "../models/dumpster";
@@ -56,6 +56,7 @@ export class CreateDumpsterComponent implements OnInit {
     public roleService: RoleService,
   ) {
     this.dumpster = this.dumpsterService.dumpster;
+    
     this.createDumpsterForm = this.fb.group({
       actualWeight: this.actualWeightFormControl,
       address: this.addressFormControl,

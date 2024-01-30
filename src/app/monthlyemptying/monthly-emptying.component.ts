@@ -136,7 +136,6 @@ export class MonthlyEmptyingComponent implements OnInit {
 
   getMonthlyEmptyByType(empties: Empty[], fromMonth: number, exlNLastMonths: number) {
     let emptyLimited = this.getSlicedEmpty(empties, fromMonth, exlNLastMonths)
-
     let types = emptyLimited
       .map(empty => empty.dumpster.type)
       .filter((emptyType, index, self) => index === self.indexOf(emptyType))
@@ -273,8 +272,9 @@ export class MonthlyEmptyingComponent implements OnInit {
   private setEmpty() {
 
     // @ts-ignore
-    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserID()).subscribe({
+    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
       next: (res) => {
+        console.log(res)
         let empties = res.empties.map(empty => {
           empty.date = new Date(empty.date)
           return empty
@@ -305,7 +305,7 @@ export class MonthlyEmptyingComponent implements OnInit {
               })
               this.userEmpties = this.userInfoService.userEmpties = empties
               console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
-              this.monthEmpty = this.userEmpties.filter(empty => empty.date.getMonth() > (new Date()).getMonth() - 1)
+              this.monthEmpty = this.userEmpties.filter(empty =>new Date(empty.date).getMonth() > (new Date()).getMonth() - 1)
               this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
               this.updateDataChart()
               console.log("this.userEmptyGroupedByTypeAndMonth", this.userEmptyGroupedByTypeAndMonth)
