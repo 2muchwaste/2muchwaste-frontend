@@ -7,8 +7,7 @@ import {UserNotification} from "../models/UserNotification"
 import {Dumpster} from "../models/dumpster"
 import {Payment} from "../models/payment"
 import {LocalStorageService} from "./localstorageservice"
-// import {WebsiteRole} from "../models/role";
-import {OperatorNotification} from "../models/operatornotification";
+import {OperatorNotificationAndDumpster} from "../models/operatornotification";
 import {RoleService} from "./backendcalls/roleservice";
 
 
@@ -20,7 +19,7 @@ export class UserInformationService {
   public user!: UserResponse
   public userDeposits!: Deposit[]
   public userEmpties!: Empty[]
-  public operatorNotifications!: OperatorNotification[]
+  public operatorNotifications!: OperatorNotificationAndDumpster[]
   payments!: Payment[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
@@ -59,7 +58,7 @@ export class UserInformationService {
     this.user = undefined
     // @ts-ignore
     this.nearestDumpsters = undefined
-  
+
   }
 
   public login(userResponse: UserResponse, userToken: string) {

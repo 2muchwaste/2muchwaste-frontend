@@ -1,4 +1,5 @@
 import {DumpsterErrorType} from "./dumpstererrortype";
+import {Dumpster} from "./dumpster";
 
 export class OperatorNotification {
   constructor(
@@ -10,6 +11,15 @@ export class OperatorNotification {
     public dumpsterID: string,
     public text: String,
     public __v: 0
+  ) {
+  }
+}
+
+
+export class OperatorNotificationAndDumpster{
+  constructor(
+    public operatorNotification: OperatorNotification,
+    public dumpster: Dumpster
   ) {
   }
 }

@@ -15,10 +15,12 @@ import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
-// import {WebsiteRole} from "../models/role";
-import {OperatorNotification} from "../models/operatornotification";
+import {OperatorNotificationAndDumpster} from "../models/operatornotification";
 import {OperatorNotificationService} from "../services/backendcalls/operatornotificationservice";
 import {RoleService} from "../services/backendcalls/roleservice";
+import {DumpsterService} from "../services/backendcalls/dumpsterservice";
+import {NotificationDumpsterService} from "../services/middleware/notificationdumpsterservice";
+import {DumpsterErrorTypeManager} from "../models/dumpstererrortype";
 
 @Component({
   selector: 'app-navbar',
@@ -30,29 +32,26 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   public user: any
   private CLASS_TAG = "NavbarComponent:"
   public customerNotificationNotRead: UserNotification[] = []
-  public operatorNotificationNotRead: OperatorNotification[] = []
+  public operatorNotificationNotRead: OperatorNotificationAndDumpster[] = []
   private subscriptionUserReadNotification: Subscription
   public isLogged = false
+  public readonly dumpsterErrorTypeManager = new DumpsterErrorTypeManager();
   private subscriptionUser: Subscription
-  // readonly WebsiteRole = WebsiteRole
   @ViewChild('navbarbutton') navbarButton!: ElementRef<HTMLElement>
   @ViewChild('collapsablePartNavbar') collapsableNavbar!: ElementRef
 
   constructor(
     public userInfoService: UserInformationService,
-    private operatorNotificationService: OperatorNotificationService,
-    public operatorInfoService: OperatorInformationService,
     private notificationService: SocketService,
     private customerService: CustomerService,
     private operatorService: OperatorService,
     private eRef: ElementRef,
     private lStorageService: LocalStorageService,
     public roleService: RoleService,
+    private dumpsterService: DumpsterService,
+    private notificationDumpsterService:NotificationDumpsterService,
   ) {
-    // this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
-    //   if (userResponse.role === WebsiteRole.CUSTOMER) this.initializeUserAfterLogin(userResponse)
-    //   else if (userResponse.role === WebsiteRole.OPERATOR) this.initializeOperatorAfterLogin(userResponse)
-    // })
+
 
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
       console.log(this.CLASS_TAG + ": AAAAAuserResponse", userResponse)
@@ -67,19 +66,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(this.CLASS_TAG, "userReadNotificationObservable.subscribe, this.notificationNotRead", this.customerNotificationNotRead)
     })
   }
-
-  // ngOnInit() {
-  //   const user = this.lStorageService.getUserObject()
-  //   if (user && user.role === WebsiteRole.CUSTOMER) {
-  //     let userIDStored = this.lStorageService.getUserID()
-  //     if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
-  //   } else if (user && user.role === WebsiteRole.OPERATOR) {
-  //     let operatorIDStored = this.lStorageService.getUserID()
-  //     // let userIDStored = this.userInfoService.user._id
-  //     if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRole() === WebsiteRole.OPERATOR) this.restoreOperator(operatorIDStored)
-  //
-  //   }
-  // }
 
   ngOnInit() {
     const user = this.lStorageService.getUserObject()
@@ -124,9 +110,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.CLASS_TAG, " operatorResponse", operatorResponse)
         this.user = operatorResponse
         this.initializeSocketNotifications(operatorResponse)
-        this.setOperatoNotifications()
+        this.setOperatorNotifications()
         // usare direttamente user info service
-        // this.operatorInfoService.setUser(operatorResponse)
         this.userInfoService.setUser(operatorResponse)
         this.isLogged = true
       },
@@ -155,9 +140,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lStorageService.setUserObject(userResponse)
     console.log(this.CLASS_TAG, " Inizio collegamento socket")
     this.initializeSocketNotifications(userResponse)
-    this.setOperatoNotifications()
+    this.setOperatorNotifications()
     this.isLogged = true
-    this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
   }
 
   private initializeSocketNotifications(userResponse: UserResponse) {
@@ -169,14 +153,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  private setOperatoNotifications() {
-    this.operatorNotificationService.getOperatorNotifications().subscribe({
-      next: (res) => {
-        console.log(this.CLASS_TAG + ": operator notification", res)
+  private setOperatorNotifications() {
+    this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
+      next:(res)=>{
         this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = res
-        console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
-      },
-      error: (err) => {
       }
     })
   }
@@ -188,6 +168,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscriptionUserReadNotification.unsubscribe()
+    this.subscriptionUser.unsubscribe()
   }
 
   logout() {
@@ -201,5 +182,4 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
       this.performBurgerButtonClick()
     }
   }
-
 }
