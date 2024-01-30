@@ -1,14 +1,18 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {OperatorInformationService} from "../services/operatorinformationservice";
 import {UserInformationService} from "../services/userinformationservice";
-import {UserNotification} from "../models/UserNotification";
-import {OperatorNotification} from "../models/operatornotification";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {
+  OperatorNotification,
+  OperatorNotificationAndDumpster,
+  OperatorNotificationStatus,
+  OperatorNotificationStatusManager
+} from "../models/operatornotification";
+import {MatPaginator} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {OperatorService} from "../services/backendcalls/operatorservice";
-import {OperatorResponse} from "../models/operatorresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
-
+import {DumpsterErrorTypeManager} from "../models/dumpstererrortype";
+import {TrashTypeManager} from "../models/trashtype";
+import {NotificationDumpsterService} from "../services/middleware/notificationdumpsterservice";
 
 @Component({
   selector: 'app-operator-notifications',
@@ -21,43 +25,51 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
   notificationsFiltered: OperatorNotification[] = []
   lowValue: number = 0
   highValue: number = 10
-  showReadNotification = true
-  notifications!: OperatorNotification[]
-  subscriptionToNewNotification: Subscription
+  showEvenInProgressComplete = true
+  allNotifications!: OperatorNotificationAndDumpster[]
+  notifications!: OperatorNotificationAndDumpster[]
+  readonly DumpsterErrorTypeManager = new DumpsterErrorTypeManager()
+  readonly OperatorNotificationStatusManager = new OperatorNotificationStatusManager()
+  readonly TrashTypeManager = new TrashTypeManager()
+  // subscriptionToNewNotification: Subscription
   subscriptionToUserSet: Subscription
   notificationToTickAsRead = new Set<string>([])
   @ViewChild('matPaginator') matPaginator!: MatPaginator
 
   constructor(
     public userInfoService: UserInformationService,
-    public operatorInfoService: OperatorInformationService,
+    // public operatorInfoService: OperatorInformationService,
     private authorizationService: Authorizationservice,
-    public operator: OperatorResponse,
+    private notificationDumpsterService: NotificationDumpsterService,
     private operatorService: OperatorService,
   ) {
-    this.subscriptionToNewNotification = this.operatorInfoService.userNewNotificationObservable.subscribe(operatorResponse => {
-      this.setNotifications(operatorResponse);
-    })
-    this.subscriptionToUserSet = this.operatorInfoService.userSetObservable.subscribe(operatorResponse => {
+    // this.subscriptionToNewNotification = this.operatorInfoService.userNewNotificationObservable.subscribe(operatorResponse => {
+    //   this.setNotifications(operatorResponse);
+    // })
+    this.subscriptionToUserSet = this.userInfoService.userSetObservable.subscribe(operatorResponse => {
       console.log(this.CLASS_TAG, 'userSetObservable.subscribe, operatorResponse:', operatorResponse);
-      this.setNotifications(operatorResponse)
+      this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
+        next: (res) => {
+          this.setNotifications(res)
+        }
+      })
     })
   }
 
-  private setNotifications(operatorResponse: OperatorResponse) {
-    this.notifications = operatorResponse.notifications
-    this.notificationsFiltered = this.notifications.filter(noti => this.showReadNotification || !noti.read)
+  private setNotifications(operatorNotifications: OperatorNotificationAndDumpster[]) {
+    this.allNotifications = this.notifications = operatorNotifications
+    // this.notificationsFiltered = this.notifications.filter(noti => this.showReadNotification || !noti.read)
   }
 
   ngOnInit(): void {
     this.authorizationService.checkAuthDataORRedirect()
-    console.log(this.CLASS_TAG, 'ngOnInit, this.userInfoService.user:', this.operatorInfoService.operator);
-    if (this.operatorInfoService.operator)
-      this.setNotifications(this.operatorInfoService.operator)
+    console.log(this.CLASS_TAG, 'ngOnInit, this.userInfoService.user:', this.userInfoService.user);
+    if (this.userInfoService.user)
+      this.setNotifications(this.userInfoService.operatorNotifications)
   }
 
   ngOnDestroy() {
-    this.subscriptionToNewNotification.unsubscribe()
+    // this.subscriptionToNewNotification.unsubscribe()
     this.subscriptionToUserSet.unsubscribe()
   }
 
@@ -68,9 +80,14 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
   }
 
   public filterNotificationsRead() {
-    this.showReadNotification = !this.showReadNotification
-    this.notifications = this.showReadNotification ? this.operatorInfoService.getNotifications() : this.operatorInfoService.getNotReadNotifications()
-    if (this.lowValue >= this.notifications.length) this.resetPaginator(this.matPaginator.pageSize)
+    this.showEvenInProgressComplete = !this.showEvenInProgressComplete
+    if (this.showEvenInProgressComplete) {
+      this.notifications = this.allNotifications
+    } else {
+      this.notifications = this.allNotifications.filter(noti => noti.operatorNotification.status === OperatorNotificationStatus.PENDING)
+    }
+    // this.allNotifications = this.showEvenInProgressComplete ? this.operatorInfoService.getNotifications() : this.operatorInfoService.getNotReadNotifications()
+    if (this.lowValue >= this.allNotifications.length) this.resetPaginator(this.matPaginator.pageSize)
   }
 
   private resetPaginator(pageSize: number) {
@@ -80,52 +97,52 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
     this.matPaginator.pageSize = pageSize
   }
 
-  public tickNotificationsAsRead() {
-    // Serve controllare di non mandare in lettura quelle già lette dato il frontend??
-    let newOperator: OperatorResponse = this.operatorInfoService.operator
-    let notificationToReadNumber = 1
-    this.notificationToTickAsRead.forEach(notificationID => {
-      this.operatorService.readNotification(this.operatorInfoService.operator.cf, notificationID).subscribe({
-        next: (res) => {
-
-          newOperator = res
-          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newOperator: ', newOperator);
-          if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
-            newOperator.notifications[newOperator.notifications.findIndex(noti => noti._id === notificationID)].read = true
-            console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
-            this.operatorInfoService.readNotifications(newOperator)
-            this.notifications = this.operatorInfoService.getNotifications()
-          }
-          notificationToReadNumber += 1
-        },
-        error: (err) => {
-
-        }
-      })
-    })
-
-    this.notificationToTickAsRead.forEach(notificationID => {
-          this.operatorService.readNotification(this.operatorInfoService.operator.cf, notificationID).subscribe({
-            next: (res) => {
-
-              newOperator = res
-          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newOperator);
-          if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
-            newOperator.notifications[newOperator.notifications.findIndex(noti => noti._id === notificationID)].read = true
-            console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
-            this.operatorInfoService.readNotifications(newOperator)
-            this.notifications = this.operatorInfoService.getNotifications()
-          }
-          notificationToReadNumber += 1
-        },
-        error: (err) => {
-
-        }
-      })
-    })
-    this.notificationToTickAsRead = new Set<string>()
-
-  }
+  // public tickNotificationsAsRead() {
+  //   // Serve controllare di non mandare in lettura quelle già lette dato il frontend??
+  //   let newOperator: OperatorResponse = this.operatorInfoService.operator
+  //   let notificationToReadNumber = 1
+  //   this.notificationToTickAsRead.forEach(notificationID => {
+  //     this.operatorService.readNotification(this.operatorInfoService.operator.cf, notificationID).subscribe({
+  //       next: (res) => {
+  //
+  //         newOperator = res
+  //         console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newOperator: ', newOperator);
+  //         if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
+  //           newOperator.notifications[newOperator.notifications.findIndex(noti => noti._id === notificationID)].read = true
+  //           console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
+  //           this.operatorInfoService.readNotifications(newOperator)
+  //           this.notifications = this.operatorInfoService.getNotifications()
+  //         }
+  //         notificationToReadNumber += 1
+  //       },
+  //       error: (err) => {
+  //
+  //       }
+  //     })
+  //   })
+  //
+  //   this.notificationToTickAsRead.forEach(notificationID => {
+  //         this.operatorService.readNotification(this.operatorInfoService.operator.cf, notificationID).subscribe({
+  //           next: (res) => {
+  //
+  //             newOperator = res
+  //         console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newOperator);
+  //         if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
+  //           newOperator.notifications[newOperator.notifications.findIndex(noti => noti._id === notificationID)].read = true
+  //           console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
+  //           this.operatorInfoService.readNotifications(newOperator)
+  //           this.notifications = this.operatorInfoService.getNotifications()
+  //         }
+  //         notificationToReadNumber += 1
+  //       },
+  //       error: (err) => {
+  //
+  //       }
+  //     })
+  //   })
+  //   this.notificationToTickAsRead = new Set<string>()
+  //
+  // }
 
   tickNotification(checked: boolean, notificationID: string) {
     if (checked) {

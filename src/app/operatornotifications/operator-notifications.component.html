@@ -1,37 +1,62 @@
-<div *ngIf="notifications" class="row operator-notification-row">
+<div *ngIf="allNotifications" class="row operator-notification-row">
   <div class="col operator-notification-col">
     <div class="d-none d-md-block">
       <div class="row table-row-headers list-item-headers">
-        <div class="col-1"></div>
-        <div class="col-3 date-header">DATA</div>
-        <div class="col-8 text-header">COMUNICAZIONE</div>
+        <div class="col-3">PROBLEMA</div>
+        <div class="col-3 date-header">STATO</div>
+        <div class="col-3 text-header">BIDONE</div>
+        <div class="col-3 text-header">TIPO</div>
       </div>
     </div>
 
+
     <ng-container *ngFor="let noti of (notifications | slice: lowValue : highValue)">
-      <div class="row operatornotification-list-item" [ngClass]="{'read':noti.read}"
-           *ngIf="showReadNotification || !noti.read">
-        <div class="col-1 quantity-value text-center">
 
-          <!-- Necessario quel confronto con true-->
-          <mat-checkbox [checked]="noti.read === true" aria-label="checkbox to check notification" disabled="{{noti.read}}"
-                        (change)="tickNotification($event.checked, noti._id)"></mat-checkbox>
-
+      <div class="row operatornotification-list-item">
+        <div class="col-12 col-sm-3 order-sm-3">
+          {{noti.dumpster.address + ", " + noti.dumpster.city}}
         </div>
-        <div class="col-11">
-          <div class="row">
-
-            <div class="col-sm-9 order-sm-2 type-value">{{noti.text}}</div>
-            <div class="col-sm-3 order-sm-1 date-value">
-              {{noti.date | date : "YYYY-MM-dd HH:mm" }}
-            </div>
-
-          </div>
+        <div class="col-4 col-sm-3 order-sm-1">
+          {{DumpsterErrorTypeManager.getItalianType(noti.operatorNotification.type)}}
+        </div>
+        <div class="col-4 col-sm-3 order-sm-2">
+          {{OperatorNotificationStatusManager.getItalianStatus(noti.operatorNotification.status)}}
+        </div>
+        <div class="col-4 col-sm-3 order-sm-4">
+          {{TrashTypeManager.getItalianName(noti.dumpster.type)}}
         </div>
         <mat-divider></mat-divider>
       </div>
 
     </ng-container>
+
+
+    <!--    <ng-container *ngFor="let noti of (notifications | slice: lowValue : highValue)">-->
+    <!--      <div class="row operatornotification-list-item" [ngClass]="{'read':noti.read}"-->
+    <!--           *ngIf="showReadNotification || !noti.read">-->
+    <!--        <div class="row operatornotification-list-item" [ngClass]="{'read':noti.read}"-->
+    <!--             *ngIf="showReadNotification || !noti.read">-->
+    <!--        <div class="col-1 quantity-value text-center">-->
+
+    <!--          &lt;!&ndash; Necessario quel confronto con true&ndash;&gt;-->
+    <!--          <mat-checkbox [checked]="noti.read === true" aria-label="checkbox to check notification" disabled="{{noti.read}}"-->
+    <!--                        (change)="tickNotification($event.checked, noti._id)"></mat-checkbox>-->
+
+    <!--        </div>-->
+    <!--        <div class="col-11">-->
+    <!--          <div class="row">-->
+
+    <!--            <div class="col-sm-9 order-sm-2 type-value">{{noti.text}}</div>-->
+    <!--            <div class="col-sm-3 order-sm-1 date-value">-->
+    <!--              {{noti.date | date : "YYYY-MM-dd HH:mm" }}-->
+    <!--            </div>-->
+
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        <mat-divider></mat-divider>-->
+    <!--      </div>-->
+
+    <!--    </ng-container>-->
 
     <mat-paginator [length]="notifications.length"
                    [pageSize]="10"
@@ -44,20 +69,24 @@
       <div class="col-md-6">
         <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"
                 (click)="filterNotificationsRead()">
-          <ng-container *ngIf="showReadNotification; else notShowReadNotifications">
-            Non Mostrare Notifiche Già Lette
+          <ng-container *ngIf="showEvenInProgressComplete; else notShowReadNotifications">
+            Mostra quelle da prendere in carico
           </ng-container>
           <ng-template #notShowReadNotifications>
-            Mostra Notifiche Lette
+            Mostra tutte
           </ng-template>
         </button>
       </div>
 
       <div class="col-md-6">
         <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"
-                [disabled]="notificationToTickAsRead.size<=0"
-                (click)="tickNotificationsAsRead()">Segna come lette
+                [disabled]="notificationToTickAsRead.size<=0">
+          Segna come lette
         </button>
+        <!--        <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"-->
+        <!--                [disabled]="notificationToTickAsRead.size<=0"-->
+        <!--                (click)="tickNotificationsAsRead()">Segna come lette-->
+        <!--        </button>-->
       </div>
     </div>
   </div>
