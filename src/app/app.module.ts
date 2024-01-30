@@ -6,7 +6,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {CanvasJSAngularChartsModule} from "@canvasjs/angular-charts";
 import {ContactUsComponent} from './contactus/contact-us.component';
 import {CreateDepositComponent} from './createdeposit/create-deposit.component';
-// import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
+import {CreateDumpsterComponent} from './createdumpster/create-dumpster.component';
 import {
   CustomerHomeComponent,
   CustomerHomeDialogComponent,
@@ -28,7 +28,7 @@ import {MaterialExampleModule} from '../material.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MonthlyCostComponent} from './monthlycost/monthly-cost.component';
-// import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
+import {MonthlyEmptyingComponent} from './monthlyemptying/monthly-emptying.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {
   OperatorHomeComponent,
@@ -37,7 +37,7 @@ import {
   OperatorHomeEmptyGarbageDialogComponent
 } from './operatorhome/operator-home.component';
 import {OperatorInformationComponent} from './operatorinformation/operator-information.component';
-// import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
+import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {SignInComponent, SigninErrorDialogComponent} from './signin/sign-in.component';
@@ -54,7 +54,7 @@ import {WhoWeAreComponent} from './whoweare/who-we-are.component';
     AppComponent,
     ContactUsComponent,
     CreateDepositComponent,
-    // CreateDumpsterComponent,
+    CreateDumpsterComponent,
     CustomerHomeComponent,
     CustomerHomeDialogComponent,
     CustomerHomeThrowGarbageDialogComponent,
@@ -66,14 +66,14 @@ import {WhoWeAreComponent} from './whoweare/who-we-are.component';
     ForbiddenResourceComponent,
     HomeComponent,
     MonthlyCostComponent,
-    // MonthlyEmptyingComponent,
+    MonthlyEmptyingComponent,
     NavbarComponent,
     OperatorHomeComponent,
     OperatorHomeDialogComponent,
     OperatorHomeDialogDumpsterComponent,
     OperatorHomeEmptyGarbageDialogComponent,
     OperatorInformationComponent,
-    // OperatorNotificationsComponent,
+    OperatorNotificationsComponent,
     PaymentDialogComponent,
     PaymentsComponent,
     SignInComponent,

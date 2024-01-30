@@ -6,7 +6,7 @@ import {OperatorNotification} from "../models/operatornotification";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
 import {OperatorService} from "../services/backendcalls/operatorservice";
-import {UserResponse} from "../models/userresponse";
+import {OperatorResponse} from "../models/operatorresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 
 
@@ -32,27 +32,28 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
     public userInfoService: UserInformationService,
     public operatorInfoService: OperatorInformationService,
     private authorizationService: Authorizationservice,
+    public operator: OperatorResponse,
     private operatorService: OperatorService,
   ) {
-    this.subscriptionToNewNotification = this.operatorInfoService.userNewNotificationObservable.subscribe(userResponse => {
-      this.setNotifications(userResponse);
+    this.subscriptionToNewNotification = this.operatorInfoService.userNewNotificationObservable.subscribe(operatorResponse => {
+      this.setNotifications(operatorResponse);
     })
-    this.subscriptionToUserSet = this.operatorInfoService.userSetObservable.subscribe(userResponse => {
-      console.log(this.CLASS_TAG, 'userSetObservable.subscribe, userResponse:', userResponse);
-      this.setNotifications(userResponse)
+    this.subscriptionToUserSet = this.operatorInfoService.userSetObservable.subscribe(operatorResponse => {
+      console.log(this.CLASS_TAG, 'userSetObservable.subscribe, operatorResponse:', operatorResponse);
+      this.setNotifications(operatorResponse)
     })
   }
 
-  private setNotifications(userResponse: UserResponse) {
-    this.notifications = userResponse.notifications
+  private setNotifications(operatorResponse: OperatorResponse) {
+    this.notifications = operatorResponse.notifications
     this.notificationsFiltered = this.notifications.filter(noti => this.showReadNotification || !noti.read)
   }
 
   ngOnInit(): void {
     this.authorizationService.checkAuthDataORRedirect()
-    console.log(this.CLASS_TAG, 'ngOnInit, this.userInfoService.user:', this.operatorInfoService.user);
-    if (this.operatorInfoService.user)
-      this.setNotifications(this.operatorInfoService.user)
+    console.log(this.CLASS_TAG, 'ngOnInit, this.userInfoService.user:', this.operatorInfoService.operator);
+    if (this.operatorInfoService.operator)
+      this.setNotifications(this.operatorInfoService.operator)
   }
 
   ngOnDestroy() {
@@ -81,18 +82,18 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
 
   public tickNotificationsAsRead() {
     // Serve controllare di non mandare in lettura quelle già lette dato il frontend??
-    let newUser: UserResponse = this.operatorInfoService.user
+    let newOperator: OperatorResponse = this.operatorInfoService.operator
     let notificationToReadNumber = 1
     this.notificationToTickAsRead.forEach(notificationID => {
-      this.operatorService.readNotification(this.operatorInfoService.user.cf, notificationID).subscribe({
+      this.operatorService.readNotification(this.operatorInfoService.operator.cf, notificationID).subscribe({
         next: (res) => {
 
-          newUser = res
-          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newUser);
+          newOperator = res
+          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newOperator: ', newOperator);
           if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
-            newUser.notifications[newUser.notifications.findIndex(noti => noti._id === notificationID)].read = true
+            newOperator.notifications[newOperator.notifications.findIndex(noti => noti._id === notificationID)].read = true
             console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
-            this.operatorInfoService.readNotifications(newUser)
+            this.operatorInfoService.readNotifications(newOperator)
             this.notifications = this.operatorInfoService.getNotifications()
           }
           notificationToReadNumber += 1
@@ -104,15 +105,15 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
     })
 
     this.notificationToTickAsRead.forEach(notificationID => {
-          this.operatorService.readNotification(this.operatorInfoService.user.cf, notificationID).subscribe({
+          this.operatorService.readNotification(this.operatorInfoService.operator.cf, notificationID).subscribe({
             next: (res) => {
 
-          newUser = res
-          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newUser);
+              newOperator = res
+          console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, newUser: ', newOperator);
           if (notificationToReadNumber >= this.notificationToTickAsRead.size) {
-            newUser.notifications[newUser.notifications.findIndex(noti => noti._id === notificationID)].read = true
+            newOperator.notifications[newOperator.notifications.findIndex(noti => noti._id === notificationID)].read = true
             console.log(this.CLASS_TAG, 'this.tickNotificationsAsRead, last lap');
-            this.operatorInfoService.readNotifications(newUser)
+            this.operatorInfoService.readNotifications(newOperator)
             this.notifications = this.operatorInfoService.getNotifications()
           }
           notificationToReadNumber += 1

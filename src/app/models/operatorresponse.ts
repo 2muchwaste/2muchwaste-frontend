@@ -1,12 +1,12 @@
 import {User, UserBuilder} from "./user";
-import {UserNotification} from "./UserNotification";
+import { OperatorNotification } from "./operatornotification";
 import { EmptyServerResponse } from "./emptyserverresponse";
 
-export class UserResponse extends User {
+export class OperatorResponse extends User {
   constructor(
     public _id: string,
     public __t: string,
-    public notifications: UserNotification[],
+    public notifications: OperatorNotification[],
     public empties: [] = [],
     public __v: number,
     user: User
@@ -26,7 +26,7 @@ export class UserResponse extends User {
   }
 }
 
-export class UserResponseBuilder {
+export class OperatorResponseBuilder {
   private _id: string = "";
   private __t: string = "";
   private notifications: [] = [];
@@ -34,37 +34,37 @@ export class UserResponseBuilder {
   private __v: number = 0;
   private user: User = new UserBuilder().build()
 
-  setId(id: string): UserResponseBuilder {
+  setId(id: string): OperatorResponseBuilder {
     this._id = id;
     return this;
   }
 
-  setT(t: string): UserResponseBuilder {
+  setT(t: string): OperatorResponseBuilder {
     this.__t = t;
     return this;
   }
 
-  setNotifications(notifications: []): UserResponseBuilder {
+  setNotifications(notifications: []): OperatorResponseBuilder {
     this.notifications = notifications;
     return this;
   }
 
-  setEmpties(empties: []): UserResponseBuilder {
+  setEmpties(empties: []): OperatorResponseBuilder {
     this.empties = empties;
     return this;
   }
 
-  setV(v: number): UserResponseBuilder {
+  setV(v: number): OperatorResponseBuilder {
     this.__v = v;
     return this;
   }
 
-  setUser(user: User): UserResponseBuilder {
+  setUser(user: User): OperatorResponseBuilder {
     this.user = user;
     return this;
   }
 
-  build(): UserResponse {
-    return new UserResponse(this._id, this.__t, this.notifications, this.empties, this.__v, this.user);
+  build(): OperatorResponse {
+    return new OperatorResponse(this._id, this.__t, this.notifications, this.empties, this.__v, this.user);
   }
 }

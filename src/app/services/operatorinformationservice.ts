@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core"
-import {UserResponse} from "../models/userresponse"
+import {OperatorResponse} from "../models/operatorresponse"
 import {Empty} from "../models/empty"
 import {Subject} from "rxjs"
 import {UserNotification} from "../models/UserNotification"
@@ -15,22 +15,22 @@ import {RoleService} from "./backendcalls/roleservice"
 })
 export class OperatorInformationService {
   private SERVICE_TAG = 'OperatorInformationService:'
-  public user!: UserResponse
+  public operator!: OperatorResponse
   public userEmpties!: Empty[]
   public operatorNotifications!: OperatorNotification[]
   public logged = false
   public nearestDumpsters!: { dumpster: Dumpster, distance: number }[]
 
-  private userLoggedIn = new Subject<UserResponse>()
+  private userLoggedIn = new Subject<OperatorResponse>()
   userLoggedInObservable = this.userLoggedIn.asObservable()
 
-  private newUserSet = new Subject<UserResponse>()
+  private newUserSet = new Subject<OperatorResponse>()
   userSetObservable = this.newUserSet.asObservable()
 
-  private userNewNotificationSubject = new Subject<UserResponse>()
+  private userNewNotificationSubject = new Subject<OperatorResponse>()
   userNewNotificationObservable = this.userNewNotificationSubject.asObservable()
 
-  private userReadNotification = new Subject<UserResponse>()
+  private userReadNotification = new Subject<OperatorResponse>()
   userReadNotificationObservable = this.userReadNotification.asObservable()
 
   private newNearestDumpster = new Subject<{ dumpster: Dumpster, distance: number }[]>()
@@ -54,35 +54,35 @@ export class OperatorInformationService {
     this.nearestDumpsters = undefined
   }
 
-  public login(userResponse: UserResponse, userToken: string) {
+  public login(operatorResponse: OperatorResponse, userToken: string) {
     this.lStorageService.setUserToken(userToken)
-    this.lStorageService.setUserID(userResponse._id)
-    console.log(userResponse)
-    this.lStorageService.setUserObject(userResponse)
-    console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, userResponse:', userResponse)
-    userResponse.notifications = []
-    userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
-    this.user = userResponse
+    this.lStorageService.setUserID(operatorResponse._id)
+    console.log(operatorResponse)
+    this.lStorageService.setUserObject(operatorResponse)
+    console.log(this.SERVICE_TAG, 'login2023_11_24_01 called, operatorResponse:', operatorResponse)
+    operatorResponse.notifications = []
+    operatorResponse.notifications = this.getSortedNotificationsByData(operatorResponse.notifications)
+    this.operator = operatorResponse
     this.logged = true
-    this.userLoggedIn.next(this.user)
+    this.userLoggedIn.next(this.operator)
   }
 
   public getUser() {
-    return this.user
+    return this.operator
   }
 
   public isLogged() {
     return this.logged
   }
 
-  readNotifications(userWithNewNotifications: UserResponse) {
+  readNotifications(userWithNewNotifications: OperatorResponse) {
     console.log(this.SERVICE_TAG, "this.readNotifications(), userWithReadNotifications ", userWithNewNotifications)
     userWithNewNotifications.notifications = this.getSortedNotificationsByData(userWithNewNotifications.notifications)
-    this.user = userWithNewNotifications
+    this.operator = userWithNewNotifications
     this.userReadNotification.next(userWithNewNotifications)
   }
 
-  private getSortedNotificationsByData(userNotifications: UserNotification[]) {
+  private getSortedNotificationsByData(userNotifications: OperatorNotification[]) {
     return userNotifications
       .map(noti => {
         noti.date = new Date(noti.date)
@@ -92,18 +92,18 @@ export class OperatorInformationService {
         noti2.date.getTime() - noti1.date.getTime())
   }
 
-  addNotification(userWithNewNotification: UserResponse) {
+  addNotification(userWithNewNotification: OperatorResponse) {
     console.log(this.SERVICE_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification)
-    this.user = userWithNewNotification
-    this.user.notifications = this.getSortedNotificationsByData(this.user.notifications)
-    this.userNewNotificationSubject.next(this.user)
+    this.operator = userWithNewNotification
+    this.operator.notifications = this.getSortedNotificationsByData(this.operator.notifications)
+    this.userNewNotificationSubject.next(this.operator)
   }
 
-  setUser(userResponse: UserResponse) {
-    userResponse.notifications = this.getSortedNotificationsByData(userResponse.notifications)
-    this.user = userResponse
+  setUser(operatorResponse: OperatorResponse) {
+    operatorResponse.notifications = this.getSortedNotificationsByData(operatorResponse.notifications)
+    this.operator = operatorResponse
     this.logged = true
-    this.newUserSet.next(this.user)
+    this.newUserSet.next(this.operator)
   }
 
   setNearestDumpsters(dumpAndD: { dumpster: Dumpster, distance: number }[]) {
@@ -112,8 +112,8 @@ export class OperatorInformationService {
   }
 
   getNotifications() {
-    this.user.notifications = this.getSortedNotificationsByData(this.user.notifications)
-    return this.user.notifications
+    this.operator.notifications = this.getSortedNotificationsByData(this.operator.notifications)
+    return this.operator.notifications
   }
 
   getNotReadNotifications() {

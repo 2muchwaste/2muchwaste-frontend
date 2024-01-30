@@ -43,6 +43,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   public user!: UserResponse
   public empties!: Empty[]
   public userObs!: Observable<User>
+  public openForm: boolean = false
   private lastUserPosition!: Coordinates
   private map!: L.Map;
   private trashTypeManager

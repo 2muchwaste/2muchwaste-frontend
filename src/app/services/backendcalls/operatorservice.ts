@@ -6,6 +6,7 @@ import {User} from "../../models/user";
 import {Observable} from "rxjs";
 import {District} from "../../models/district";
 import {UserResponse} from "../../models/userresponse";
+import {OperatorResponse} from "../../models/operatorresponse";
 import {EmptyServerResponse} from "../../models/emptyserverresponse";
 
 @Injectable({
@@ -85,7 +86,7 @@ export class OperatorService {
   }
 
   readNotification(operatorCF: string, notificationID: string) {
-    return this.httpReqService.patchRequest<UserResponse>(
+    return this.httpReqService.patchRequest<OperatorResponse>(
       this.backendOperatorURL + operatorCF + '/notifications/' + notificationID, null)
   }
 

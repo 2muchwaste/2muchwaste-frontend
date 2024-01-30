@@ -6,6 +6,11 @@
     <p class="col-9">Cassonetti svuotati questo mese:</p>
     <p class="col-3 operators-monthly-col">{{empties.length}}</p>
   </div>
+<div> 
+<button *ngIf="openForm===false" (click)="openForm=true">Crea un nuovo bidone</button>
+<app-create-dumpster *ngIf="openForm===true"> </app-create-dumpster> 
+</div>
+
   <ng-container *ngIf="isButtonsVisible">
     <div class="maps-button-description appearbutton">
       Bidoni nelle vicinanze

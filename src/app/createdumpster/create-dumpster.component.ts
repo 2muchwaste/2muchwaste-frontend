@@ -74,18 +74,18 @@ export class CreateDumpsterComponent implements OnInit {
 
   initDumpster(): Dumpster {
     return new DumpsterBuilder()
-      .setActualWeightFormControl(this.actualWeightFormControl.value)
-      .setAddressFormControl(this.addressFormControl.value)
-      .setAreaFormControl(this.areaFormControl.value)
-      .setAvailableFormControl(this.availableFormControl.value)
-      .setCityFormControl(this.cityFormControl.value)
-      .setLatitudineFormControl(this.latitudineFormControl.value)
-      .setLongitudineFormControl(this.longitudineFormControl.value)
-      .setLimitUsablePercentageFormControl(this.limitUsablePercentageFormControl.value)
-      .setMaxWeightFormControl(this.maxWeightFormControl.value)
-      .setOpeningSecondsDurationFormControl(this.openingSecondsDurationFormControl.value)
-      .setTypeFormControl(this.typeFormControl.value)
-      .setZipCodeFormControl(this.zipCodeFormControl.value)
+      .setActualWeight(this.actualWeightFormControl.value)
+      .setAddress(this.addressFormControl.value)
+      .setArea(this.areaFormControl.value)
+      .setAvailable(this.availableFormControl.value)
+      .setCity(this.cityFormControl.value)
+      .setLatitude(this.latitudineFormControl.value)
+      .setLongitude(this.longitudineFormControl.value)
+      .setLimitUsablePercentage(this.limitUsablePercentageFormControl.value)
+      .setMaxWeight(this.maxWeightFormControl.value)
+      .setOpeningSecondsDuration(this.openingSecondsDurationFormControl.value)
+      .setType(this.typeFormControl.value)
+      .setZipCode(this.zipCodeFormControl.value)
       .build();
   }
 
@@ -119,8 +119,8 @@ export class CreateDumpsterComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-createdumpster-error-dialog',
-  templateUrl: './createdumpster-error-dialog.html',
+  selector: 'app-create-dumpster-error-dialog',
+  templateUrl: './create-dumpster-error-dialog.html',
 })
 export class CreateDumpsterErrorDialogComponent {
   ErrorDumpster = false;

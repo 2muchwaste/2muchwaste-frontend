@@ -280,14 +280,14 @@ export class MonthlyEmptyingComponent implements OnInit {
           return empty
         })
 
-         this.setEmpties()
+         this.setEmpties(empties)
         // this.chart.render()
       },
       error: (err) => console.log(err)
     })
   }
 
-  setEmpties() {
+  setEmpties(empties:any) {
     // @ts-ignore
     this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
       next: (res) => {
