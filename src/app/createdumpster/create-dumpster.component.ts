@@ -5,12 +5,14 @@ import { Dumpster, DumpsterBuilder } from "../models/dumpster";
 import { DumpsterService } from "../services/backendcalls/dumpsterservice";
 import { TrashTypeManager } from "../models/trashtype";
 import { AuthenticationService } from "../services/backendcalls/authenticationservice";
+import {CreateDumpsterService} from "../services/middleware/createdumpsterservice";
 import { Router } from "@angular/router";
 import { UserInformationService } from "../services/userinformationservice";
 import { OperatorInformationService } from "../services/operatorinformationservice";
 import { OperatorService } from '../services/backendcalls/operatorservice';
 import { LocalStorageService } from "../services/localstorageservice";
 import { RoleService } from "../services/backendcalls/roleservice";
+import {DialogSimpleComponent} from "../dialogs/DialogSimple";
 
 @Component({
   selector: 'app-create-dumpster',
@@ -45,6 +47,7 @@ export class CreateDumpsterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     public dumpsterService: DumpsterService,
+    public createDumpsterService: CreateDumpsterService,
     private authenticationService: AuthenticationService,
     private userInfoService: UserInformationService,
     private operatorInfoService: OperatorInformationService,
@@ -92,40 +95,23 @@ export class CreateDumpsterComponent implements OnInit {
   submit() {
     if (this.createDumpsterForm.valid) {
       console.log("creazione bidone");
-      this.dumpsterService.createDumpster(this.initDumpster())
-        .subscribe({
+      this.dumpsterService.createDumpster(this.initDumpster()).subscribe({
           next: (res) => {
             console.log("bidone realizzato", res);
-            this.createDumpsterSuccess();
-          },
-          error: (err) => {
-            this.handleDumpsterCreationError(err.status);
+            let dialogRef = this.dialog.open(DialogSimpleComponent,{
+              data: {
+                title: "Bidone creato",
+                message: "Bidone creato con successo"
+              }
+            })
+            dialogRef.afterClosed().subscribe({
+              next:(res)=>{
+                this.router.navigate(['/operatorhome'])
+              }
+            })
+         
           }
         });
     }
   }
-
-  private createDumpsterSuccess() {
-    this.router.navigate(['/operatorhome']);
-  }
-
-  private handleDumpsterCreationError(statusCode: number) {
-    this.dialog.open(CreateDumpsterErrorDialogComponent, {
-      data: {
-        statusCode: statusCode
-      }
-    });
-  }
-}
-
-@Component({
-  selector: 'app-create-dumpster-error-dialog',
-  templateUrl: './create-dumpster-error-dialog.html',
-})
-export class CreateDumpsterErrorDialogComponent {
-  ErrorDumpster = false;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public errorStatus: any) {
-    this.ErrorDumpster = true;
-  }
-}
+} 

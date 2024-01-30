@@ -19,18 +19,18 @@
       <mat-divider></mat-divider>
     </div>
 
-    <div class="row">
-      <button class="col-6 application-button-primary" mat-raised-button color="primary"
+    <div class="row justify-content-around">
+      <button class="col-3 margin-upside-down-application dgreen-bground" mat-raised-button color="primary"
               [disabled]="lowValue<=0"
               (click)="movePageDumpsters(-1)"><
       </button>
 
-      <button class="col-6 application-button-primary" mat-raised-button color="primary"
+      <button class="col-3 margin-upside-down-application dgreen-bground" mat-raised-button color="primary"
               [disabled]="highValue>=userInfoService.nearestDumpsters.length"
               (click)="movePageDumpsters(1)">>
       </button>
 
-      <button class="col-12 application-button-primary" mat-raised-button color="primary"
+      <button class="col-12 margin-upside-down-application dgreen-bground" mat-raised-button color="primary"
               (click)="showDumpstersOnMap()">
         Guardali sulla mappa
       </button>

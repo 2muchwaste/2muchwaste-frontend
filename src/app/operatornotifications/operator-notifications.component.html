@@ -37,12 +37,12 @@
                    [pageSize]="10"
                    [pageSizeOptions]="[10, 20, 30]"
                    (page)="getPaginatorData($event)"
-                   aria-label="Seleziona la pagina" *ngIf="notifications" #matPaginator>
+                   aria-label="Seleziona la pagina" #prova *ngIf="notifications" #matPaginator>
     </mat-paginator>
     <div class="row">
 
       <div class="col-md-6">
-        <button class="col-12 application-button-primary" mat-raised-button color="primary"
+        <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"
                 (click)="filterNotificationsRead()">
           <ng-container *ngIf="showReadNotification; else notShowReadNotifications">
             Non Mostrare Notifiche Già Lette
@@ -54,7 +54,7 @@
       </div>
 
       <div class="col-md-6">
-        <button class="col-12 application-button-primary" mat-raised-button color="primary"
+        <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"
                 [disabled]="notificationToTickAsRead.size<=0"
                 (click)="tickNotificationsAsRead()">Segna come lette
         </button>

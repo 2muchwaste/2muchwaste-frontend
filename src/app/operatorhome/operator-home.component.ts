@@ -427,7 +427,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
 
   emptyDumpster(dump: { dumpster: Dumpster; distance: number }) {
     let dialog: Dialog = {
-      title: 'Deposito',
+      title: 'Svuotamento',
       message: 'Sicurə di voler svuotare il bidone in ' + dump.dumpster.address + '?',
     }
     let finished = {finish: false}
