@@ -106,7 +106,7 @@ export class CustomerHomeComponent implements OnInit {
         if (popupContent) {
           console.log("PremutoPopup del bidone " + dump.dumpster._id);
           // Render your button inside the popup content
-          popupContent.innerHTML = '<button class="col-12 dgreen-bground empty-button-map light-green-application-foreground" mat-raised-button color="primary" id="popupButton">Svuota</button>';
+          popupContent.innerHTML = '<button class="col-12 dgreen-bground empty-button-map light-green-application-foreground" mat-raised-button color="primary" id="popupButton">Deposita</button>';
 
           // Add a click event listener to the button
           const popupButton = document.getElementById('popupButton');
