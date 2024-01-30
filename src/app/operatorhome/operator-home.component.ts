@@ -431,7 +431,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
       message: 'Sicurə di voler svuotare il bidone in ' + dump.dumpster.address + '?',
     }
     let finished = {finish: false}
-    let newWeight = 1.5
+    let newWeight = 0.00
     let dialogRef = this.dialog.open(DialogYesNoComponent, {
       data: {
         content: dialog,
