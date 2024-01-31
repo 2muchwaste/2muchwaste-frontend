@@ -10,11 +10,11 @@ import {LocalStorageService} from "../services/localstorageservice"
 import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 
 @Component({
-  selector: 'app-operator-information',
-  templateUrl: './operator-information.component.html',
-  styleUrls: ['./operator-information.component.scss']
+  selector: 'app-empties-information',
+  templateUrl: './empties-information.component.html',
+  styleUrls: ['./empties-information.component.scss']
 })
-export class OperatorInformationComponent implements OnInit, OnDestroy {
+export class EmptiesInformationComponent implements OnInit, OnDestroy {
   private CLASS_TAG = "OperatorInformationComponent"
   public user!: UserResponse
   userEmpties!: Empty[]
