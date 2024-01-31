@@ -1,8 +1,8 @@
-.row.userempties-row {
+.row.user-empties-row {
   justify-content: center;
 }
 
-.col.userempties-col {
+.col.user-empties-col {
   max-width: 900px;
 }
 
@@ -14,21 +14,13 @@
   padding: 10px 0 10px;
 }
 
-.quantity-header, .quantity-value {
-  text-align: end;
-}
-.row.userempty-list-item {
+.row.user-empty-list-item {
   min-height: 45px;
   align-items: center;
 }
 
-.col-sm-4.date-value {
-  display: flex;
-  align-items: center;
-}
-
 @media screen and (max-width: 575px) {
-  .row.userempty-list-item {
+  .row.user-empty-list-item {
     min-height: 60px;
   }
 

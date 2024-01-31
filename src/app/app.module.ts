@@ -36,7 +36,7 @@ import {
   OperatorHomeDialogDumpsterComponent,
   OperatorHomeEmptyGarbageDialogComponent
 } from './operatorhome/operator-home.component';
-import {OperatorInformationComponent} from './operatorinformation/operator-information.component';
+import {EmptiesInformationComponent} from './emptiesinformation/empties-information.component';
 import {OperatorNotificationsComponent} from './operatornotifications/operator-notifications.component';
 import {PaymentDialogComponent, PaymentsComponent} from './payments/payments.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
@@ -72,7 +72,7 @@ import {WhoWeAreComponent} from './whoweare/who-we-are.component';
     OperatorHomeDialogComponent,
     OperatorHomeDialogDumpsterComponent,
     OperatorHomeEmptyGarbageDialogComponent,
-    OperatorInformationComponent,
+    EmptiesInformationComponent,
     OperatorNotificationsComponent,
     PaymentDialogComponent,
     PaymentsComponent,

@@ -3,20 +3,18 @@ import {UserResponse} from "../models/userresponse"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 import {OperatorInformationService} from "../services/operatorinformationservice"
 import {UserInformationService} from "../services/userinformationservice"
-import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Empty} from "../models/empty"
-import {PageEvent} from "@angular/material/paginator"
 import {TrashTypeManager} from "../models/trashtype"
 import {Subscription} from "rxjs"
 import {LocalStorageService} from "../services/localstorageservice"
 import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 
 @Component({
-  selector: 'app-operator-information',
-  templateUrl: './operator-information.component.html',
-  styleUrls: ['./operator-information.component.scss']
+  selector: 'app-empties-information',
+  templateUrl: './empties-information.component.html',
+  styleUrls: ['./empties-information.component.scss']
 })
-export class OperatorInformationComponent implements OnInit, OnDestroy {
+export class EmptiesInformationComponent implements OnInit, OnDestroy {
   private CLASS_TAG = "OperatorInformationComponent"
   public user!: UserResponse
   userEmpties!: Empty[]
@@ -29,7 +27,6 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
     private authorizationService: Authorizationservice,
     private userInfoService: UserInformationService,
     private operatorDumpsterService: OperatorDumpsterService,
-    private operatorInfoService: OperatorInformationService,
     private lStorageService: LocalStorageService
   ) {
     this.subscriptionToNewNotification =
@@ -50,10 +47,10 @@ export class OperatorInformationComponent implements OnInit, OnDestroy {
 
   private setEmpty() {
     // @ts-ignore
-    this.operatorDumpsterService.getEmptiesWithSpecificDumpsterByCF(this.lStorageService.getUserCF()).subscribe({
-      next: (res) => {
-        this.userEmpties = this.userInfoService.userEmpties = res
-        console.log(this.CLASS_TAG + ": res", res)
+    this.operatorDumpsterService.getEmptiesSortedByDate(this.lStorageService.getUserCF()).subscribe({
+      next: (empties) => {
+        this.userEmpties = this.userInfoService.userEmpties = empties
+        console.log(this.CLASS_TAG + ": res", empties)
       }
     })
   }

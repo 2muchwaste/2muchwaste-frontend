@@ -21,9 +21,10 @@ export class OperatorDumpsterService extends OperatorService {
   public getEmptiesWithSpecificDumpsterByCF(operatorCF: string) {
     return new Observable<Empty[]>(obs => {
       this.getOperatorEmptiesByCFRaw(operatorCF).subscribe({
-        next: (res) => {
+        next: (emptyServerResponse) => {
           let empties: Empty[] = []
-          res.empties.forEach(empty => {
+          let len = 0
+          emptyServerResponse.empties.forEach(empty => {
             this.dumpsterService.getDumpsterByID(empty.dumpsterID).subscribe({
               next: (res) => {
                 empties.push({
@@ -34,10 +35,25 @@ export class OperatorDumpsterService extends OperatorService {
                   type: empty.type,
                   quantity: 0
                 })
+                len = len + 1
+                if (len >= emptyServerResponse.empties.length){
+                  obs.next(empties)
+                }
               }
             })
           })
-          obs.next(empties)
+          // obs.next(empties)
+        }
+      })
+    })
+  }
+
+  public getEmptiesSortedByDate(operatorCF: string) {
+    return new Observable<Empty[]>(obs => {
+      this.getEmptiesWithSpecificDumpsterByCF(operatorCF).subscribe({
+        next: (res) => {
+          let sortedEmpties = res.sort((emp1, emp2) => emp2.date.getTime() - emp1.date.getTime())
+          obs.next(sortedEmpties)
         }
       })
     })

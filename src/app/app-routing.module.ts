@@ -10,7 +10,7 @@ import {ForbiddenResourceComponent} from "./forbiddenresource/forbidden-resource
 import {MonthlyCostComponent} from "./monthlycost/monthly-cost.component";
 import {MonthlyEmptyingComponent} from "./monthlyemptying/monthly-emptying.component";
 import {OperatorHomeComponent} from "./operatorhome/operator-home.component";
-import {OperatorInformationComponent} from "./operatorinformation/operator-information.component";
+import {EmptiesInformationComponent} from "./emptiesinformation/empties-information.component";
 import {OperatorNotificationsComponent} from "./operatornotifications/operator-notifications.component";
 import {PaymentsComponent} from "./payments/payments.component";
 import {RouterModule, Routes} from "@angular/router";
@@ -29,12 +29,12 @@ const routes: Routes = [
   getRouteComponent('customerhome', CustomerHomeComponent),
   getRouteComponent('depositsinformation', UserDepositsInformationComponent),
   getRouteComponent('dumpsterslist', DumpstersListComponent),
+  getRouteComponent('emptiesinformation', EmptiesInformationComponent),
   getRouteComponent('emptydumpster', EmptyDumpsterComponent),
   getRouteComponent('forbiddenarea', ForbiddenResourceComponent),
   getRouteComponent('monthlycost', MonthlyCostComponent),
   getRouteComponent('monthlyemptying', MonthlyEmptyingComponent),
   getRouteComponent('operatorhome', OperatorHomeComponent),
-  getRouteComponent('operatorinformation', OperatorInformationComponent),
   getRouteComponent('operatornotifications', OperatorNotificationsComponent),
   getRouteComponent('paymentstatus', PaymentsComponent),
   getRouteComponent('signin', SignInComponent),
