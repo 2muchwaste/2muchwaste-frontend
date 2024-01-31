@@ -2,22 +2,19 @@ import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Outpu
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Dumpster} from "../models/dumpster";
 import {Empty} from "../models/empty";
-import {EmptyServerResponse} from "../models/emptyserverresponse";
 import {Authorizationservice} from "../services/backendcalls/authorizationservice";
 import {Observable, Subscription} from "rxjs";
 import {UserResponse} from "../models/userresponse";
-import {AppConstants} from "../utils/constants";
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 import {EmptyService} from "../services/backendcalls/emptyservice";
 import {OperatorService} from "../services/backendcalls/operatorservice"
-import { CreateDumpsterService } from '../services/middleware/createdumpsterservice';
+import {CreateDumpsterService} from '../services/middleware/createdumpsterservice';
 import {OperatorInformationService} from "../services/operatorinformationservice";
 import {UserInformationService} from "../services/userinformationservice";
 import {LocalStorageService} from "../services/localstorageservice"
 import {OperatorDumpsterService} from "../services/middleware/operatordumpsterservice";
 import {User} from "../models/user";
 import {Router} from "@angular/router";
-import * as gL from 'geolib'
 import * as L from "leaflet";
 import {TrashTypeManager} from "../models/trashtype";
 import {PageEvent} from "@angular/material/paginator";
@@ -141,6 +138,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
                 title: 'Svuotamento',
                 message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
               }
+
               let finished = {finish: false}
               let newWeight = 0.0
               let dialogRef = this.dialog.open(DialogYesNoComponent, {
@@ -374,7 +372,6 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
 
 })
 export class OperatorHomeEmptyGarbageDialogComponent {
-  // public dumpsters: {dumpster: Dumpster,distance: number}[]
   private readonly CLASS_TAG = "OperatorHomeEmptyGarbageDialogComponent"
 
   @Output() showMapEvent = new EventEmitter<boolean>()
@@ -392,10 +389,9 @@ export class OperatorHomeEmptyGarbageDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
-    public operatorInfoService: OperatorInformationService,
     private dumpsterService: DumpsterService,
     private dialog: MatDialog,
-    private createDumpsterService: CreateDumpsterService,
+    private operatorService: OperatorService,
   ) {
     console.log('here');
     this.newNearestDumpster = this.userInfoService.newNearestDumpsterObservable.subscribe(dumpsters => {
@@ -431,30 +427,28 @@ export class OperatorHomeEmptyGarbageDialogComponent {
       message: 'Sicurə di voler svuotare il bidone in ' + dump.dumpster.address + '?',
     }
     let finished = {finish: false}
-    let newWeight = 0.00
-    let dialogRef = this.dialog.open(DialogYesNoComponent, {
+    this.dialog.open(DialogYesNoComponent, {
       data: {
         content: dialog,
+        finished: finished,
         positiveFunction: () => {
-          this.dumpsterService.setDumpsterWeight(dump.dumpster._id, newWeight).subscribe({
-            next: (res) => {
-              console.log(this.CLASS_TAG + ": res", res)
-              this.dumpsterService.setDumpsterAvailability(dump.dumpster._id, true).subscribe({
-                next: (res) => {
-                  if (!res.hasOwnProperty('address')) {
-                    dialog.message = `C'è stato un errore durante la procedura. Riprovare.`
-                  } else {
+
+          this.operatorService.addEmptyToOperator(this.userInfoService.user.cf, dump.dumpster._id).subscribe({
+            next: (dumpsterReturned) => {
+              if (!dumpsterReturned.hasOwnProperty('address')) {
+                dialog.message = `C'è stato un errore durante la procedura. Riprovare.`
+              } else {
+                this.dumpsterService.setDumpsterAvailability(dump.dumpster._id, true).subscribe({
+                  next: (res) => {
                     dialog.message = `Svuotamento avvenuto con successo`
                     this.userInfoService.nearestDumpsters.filter(dump2 => dump2.dumpster._id === dump.dumpster._id)
-                      .map(d => d.dumpster.actualWeight = newWeight)
-                    finished.finish = true
+                      .map(d => d.dumpster.actualWeight = dumpsterReturned.actualWeight)
                   }
-                }
-              })
+                })
+              }
             }
           })
         },
-        finished: finished
       },
     })
   }

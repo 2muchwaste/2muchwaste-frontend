@@ -8,6 +8,7 @@ import {District} from "../../models/district";
 import {UserResponse} from "../../models/userresponse";
 import {OperatorResponse} from "../../models/operatorresponse";
 import {EmptyServerResponse} from "../../models/emptyserverresponse";
+import {Dumpster} from "../../models/dumpster";
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +66,7 @@ export class OperatorService {
   }
 
   addEmptyToOperator(operatorCF: string, dumpsterID: string) {
-    return this.httpReqService.postRequest(
+    return this.httpReqService.postRequest<Dumpster>(
       this.backendOperatorURL + operatorCF + '/empties',
       this.objectForEmptyDumpster(dumpsterID))
   }
