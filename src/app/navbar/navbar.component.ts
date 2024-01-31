@@ -7,7 +7,6 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {UserInformationService} from "../services/userinformationservice"
-import {OperatorInformationService} from "../services/operatorinformationservice"
 import {SocketService} from "../services/notificationsservice"
 import {UserNotification} from "../models/UserNotification"
 import {CustomerService} from "../services/backendcalls/customerservice"
@@ -15,8 +14,7 @@ import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
-import {OperatorNotificationAndDumpster} from "../models/operatornotification";
-import {OperatorNotificationService} from "../services/backendcalls/operatornotificationservice";
+import {OperatorNotification, OperatorNotificationAndDumpster} from "../models/operatornotification";
 import {RoleService} from "../services/backendcalls/roleservice";
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 import {NotificationDumpsterService} from "../services/middleware/notificationdumpsterservice";
@@ -48,10 +46,8 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     private eRef: ElementRef,
     private lStorageService: LocalStorageService,
     public roleService: RoleService,
-    private dumpsterService: DumpsterService,
-    private notificationDumpsterService:NotificationDumpsterService,
+    private notificationDumpsterService: NotificationDumpsterService,
   ) {
-
 
     this.subscriptionUser = this.userInfoService.userLoggedInObservable.subscribe(userResponse => {
       console.log(this.CLASS_TAG + ": AAAAAuserResponse", userResponse)
@@ -76,7 +72,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
       if (userIDStored && !this.userInfoService.user) this.restoreUser(userIDStored)
     } else if (user && user.role === this.roleService.getOperatorCode()) {
       let operatorIDStored = this.lStorageService.getUserID()
-      // let userIDStored = this.userInfoService.user._id
       if (operatorIDStored && !this.userInfoService.user && this.lStorageService.getUserRoleName() === this.roleService.getOperatorName()) this.restoreOperator(operatorIDStored)
 
     }
@@ -92,27 +87,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.CLASS_TAG, " Inizio collegamento socket")
         console.log(this.CLASS_TAG, " customerResponse", usrResponse)
         this.user = usrResponse
-        this.initializeSocketNotifications(usrResponse)
+        this.initializeCustomerSocketNotifications(usrResponse)
         this.userInfoService.setUser(usrResponse)
         this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
-        this.isLogged = true
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    })
-  }
-
-  private restoreOperator(operatorIDStored: string) {
-    this.operatorService.getOperatorByID(operatorIDStored).subscribe({
-      next: (operatorResponse) => {
-        console.log(this.CLASS_TAG, " Inizio collegamento socket")
-        console.log(this.CLASS_TAG, " operatorResponse", operatorResponse)
-        this.user = operatorResponse
-        this.initializeSocketNotifications(operatorResponse)
-        this.setOperatorNotifications()
-        // usare direttamente user info service
-        this.userInfoService.setUser(operatorResponse)
         this.isLogged = true
       },
       error: (err) => {
@@ -128,9 +105,37 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.lStorageService.setUserID(userResponse._id)
         this.lStorageService.setUserObject(userResponse)
         console.log(this.CLASS_TAG, " Inizio collegamento socket")
-        this.initializeSocketNotifications(userResponse)
+        this.initializeCustomerSocketNotifications(userResponse)
         this.isLogged = true
         this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
+      }
+    })
+  }
+
+  private initializeCustomerSocketNotifications(userResponse: UserResponse) {
+    this.notificationService.listen<UserResponse>(userResponse._id).subscribe({
+      next: (newNotification) => {
+        this.userInfoService.addCustomerNotification(newNotification)
+        this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
+      }
+    })
+  }
+
+  private restoreOperator(operatorIDStored: string) {
+    this.operatorService.getOperatorByID(operatorIDStored).subscribe({
+      next: (operatorResponse) => {
+        this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
+          next: (res) => {
+            console.log(this.CLASS_TAG, " Inizio collegamento socket")
+            console.log(this.CLASS_TAG, " operatorResponse", operatorResponse)
+            this.user = operatorResponse
+            this.initializeSocketOperatorNotification()
+            this.setOperatorNotifications(res)
+            // usare direttamente user info service
+            this.userInfoService.setUser(operatorResponse)
+            this.isLogged = true
+          }
+        })
       }
     })
   }
@@ -139,26 +144,31 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lStorageService.setUserID(userResponse._id)
     this.lStorageService.setUserObject(userResponse)
     console.log(this.CLASS_TAG, " Inizio collegamento socket")
-    this.initializeSocketNotifications(userResponse)
-    this.setOperatorNotifications()
+    this.initializeSocketOperatorNotification()
+    this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
+      next: (res) => {
+        this.setOperatorNotifications(res)
+      }
+    })
     this.isLogged = true
   }
 
-  private initializeSocketNotifications(userResponse: UserResponse) {
-    this.notificationService.listen(userResponse._id).subscribe({
-      next: (newNotification) => {
-        this.userInfoService.addNotification(newNotification)
-        this.customerNotificationNotRead = this.userInfoService.getNotReadNotifications()
+  private initializeSocketOperatorNotification() {
+    this.notificationService.listen<OperatorNotification[]>('operators').subscribe({
+      next: (operatorNotification) => {
+        console.log(this.CLASS_TAG + ": NUOVA NOTIFICA OPERATORE operatorNotification", operatorNotification)
+        this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
+          next: (res) => {
+            this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = res
+            this.userInfoService.addOperatorNotifications(res)
+          }
+        })
       }
     })
   }
 
-  private setOperatorNotifications() {
-    this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
-      next:(res)=>{
-        this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = res
-      }
-    })
+  private setOperatorNotifications(operatorNotiDumpster: OperatorNotificationAndDumpster[]) {
+    this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = operatorNotiDumpster
   }
 
   performBurgerButtonClick() {

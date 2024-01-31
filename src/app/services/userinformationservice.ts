@@ -10,7 +10,6 @@ import {LocalStorageService} from "./localstorageservice"
 import {OperatorNotificationAndDumpster} from "../models/operatornotification";
 import {RoleService} from "./backendcalls/roleservice";
 
-
 @Injectable({
   providedIn: "root"
 })
@@ -38,6 +37,9 @@ export class UserInformationService {
 
   private newNearestDumpster = new Subject<{ dumpster: Dumpster, distance: number }[]>()
   newNearestDumpsterObservable = this.newNearestDumpster.asObservable()
+
+  private operatorNewNotificationsSubject = new Subject<OperatorNotificationAndDumpster[]>()
+  operatorNewNotificationsSubjectObservable = this.operatorNewNotificationsSubject.asObservable()
 
   constructor(
     private lStorageService: LocalStorageService,
@@ -101,11 +103,17 @@ export class UserInformationService {
         noti2.date.getTime() - noti1.date.getTime())
   }
 
-  addNotification(userWithNewNotification: UserResponse) {
+  addCustomerNotification(userWithNewNotification: UserResponse) {
     console.log(this.CLASS_TAG, "this.addNotification2023_11_24_01, newNotificationuserWithReadNotifications ", userWithNewNotification)
     this.user = userWithNewNotification
     this.user.notifications = this.getSortedNotificationsByData(this.user.notifications)
     this.userNewNotificationSubject.next(this.user)
+  }
+
+  addOperatorNotifications(newOperatorNotifications: OperatorNotificationAndDumpster[]) {
+    console.log(this.CLASS_TAG + ": newOperatorNotifications", newOperatorNotifications)
+    this.operatorNotifications = newOperatorNotifications
+    this.operatorNewNotificationsSubject.next(this.operatorNotifications)
   }
 
   setUser(userResponse: UserResponse) {
