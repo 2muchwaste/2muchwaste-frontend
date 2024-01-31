@@ -1,4 +1,4 @@
-import {TrashTypes} from "./trashtype";
+import {TrashTypes, TrashTypeManager} from "./trashtype";
 
 
 export class EmptyServerResponse {

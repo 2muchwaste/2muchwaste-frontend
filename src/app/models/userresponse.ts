@@ -7,7 +7,7 @@ export class UserResponse extends User {
     public _id: string,
     public __t: string,
     public notifications: UserNotification[],
-    public empties: [] = [],
+    public empties: EmptyServerResponse[],
     public __v: number,
     user: User
   ) {

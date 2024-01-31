@@ -6,7 +6,7 @@ import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 import {UserResponse} from "../models/userresponse"
 import {CanvasJS} from "@canvasjs/angular-charts"
-import {TrashTypeManager} from "../models/trashtype"
+import {TrashTypeManager, TrashTypes} from "../models/trashtype"
 import {LocalStorageService} from "../services/localstorageservice"
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 
@@ -136,6 +136,7 @@ export class MonthlyEmptyingComponent implements OnInit {
 
   getMonthlyEmptyByType(empties: Empty[], fromMonth: number, exlNLastMonths: number) {
     let emptyLimited = this.getSlicedEmpty(empties, fromMonth, exlNLastMonths)
+
     let types = emptyLimited
       .map(empty => empty.dumpster.type)
       .filter((emptyType, index, self) => index === self.indexOf(emptyType))
@@ -274,7 +275,6 @@ export class MonthlyEmptyingComponent implements OnInit {
     // @ts-ignore
     this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
       next: (res) => {
-        console.log(res)
         let empties = res.empties.map(empty => {
           empty.date = new Date(empty.date)
           return empty
@@ -300,6 +300,7 @@ export class MonthlyEmptyingComponent implements OnInit {
                 // @ts-ignore
                 userID: this.lStorageService.getUserID(),
                 dumpster: res,
+                type: empty.type,
                 date: empty.date,
                 quantity: 0
               })
