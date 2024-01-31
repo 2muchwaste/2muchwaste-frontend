@@ -17,7 +17,7 @@ export class DumpstersListComponent implements OnInit {
   lowValue: number = 0
   highValue: number = 10
   trashTypesManager: TrashTypeManager = new TrashTypeManager()
-  DumpsterUtils = DumpsterUtils
+  dumpsterUtils = new DumpsterUtils()
 
   constructor(
     private authorizationService: Authorizationservice,

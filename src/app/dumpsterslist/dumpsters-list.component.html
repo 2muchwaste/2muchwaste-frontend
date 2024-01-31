@@ -13,7 +13,7 @@
         <div class="col-12 col-sm-5 order-sm-2 quantity-value">{{dumpster.address + ", " + dumpster.city}}</div>
         <div class="col-6 col-sm-3 order-sm-1 type-value">{{trashTypesManager.getItalianName(dumpster.type)}}</div>
         <div
-          class="col-3 col-sm-2 order-sm-3 usage-percentage">{{DumpsterUtils.getUsagePercentage(dumpster).toFixed(2)}}%
+          class="col-3 col-sm-2 order-sm-3 usage-percentage">{{dumpsterUtils.getUsagePercentage(dumpster).toFixed(2)}}%
         </div>
         <div class="col-3 col-sm-2 order-sm-4 limit-percentage">{{dumpster.limitUsablePercentage}}%</div>
         <mat-divider></mat-divider>

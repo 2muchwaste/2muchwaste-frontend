@@ -7,11 +7,10 @@
         {{dump.dumpster.address}}, {{dump.dumpster.city}}<br>
         {{"Tipo: " + trashTypesManager.getItalianName(dump.dumpster.type)}}<br>
         {{"Distanza: " + dump.distance.toFixed(2)}}Km<br>
-        {{"Riempimento: " + dump.dumpster.actualWeight.toFixed(2)}}<br>
-        {{"Limite Peso: " + dump.dumpster.maxWeight}}<br>
-        {{"Limite Percentuale: " + dump.dumpster.limitUsablePercentage}}<br>
+        {{"Riempimento: " + dumpsterUtils.getUsagePercentage(dump.dumpster).toFixed(2)}}%<br>
+        {{"Limite: " + dump.dumpster.limitUsablePercentage}}%<br>
       </div>
-      <button class="col-md-2 dumpster btn btn-light"
+      <button class="col-md-2 dumpster btn btn-light bground-btn-dgreen" mat-raised-button color="primary"
               (click)="emptyDumpster(dump)">
         Svuota
       </button>
@@ -20,17 +19,17 @@
     </div>
 
     <div class="row justify-content-around">
-      <button class="col-3 margin-upside-down-application dgreen-bground" mat-raised-button color="primary"
+      <button class="col-3 margin-upside-down-application bground-btn-dgreen" mat-raised-button color="primary"
               [disabled]="lowValue<=0"
               (click)="movePageDumpsters(-1)"><
       </button>
 
-      <button class="col-3 margin-upside-down-application dgreen-bground" mat-raised-button color="primary"
+      <button class="col-3 margin-upside-down-application bground-btn-dgreen" mat-raised-button color="primary"
               [disabled]="highValue>=userInfoService.nearestDumpsters.length"
               (click)="movePageDumpsters(1)">>
       </button>
 
-      <button class="col-12 margin-upside-down-application dgreen-bground" mat-raised-button color="primary"
+      <button class="col-12 margin-upside-down-application bground-btn-dgreen" mat-raised-button color="primary"
               (click)="showDumpstersOnMap()">
         Guardali sulla mappa
       </button>

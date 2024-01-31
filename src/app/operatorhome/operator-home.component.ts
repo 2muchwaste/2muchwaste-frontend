@@ -48,6 +48,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   viewMapDumpsters = false
   showBorderMap = false
   private CLASS_TAG = "OperatorHomeComponent"
+  private dumpsterUtils: DumpsterUtils;
 
   constructor(
     private dialog: MatDialog,
@@ -60,6 +61,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
     private lStorageService: LocalStorageService
   ) {
     this.trashTypeManager = new TrashTypeManager()
+    this.dumpsterUtils = new DumpsterUtils()
   }
 
   ngOnInit(): void {
@@ -85,7 +87,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
               <p>${dumpster.address}</p>
               <p>Tipo: ${this.trashTypeManager.getItalianName(dumpster.type)}</p>
               <p>Distanza: ${(distance * 1000).toFixed(2)}m</p>
-              <p>${"Riempimento: " + DumpsterUtils.getUsagePercentage(dumpster).toFixed(2) + "%"}</p>
+              <p>${"Riempimento: " + this.dumpsterUtils.getUsagePercentage(dumpster).toFixed(2) + "%"}</p>
               <p>${"Limite: " + dumpster.limitUsablePercentage + "%"}</p>
               <p>${"Contenuto: " + dumpster.actualWeight + "Kg"}</p>
             </div>
@@ -376,6 +378,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
 
   @Output() showMapEvent = new EventEmitter<boolean>()
   trashTypesManager: TrashTypeManager = new TrashTypeManager()
+  dumpsterUtils: DumpsterUtils = new DumpsterUtils()
 
   public nearestDumpstersSet = false
 
