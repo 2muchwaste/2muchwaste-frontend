@@ -4,6 +4,7 @@
     <div class="row dumpster">
       <ng-container *ngFor="let dump of userInfoService.nearestDumpsters | slice: lowValue: highValue">
         <button class="col-12 dumpster btn btn-light"
+                [disabled]="!dump.dumpster.available"
                 (click)="openDialog(dump)">
           <!--        (click)="openDialog(dump)">-->
           {{dump.dumpster.address}}, {{dump.dumpster.city}} - {{trashTypesManager.getItalianName(dump.dumpster.type)}},

@@ -96,6 +96,7 @@ export class CustomerHomeComponent implements OnInit {
               <p>${dump.dumpster.address}</p>
               <p>Tipo: ${this.trashTypeManager.getItalianName(dump.dumpster.type)}</p>
               <p>Distanza: ${(dump.distance * 1000).toFixed(2)}m</p>
+              <p>Stato: ${dump.dumpster.available?"Utilizzabile":"Non utilizzabile"}</p>
             </div>
             <div class="col-12" id="popupContent"></div>
           </div>
@@ -103,7 +104,7 @@ export class CustomerHomeComponent implements OnInit {
 
       marker.on('click', () => {
         const popupContent = document.getElementById('popupContent');
-        if (popupContent) {
+        if (popupContent && dump.dumpster.available) {
           console.log("PremutoPopup del bidone " + dump.dumpster._id);
           // Render your button inside the popup content
           popupContent.innerHTML = '<button class="col-12 dgreen-bground empty-button-map light-green-application-foreground" mat-raised-button color="primary" id="popupButton">Deposita</button>';
