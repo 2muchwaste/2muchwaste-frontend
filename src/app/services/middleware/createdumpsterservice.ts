@@ -24,8 +24,8 @@ export class CreateDumpsterService {
 
   }
 
-  createDumpster(dumpster: Dumpster) {
-    return new Observable<Dumpster>(obs => {
+  createDumpster(dumpster: any) {
+    return new Observable<any>(obs => {
       this.dumpsterService.createDumpster(
         dumpster
       ).subscribe({

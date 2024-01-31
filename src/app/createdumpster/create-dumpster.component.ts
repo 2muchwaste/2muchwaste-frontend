@@ -96,7 +96,8 @@ export class CreateDumpsterComponent implements OnInit {
   submit() {
     if (this.createDumpsterForm.valid) {
       console.log("creazione bidone");
-      this.dumpsterService.createDumpster(this.initDumpster()).subscribe({
+      const createObject = this.initDumpster()
+      this.dumpsterService.createDumpster(createObject).subscribe({
           next: (res) => {
             console.log("bidone realizzato", res);
             let dialogRef = this.dialog.open(DialogSimpleComponent,{

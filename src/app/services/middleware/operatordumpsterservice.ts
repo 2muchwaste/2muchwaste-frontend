@@ -3,6 +3,7 @@ import {OperatorService} from "../backendcalls/operatorservice";
 import {HttpRequestService} from "../backendcalls/httprequestservice";
 import {DumpsterService} from "../backendcalls/dumpsterservice";
 import {Observable} from "rxjs";
+import { TrashTypes, TrashTypeManager } from "src/app/models/trashtype";
 import {Empty} from "../../models/empty";
 import {LocalStorageService} from "../localstorageservice";
 
@@ -30,6 +31,7 @@ export class OperatorDumpsterService extends OperatorService {
                   userID: this.lStorageService.getUserID(),
                   dumpster: res,
                   date: new Date(empty.date),
+                  type: empty.type,
                   quantity: 0
                 })
               }

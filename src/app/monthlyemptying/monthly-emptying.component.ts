@@ -156,15 +156,13 @@ export class MonthlyEmptyingComponent implements OnInit {
         garbageTypeItalianName: this.trashTypeManager.getItalianName(type),
         months: []
       }
-      // AAA: la quantità degli scarichi non è salvata da nessuna parte quindi non può essere usata
-      // per calcoli vari
       for (let month of months) {
         let quantityMonthResult: number = 0
         emptyLimited
           .filter(empty => empty.dumpster.type === type)
           .filter(empty => empty.date.getMonth() === month.getMonth())
           .forEach(dep => {
-            quantityMonthResult = quantityMonthResult + dep.quantity
+            quantityMonthResult = quantityMonthResult
           })
         emptyOfType.months.push({
           monthName: this.getMonthTag(month),

@@ -57,7 +57,19 @@ export class DumpsterService {
   }
 
   createDumpster(dumpster: Dumpster) {
-    return this.postDumpsterInfo('', dumpster)
+    const dumpsterCreate = {actualWeight:dumpster.actualWeight, 
+      address: dumpster.address,
+     area: dumpster.area,
+     available: dumpster.available,
+     city: dumpster.city,
+     latitude: dumpster.latitude,
+     longitude: dumpster.longitude,
+     limitUsablePercentage: dumpster.limitUsablePercentage,
+     maxWeight: dumpster.maxWeight,
+     openingSecondsDuration: dumpster.openingSecondsDuration,
+     type: dumpster.type,
+     zipCode: dumpster.zipCode}
+    return this.postDumpsterInfo('', dumpsterCreate)
   }
 
   setDumpsterAvailability(dumpsterID: string, availability: boolean) {
