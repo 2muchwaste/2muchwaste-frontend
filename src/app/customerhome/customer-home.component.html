@@ -6,10 +6,10 @@
     <p class="col-9">Scarichi effettuati questo mese:</p>
     <p class="col-3 deposits-monthly-col">{{deposits.length}}</p>
   </div>
-  <ng-container *ngIf="isButtonsVisible">
-    <div class="maps-button-description appearbutton">
-      Bidoni nelle vicinanze
-    </div>
+<!--  <ng-container *ngIf="isButtonsVisible">-->
+<!--    <div class="maps-button-description appearbutton">-->
+<!--      Bidoni nelle vicinanze-->
+<!--    </div>-->
     <button
       mat-mini-fab
       color="primary"
@@ -18,15 +18,15 @@
       (click)="getNearDumpsters()">
       <mat-icon>maps</mat-icon>
     </button>
-  </ng-container>
-  <button
-    mat-fab
-    color="primary"
-    aria-label="Bottone per accedere alle funzionalità sui bidoni"
-    class="throwing"
-    (click)="throwGarbage()">
-    <mat-icon>delete</mat-icon>
-  </button>
+<!--  </ng-container>-->
+<!--  <button-->
+<!--    mat-fab-->
+<!--    color="primary"-->
+<!--    aria-label="Bottone per accedere alle funzionalità sui bidoni"-->
+<!--    class="throwing"-->
+<!--    (click)="throwGarbage()">-->
+<!--    <mat-icon>delete</mat-icon>-->
+<!--  </button>-->
   <div class="map-container" *ngIf="viewMapDumpsters && userInfoService.nearestDumpsters">
     <div class="map-frame" [ngClass]="{'border-map':showBorderMap}">
       <div id="map">
