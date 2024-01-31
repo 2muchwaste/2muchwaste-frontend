@@ -21,6 +21,9 @@ import {RoleService} from "../services/backendcalls/roleservice";
 
 export class SignupComponent implements OnInit {
 
+  readonly minLengthPassword = 8
+  readonly maxLengthPassword = 32
+
   // readonly WebsiteRole = WebsiteRole
 
   constructor(
@@ -56,20 +59,37 @@ export class SignupComponent implements OnInit {
 
   private signupForm!: FormGroup
 
+
   roles: string[] = []
 
   hide = true
 
   nameFormControl = new FormControl('', [Validators.required])
   surnameFormControl = new FormControl('', [Validators.required])
-  emailFormControl = new FormControl('', [Validators.required])
+  emailFormControl = new FormControl('', [Validators.required,Validators.email])
   CFFormControl = new FormControl('', [Validators.required])
-  passwordFormControl = new FormControl('', [Validators.required])
+  // passwordFormControl = new FormControl('', [Validators.required,Validators.minLength(this.minLengthPassword),Validators.maxLength(this.maxLengthPassword)])
+  passwordFormControl = new FormControl('', [Validators.required,Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d!$%@#£€*?&]{8,32}$')])
   zipCodeFormControl = new FormControl('', [Validators.required])
   addressFormControl = new FormControl('', [Validators.required])
   cityFormControl = new FormControl('', [Validators.required])
-  birthdayFormControl = new FormControl('', [Validators.required])
+  birthdayFormControl = new FormControl('', [Validators.required,this.dateValidator])
   roleFormControl = new FormControl('', [Validators.required])
+
+
+  dateValidator(control: FormControl): { [s: string]: boolean } {
+    let fValue = control.value
+    if (control.value) {
+      const dateChosen = new Date(fValue)
+      // const today = new Date()
+      let adultAge = new Date()
+      adultAge.setFullYear(adultAge.getFullYear()-18)
+      if (dateChosen<adultAge){
+        return {}
+      }
+    }
+    return {'invalidDate':true}
+  }
 
   ngOnInit(): void {
   }

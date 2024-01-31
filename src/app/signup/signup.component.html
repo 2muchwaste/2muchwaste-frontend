@@ -44,6 +44,9 @@
           <mat-error *ngIf="passwordFormControl.hasError('required')">
             La password è <strong>richiesta</strong>
           </mat-error>
+          <mat-error *ngIf="passwordFormControl.hasError('pattern')">
+            La password deve avere una lunghezza compresa fra {{minLengthPassword}} e {{maxLengthPassword}} caratteri, contenere una lettera minuscola, maiuscola e un numero
+          </mat-error>
         </mat-form-field>
 
         <!------- DATA DI NASCITA -------->
@@ -52,6 +55,9 @@
           <input matInput [formControl]="birthdayFormControl" [matDatepicker]="picker">
           <mat-error *ngIf="birthdayFormControl.hasError('required')">
             La data di nascita è <strong>richiesta</strong>
+          </mat-error>
+          <mat-error *ngIf="birthdayFormControl.hasError('invalidDate')">
+            È necessario essere maggiorenni per iscriversi
           </mat-error>
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
