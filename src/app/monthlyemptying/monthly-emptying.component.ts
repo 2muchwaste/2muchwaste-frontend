@@ -9,6 +9,7 @@ import {CanvasJS} from "@canvasjs/angular-charts"
 import {TrashTypeManager, TrashTypes} from "../models/trashtype"
 import {LocalStorageService} from "../services/localstorageservice"
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
+import { OperatorDumpsterService } from '../services/middleware/operatordumpsterservice'
 
 interface DataChart {
   type: string,
@@ -57,6 +58,7 @@ export class MonthlyEmptyingComponent implements OnInit {
     private dumpsterService: DumpsterService,
     private operatorInfoService: OperatorInformationService,
     private operatorService: OperatorService,
+    public operatorDumpsterService: OperatorDumpsterService,
     private authorizationService: Authorizationservice,
     private lStorageService: LocalStorageService
   ) {
@@ -100,7 +102,7 @@ export class MonthlyEmptyingComponent implements OnInit {
       axisY: {
         gridThickness: 1,
         gridColor: "rgba(200,200,200,0.6)",
-        title: "data"
+        title: "numero volte"
       },
       toolTip: {
         shared: true
@@ -136,7 +138,6 @@ export class MonthlyEmptyingComponent implements OnInit {
 
   getMonthlyEmptyByType(empties: Empty[], fromMonth: number, exlNLastMonths: number) {
     let emptyLimited = this.getSlicedEmpty(empties, fromMonth, exlNLastMonths)
-
     let types = emptyLimited
       .map(empty => empty.dumpster.type)
       .filter((emptyType, index, self) => index === self.indexOf(emptyType))
@@ -162,7 +163,7 @@ export class MonthlyEmptyingComponent implements OnInit {
           .filter(empty => empty.dumpster.type === type)
           .filter(empty => empty.date.getMonth() === month.getMonth())
           .forEach(dep => {
-            quantityMonthResult = quantityMonthResult
+            quantityMonthResult = quantityMonthResult + 1
           })
         emptyOfType.months.push({
           monthName: this.getMonthTag(month),
@@ -200,11 +201,12 @@ export class MonthlyEmptyingComponent implements OnInit {
         let monthName = firstType ? month.monthName + "<br>" : ""
         emptyOfType.dataPoints.push({
           label: month.monthName,
+          y: month.quantity,
           // @ts-ignore
           toolTipContent: monthName
             + (month.quantity <= 0 ? "<div class='not-in-tool-tip'>" : "<div>")
-            + "{name}: <strong>" + month.quantity.toFixed(2) + "</strong>Kg <strong>"
-            + "</div>"
+            + "{name}: <strong>" + month.quantity + " volte</strong>"
+            
           ,
           indexLabel: (month.quantity > 0 && this.monthlyEmptyingContainer.nativeElement.offsetWidth > 800
             // @ts-ignore
@@ -286,35 +288,15 @@ export class MonthlyEmptyingComponent implements OnInit {
   }
 
   setEmpties(empties:any) {
-    // @ts-ignore
-    this.operatorService.getOperatorEmptiesByCFRaw(this.lStorageService.getUserCF()).subscribe({
+    this.operatorDumpsterService.getEmptiesWithSpecificDumpsterByCF(this.userInfoService.user.cf).subscribe({
       next: (res) => {
-        console.log(this.CLASS_TAG + ": res", res)
-        this.userInfoService.userEmpties = this.userEmpties = []
-        res.empties.forEach(empty => {
-          this.dumpsterService.getDumpsterByID(empty.dumpsterID).subscribe({
-            next: (res) => {
-              this.userInfoService.userEmpties.push({
-                // @ts-ignore
-                userID: this.lStorageService.getUserID(),
-                dumpster: res,
-                type: empty.type,
-                date: empty.date,
-                quantity: 0
-              })
-              this.userEmpties = this.userInfoService.userEmpties = empties
+        console.log(res)
+        this.userEmpties = this.userInfoService.userEmpties = res
               console.log(this.CLASS_TAG + ": this.userInfoService", this.userInfoService)
               this.monthEmpty = this.userEmpties.filter(empty =>new Date(empty.date).getMonth() > (new Date()).getMonth() - 1)
               this.chart = new CanvasJS.Chart('chartContainer', this.getEmptyCanvasOptions([]))
               this.updateDataChart()
               console.log("this.userEmptyGroupedByTypeAndMonth", this.userEmptyGroupedByTypeAndMonth)
-            },
-            error: (err) => {
-            }
-          })
-        })
-      },
-      error: (err) => {
       }
     })
   }

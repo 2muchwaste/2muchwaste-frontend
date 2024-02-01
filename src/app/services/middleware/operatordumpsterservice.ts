@@ -42,7 +42,6 @@ export class OperatorDumpsterService extends OperatorService {
               }
             })
           })
-          // obs.next(empties)
         }
       })
     })

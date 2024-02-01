@@ -29,35 +29,6 @@
       </div>
 
     </ng-container>
-
-
-    <!--    <ng-container *ngFor="let noti of (notifications | slice: lowValue : highValue)">-->
-    <!--      <div class="row operatornotification-list-item" [ngClass]="{'read':noti.read}"-->
-    <!--           *ngIf="showReadNotification || !noti.read">-->
-    <!--        <div class="row operatornotification-list-item" [ngClass]="{'read':noti.read}"-->
-    <!--             *ngIf="showReadNotification || !noti.read">-->
-    <!--        <div class="col-1 quantity-value text-center">-->
-
-    <!--          &lt;!&ndash; Necessario quel confronto con true&ndash;&gt;-->
-    <!--          <mat-checkbox [checked]="noti.read === true" aria-label="checkbox to check notification" disabled="{{noti.read}}"-->
-    <!--                        (change)="tickNotification($event.checked, noti._id)"></mat-checkbox>-->
-
-    <!--        </div>-->
-    <!--        <div class="col-11">-->
-    <!--          <div class="row">-->
-
-    <!--            <div class="col-sm-9 order-sm-2 type-value">{{noti.text}}</div>-->
-    <!--            <div class="col-sm-3 order-sm-1 date-value">-->
-    <!--              {{noti.date | date : "YYYY-MM-dd HH:mm" }}-->
-    <!--            </div>-->
-
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--        <mat-divider></mat-divider>-->
-    <!--      </div>-->
-
-    <!--    </ng-container>-->
-
     <mat-paginator [length]="notifications.length"
                    [pageSize]="10"
                    [pageSizeOptions]="[10, 20, 30]"
@@ -83,10 +54,6 @@
                 [disabled]="notificationToTickAsRead.size<=0">
           Segna come lette
         </button>
-        <!--        <button class="col-12 bground-btn-dgreen manage-read" mat-raised-button color="primary"-->
-        <!--                [disabled]="notificationToTickAsRead.size<=0"-->
-        <!--                (click)="tickNotificationsAsRead()">Segna come lette-->
-        <!--        </button>-->
       </div>
     </div>
   </div>

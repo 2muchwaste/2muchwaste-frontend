@@ -40,27 +40,4 @@ export class CreateDepositService {
     })
   }
 
-  // public getEmptiesWithSpecificDumpsterByCF(operatorCF: string) {
-  //   return new Observable<Empty[]>(obs => {
-  //     this.getOperatorEmptiesByCFRaw(operatorCF).subscribe({
-  //       next: (res) => {
-  //         let empties: Empty[] = []
-  //         res.empties.forEach(empty => {
-  //           this.dumpsterService.getDumpsterByID(empty.dumpsterID).subscribe({
-  //             next: (res) => {
-  //               empties.push({
-  //                 // @ts-ignore
-  //                 userID: this.lStorageService.getUserID(),
-  //                 dumpster: res,
-  //                 date: new Date(empty.date),
-  //                 quantity: 0
-  //               })
-  //             }
-  //           })
-  //         })
-  //         obs.next(empties)
-  //       }
-  //     })
-  //   })
-
 }

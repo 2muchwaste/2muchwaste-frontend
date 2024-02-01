@@ -393,6 +393,7 @@ export class OperatorHomeEmptyGarbageDialogComponent {
     @Inject(MAT_DIALOG_DATA) private injectedData: any,
     public userInfoService: UserInformationService,
     private dumpsterService: DumpsterService,
+    public operatorDumpsterService: OperatorDumpsterService,
     private dialog: MatDialog,
     private operatorService: OperatorService,
   ) {
@@ -446,6 +447,11 @@ export class OperatorHomeEmptyGarbageDialogComponent {
                     dialog.message = `Svuotamento avvenuto con successo`
                     this.userInfoService.nearestDumpsters.filter(dump2 => dump2.dumpster._id === dump.dumpster._id)
                       .map(d => d.dumpster.actualWeight = dumpsterReturned.actualWeight)
+                      this.operatorDumpsterService.getEmptiesWithSpecificDumpsterByCF(this.userInfoService.user.cf).subscribe({
+                        next: (res) => {
+                          console.log(res)
+                        }
+                      })
                   }
                 })
               }
