@@ -6,7 +6,7 @@ import {DepositService} from "../services/backendcalls/depositservice"
 import {Deposit} from "../models/deposit"
 import {Subscription} from "rxjs"
 import {PageEvent} from "@angular/material/paginator"
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog"
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from "@angular/material/dialog"
 import {PaymentStatus} from "../models/payment"
 import {Authorizationservice} from "../services/backendcalls/authorizationservice"
 
@@ -70,6 +70,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.userDeposits = res
         this.totalDebit = this.userDeposits.map(d => d.price).reduce((a, b) => a + b, 0)
+
         console.log(this.userInfoService.payments)
       },
       error: (err) => {
@@ -88,7 +89,8 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     let dialogRef = this.matDialog.open(PaymentDialogComponent, {
       data: {
         amountToPay: amountToPay
-      }
+      },
+      ariaLabel:"Dialog to confirm payment",
     })
     let sub = dialogRef.componentInstance.paymentFinished.subscribe(() => {
       console.log("Reloading bro")
