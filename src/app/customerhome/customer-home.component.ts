@@ -145,10 +145,6 @@ export class CustomerHomeComponent implements OnInit {
     this.showBorderMap = true
   }
 
-  printUser() {
-    console.log(this.user)
-  }
-
   setDeposits() {
     // @ts-ignore
     this.depositService.getDepositsFromUser(this.lStorageService.getUserID())
@@ -233,7 +229,7 @@ export class CustomerHomeComponent implements OnInit {
     )
     console.log("Inizio timer")
     new Timer(10000, 1000, () => {
-      this.updateDialogg(
+      this.updateDialog(
         dumpsterOpenedDialog,
         "Apertura bidone",
         "Micio")
@@ -241,19 +237,9 @@ export class CustomerHomeComponent implements OnInit {
     }).start()
   }
 
-  private updateDialogg(dialog: MatDialogRef<CustomerHomeDialogComponent>, title: string, message: string) {
+  private updateDialog(dialog: MatDialogRef<CustomerHomeDialogComponent>, title: string, message: string) {
     dialog.componentInstance.title = title
     dialog.componentInstance.message = message
-  }
-
-  private updateDialog(dialog: MatDialog, seconds: number, title: string, message: number) {
-    if (seconds > 0) {
-      setTimeout(() => {
-        this.updateDialog(dialog, seconds - 1, title, message)
-        console.log("AAA")
-      }, 1000)
-      console.log("BBB")
-    }
   }
 
   getNearDumpsters() {
