@@ -286,11 +286,12 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
   getNearDumpsters() {
     if ('geolocation' in navigator) {
       console.log('geolocation present')
-      let nearestDumpstersDialog = this.dialog.open(OperatorHomeEmptyGarbageDialogComponent)
+      let nearestDumpstersDialog = this.dialog.open(OperatorHomeEmptyGarbageDialogComponent,{disableClose:true})
       navigator.geolocation.getCurrentPosition(
         (position: Coordinates) => {
           console.log(position)
           this.setDumpsters(position)
+          if (!nearestDumpstersDialog.componentInstance) return
           nearestDumpstersDialog.componentInstance.showMapEvent.subscribe({
             next: () => {
               nearestDumpstersDialog.close()
@@ -301,6 +302,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
               }, 1000)
             }
           })
+          nearestDumpstersDialog.disableClose = false
         },
         (error: any) => {
           this.positionNotFound(error)
