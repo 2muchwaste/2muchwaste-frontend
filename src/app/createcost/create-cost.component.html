@@ -1,0 +1,43 @@
+<h1>Creazione costo</h1>
+<div class="row">
+  <div class="col-12">
+    <p>Stai creando un nuovo costo riguardo una tipologia di rifiuto.</p>
+    <p>Scegliere la tipologia di rifiuto ed inserire il relativo costo.</p>
+  </div>
+</div>
+<form class="example-form" (ngSubmit)="createCost()">
+  <div class="row gx-0">
+    <div class="col-12 col-row-forms">
+      <div class="row before-form">
+
+        <!------ TIPO RIFIUTO -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Tipo rifiuto</mat-label>
+          <mat-select [formControl]="typeFormControl">
+            <ng-container *ngFor="let type of trashTypes">
+              <mat-option [value]="type">{{trashTypeManager.getItalianName(type)}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="typeFormControl.hasError('required')">
+            Il tipo di rifiuto è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!------- COSTO -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Costo</mat-label>
+          <input placeholder="Ex. 10 (euro per chilogrammo)" type="text" matInput [formControl]="costFormControl">
+          <mat-error *ngIf="costFormControl.hasError('required')">
+            Il tempo è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="button-container">
+          <button class="col-12 application-button application-button-primary signup" mat-raised-button>Crea costo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
