@@ -14,7 +14,11 @@ import {OperatorService} from "../services/backendcalls/operatorservice"
 import {Subscription} from "rxjs"
 import {UserResponse} from "../models/userresponse"
 import {LocalStorageService} from "../services/localstorageservice"
-import {OperatorNotification, OperatorNotificationAndDumpster} from "../models/operatornotification";
+import {
+  OperatorNotification,
+  OperatorNotificationAndDumpster,
+  OperatorNotificationStatus
+} from "../models/operatornotification";
 import {RoleService} from "../services/backendcalls/roleservice";
 import {DumpsterService} from "../services/backendcalls/dumpsterservice";
 import {NotificationDumpsterService} from "../services/middleware/notificationdumpsterservice";
@@ -168,10 +172,11 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setOperatorNotifications(operatorNotiDumpster: OperatorNotificationAndDumpster[]) {
-    this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = operatorNotiDumpster.map(noti => {
+    this.userInfoService.operatorNotifications = operatorNotiDumpster.map(noti => {
       noti.operatorNotification.date = new Date(noti.operatorNotification.date)
       return noti
     }).sort((noti1, noti2) => noti2.operatorNotification.date.getTime() - noti1.operatorNotification.date.getTime())
+    this.operatorNotificationNotRead = this.userInfoService.operatorNotifications.filter(noti => noti.operatorNotification.status === OperatorNotificationStatus.PENDING)
   }
 
   performBurgerButtonClick() {
