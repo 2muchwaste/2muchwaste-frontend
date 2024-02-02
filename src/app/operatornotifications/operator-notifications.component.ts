@@ -24,6 +24,7 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
   lowValue: number = 0
   highValue: number = 10
   showEvenInProgressComplete = true
+  notShowReadNotifications = true
   allNotifications!: OperatorNotificationAndDumpster[]
   notifications!: OperatorNotificationAndDumpster[]
   readonly DumpsterErrorTypeManager = new DumpsterErrorTypeManager()
@@ -38,7 +39,6 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
     public userInfoService: UserInformationService,
     private authorizationService: Authorizationservice,
     private notificationDumpsterService: NotificationDumpsterService,
-    private operatorService: OperatorService,
   ) {
 
     this.subscriptionToNewNotification = this.userInfoService.operatorNewNotificationsSubjectObservable.subscribe(operatorNotifications => {
