@@ -6,10 +6,12 @@
     <p class="col-9">Cassonetti svuotati questo mese:</p>
     <p class="col-3 operators-monthly-col">{{empties.length}}</p>
   </div>
-<div class="button-container"> 
-<button *ngIf="openForm===false" (click)="openForm=true" class="col-12 application-button-primary signup" mat-raised-button>Crea un nuovo bidone</button>
-<app-create-dumpster *ngIf="openForm===true"> </app-create-dumpster> 
-</div>
+  <div class="button-container">
+    <button *ngIf="openForm===false" (click)="openForm=true" class="col-12 application-button-primary signup"
+            mat-raised-button>Crea un nuovo bidone
+    </button>
+    <app-create-dumpster *ngIf="openForm===true"></app-create-dumpster>
+  </div>
 
   <ng-container *ngIf="isButtonsVisible">
     <div class="maps-button-description appearbutton">
