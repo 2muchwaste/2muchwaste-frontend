@@ -76,7 +76,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   public tickNotificationsAsRead() {
-    // Serve controllare di non mandare in lettura quelle già lette dato il frontend??
     let newUser: UserResponse = this.userInfoService.user
     let notificationToReadNumber = 1
     this.notificationToTickAsRead.forEach(notificationID => {
