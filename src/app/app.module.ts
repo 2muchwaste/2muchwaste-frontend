@@ -48,6 +48,7 @@ import {UserInformationComponent} from './userinformation/user-information.compo
 import {UserInformationService} from "./services/userinformationservice";
 import {UserNotificationsComponent} from './usernotifications/user-notifications.component';
 import {WhoWeAreComponent} from './whoweare/who-we-are.component';
+import { CreateCostComponent } from './createcost/create-cost.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {WhoWeAreComponent} from './whoweare/who-we-are.component';
     UserInformationComponent,
     UserNotificationsComponent,
     WhoWeAreComponent,
+    CreateCostComponent,
   ],
   imports: [
     BrowserModule,

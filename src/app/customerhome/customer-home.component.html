@@ -1,18 +1,18 @@
 <div class="container" *ngIf="user && deposits">
   <div class="row">
-    <h1 class="col-12">Bentornato {{user.name}}</h1>
+    <h1 class="col-12">Bentornatə {{user.name}}</h1>
   </div>
   <div class="row">
-    <p class="col-9">Scarichi effettuati questo mese:</p>
+    <p class="col-9">Depositi effettuati questo mese:</p>
     <p class="col-3 deposits-monthly-col">{{deposits.length}}</p>
   </div>
   <button
     mat-mini-fab
     color="primary"
     aria-label="Bottone per vedere la mappa dei bidoni vicini"
-    class="throwing-maps appearbutton"
+    class="throwing"
     (click)="getNearDumpsters()">
-    <mat-icon>maps</mat-icon>
+    <mat-icon>delete</mat-icon>
   </button>
   <div class="map-container" *ngIf="viewMapDumpsters && userInfoService.nearestDumpsters">
     <div class="map-frame" [ngClass]="{'border-map':showBorderMap}">

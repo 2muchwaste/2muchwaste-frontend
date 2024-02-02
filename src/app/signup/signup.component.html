@@ -44,8 +44,8 @@
           <mat-error *ngIf="passwordFormControl.hasError('required')">
             La password è <strong>richiesta</strong>
           </mat-error>
-          <mat-error *ngIf="passwordFormControl.hasError('pattern')">
-            La password deve avere una lunghezza compresa fra {{minLengthPassword}} e {{maxLengthPassword}} caratteri, contenere una lettera minuscola, maiuscola e un numero
+          <mat-error *ngIf="passwordFormControl.hasError('minlength') || passwordFormControl.hasError('maxlength')">
+            La password deve avere una lunghezza compresa fra {{minLengthPassword}} e {{maxLengthPassword}} caratteri
           </mat-error>
         </mat-form-field>
 
@@ -87,9 +87,6 @@
         <mat-form-field class="col-md-2">
           <mat-label>CAP</mat-label>
           <input type="text" matInput [formControl]="zipCodeFormControl" placeholder="Ex. 65230">
-          <!--      <mat-error *ngIf="zipCodeFormControl.hasError('number') && !zipCodeFormControl.hasError('required')">-->
-          <!--        Inserire un CAP <strong>valido</strong>-->
-          <!--      </mat-error>-->
           <mat-error *ngIf="zipCodeFormControl.hasError('required')">
             Il CAP è <strong>richiesto</strong>
           </mat-error>
@@ -109,7 +106,6 @@
         <mat-form-field class="col-12">
           <mat-label>Ruolo</mat-label>
           <mat-select [formControl]="roleFormControl">
-            <mat-option value="{{this.roleService.getAdminName()}}">Admin</mat-option>
             <mat-option value="{{this.roleService.getCustomerName()}}">Cliente</mat-option>
             <mat-option value="{{this.roleService.getOperatorName()}}">Operatore</mat-option>
           </mat-select>

@@ -138,7 +138,7 @@ export class OperatorHomeComponent implements OnInit, AfterViewInit {
             popupButton.addEventListener('click', () => {
               let dialog: Dialog = {
                 title: 'Svuotamento',
-                message: 'Sicuro di voler svuotare il bidone in ' + dump.dumpster.address + '?',
+                message: 'Sicurə di voler svuotare il bidone in ' + dump.dumpster.address + '?',
               }
 
               let finished = {finish: false}

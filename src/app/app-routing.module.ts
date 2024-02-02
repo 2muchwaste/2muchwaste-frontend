@@ -21,9 +21,11 @@ import {UserDepositsInformationComponent} from "./userdepositsinformation/user-d
 import {UserInformationComponent} from "./userinformation/user-information.component";
 import {UserNotificationsComponent} from "./usernotifications/user-notifications.component";
 import {WhoWeAreComponent} from "./whoweare/who-we-are.component";
+import {CreateCostComponent} from "./createcost/create-cost.component";
 
 const routes: Routes = [
   getRouteComponent('contactus', ContactUsComponent),
+  getRouteComponent('createcost', CreateCostComponent),
   getRouteComponent('createdeposit', CreateDepositComponent),
   getRouteComponent('createdumpster', CreateDumpsterComponent),
   getRouteComponent('customerhome', CustomerHomeComponent),

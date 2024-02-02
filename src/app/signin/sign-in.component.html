@@ -47,13 +47,7 @@
 
         <mat-form-field class="col-12">
           <mat-label>Ruolo</mat-label>
-<!--          <mat-select yPosition="below" [formControl]="roleFormControl">-->
-<!--            <mat-option value="{{WebsiteRole.ADMIN}}" aria-label="admin">Admin</mat-option>-->
-<!--            <mat-option value="{{WebsiteRole.CUSTOMER}}" aria-label="cliente">Cliente</mat-option>-->
-<!--            <mat-option value="{{WebsiteRole.OPERATOR}}" aria-label="operatore">Operatore</mat-option>-->
-<!--          </mat-select>-->
           <mat-select yPosition="below" [formControl]="roleFormControl">
-            <mat-option value="{{this.roleService.getAdminName()}}" aria-label="admin">Admin</mat-option>
             <mat-option value="{{this.roleService.getCustomerName()}}" aria-label="cliente">Cliente</mat-option>
             <mat-option value="{{this.roleService.getOperatorName()}}" aria-label="operatore">Operatore</mat-option>
           </mat-select>

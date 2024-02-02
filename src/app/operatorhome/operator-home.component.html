@@ -1,37 +1,24 @@
 <div class="container" *ngIf="user && empties">
   <div class="row">
-    <h1 class="col-12">Bentornato {{user.name}}</h1>
+    <h1 class="col-12">Bentornatə {{user.name}}</h1>
   </div>
   <div class="row">
     <p class="col-9">Cassonetti svuotati questo mese:</p>
     <p class="col-3 operators-monthly-col">{{empties.length}}</p>
   </div>
   <div class="button-container">
-    <button *ngIf="openForm===false" (click)="openForm=true" class="col-12 application-button-primary signup"
+    <button *ngIf="openForm===false" (click)="openForm=true" class="col-12 application-button-primary application-button signup"
             mat-raised-button>Crea un nuovo bidone
     </button>
     <app-create-dumpster *ngIf="openForm===true"></app-create-dumpster>
+    <button routerLink="/createcost" class="col-12 application-button-primary application button" mat-raised-button>Crea nuovo costo</button>
   </div>
-
-  <ng-container *ngIf="isButtonsVisible">
-    <div class="maps-button-description appearbutton">
-      Bidoni nelle vicinanze
-    </div>
-    <button
-      mat-mini-fab
-      color="primary"
-      aria-label="Bottone per vedere la mappa dei bidoni vicini"
-      class="emptying-maps appearbutton"
-      (click)="getNearDumpsters()">
-      <mat-icon>maps</mat-icon>
-    </button>
-  </ng-container>
   <button
     mat-fab
     color="primary"
     aria-label="Bottone per accedere alle funzionalità sui bidoni"
     class="emptying"
-    (click)="emptyGarbage()">
+    (click)="getNearDumpsters()">
     <mat-icon>delete</mat-icon>
   </button>
   <div class="map-container" *ngIf="viewMapDumpsters && userInfoService.nearestDumpsters">

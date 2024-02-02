@@ -15,9 +15,7 @@ import {Dialog} from "./Dialog";
         <button mat-button mat-dialog-close>Chiudi</button>
       </div>
     </div>
-
   `
-  // styleUrls: ['./customer-home-position-error.scss', './customer-home.component.scss']
 })
 export class DialogSimpleComponent {
 
