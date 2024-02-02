@@ -13,25 +13,25 @@
       <button mat-raised-button [matMenuTriggerFor]="beforeMenu"
               class="notification-icon-container ms-auto" aria-label="Espandi notifiche">
         <mat-icon [matBadge]=customerNotificationNotRead?.length>notifications</mat-icon>
-        <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <ul class="notifications-list" *ngIf="userInfoService.user">
-            <li *ngFor="let notification of (customerNotificationNotRead| slice : 0 : 10)"
-                class="notification-list-item">
-              <div class="notification-item-text">{{notification.text}}<br/></div>
-              <div class="notification-item-time">{{notification.date | date : "YYYY-MM-dd HH:mm" }}</div>
-              <mat-divider></mat-divider>
-            </li>
-            <li class="notification-list-item notification-list-excetera" *ngIf="customerNotificationNotRead.length>10">
-              <mat-icon>more_horiz</mat-icon>
-              <mat-divider></mat-divider>
-            </li>
-            <li class="notification-list-item notification-all-list" routerLink="/usernotifications"
-                *ngIf="this.userInfoService.user.notifications.length>0">
-              <a href="#" routerLink="/usernotifications">Vedi tutte le notifiche</a>
-            </li>
-          </ul>
-        </mat-menu>
       </button>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <ul class="notifications-list" *ngIf="userInfoService.user">
+          <li *ngFor="let notification of (customerNotificationNotRead| slice : 0 : 10)"
+              class="notification-list-item">
+            <div class="notification-item-text">{{notification.text}}<br/></div>
+            <div class="notification-item-time">{{notification.date | date : "YYYY-MM-dd HH:mm" }}</div>
+            <mat-divider></mat-divider>
+          </li>
+          <li class="notification-list-item notification-list-excetera" *ngIf="customerNotificationNotRead.length>10">
+            <mat-icon>more_horiz</mat-icon>
+            <mat-divider></mat-divider>
+          </li>
+          <li class="notification-list-item notification-all-list" routerLink="/usernotifications"
+              *ngIf="this.userInfoService.user.notifications.length>0">
+            <a href="#" tabindex="0" routerLink="/usernotifications">Vedi tutte le notifiche</a>
+          </li>
+        </ul>
+      </mat-menu>
     </ng-container>
 
     <!----------------------------- OPERATOR NOTIFICATIONS ------------------------------------------------------->
