@@ -1,121 +1,141 @@
 <form class="example-form" (ngSubmit)="submit()">
-    <div class="row gx-0">
-      <div class="col-12 col-row-forms">
-        <div class="row before-form">
-            
-          <!------- PESO ATTUALE -------->
-          <mat-form-field class="col-md-7">
-            <mat-label>Peso attuale</mat-label>
-            <input placeholder="Ex. 25" type="text" matInput [formControl]="actualWeightFormControl">
-            <mat-error *ngIf="actualWeightFormControl.hasError('required')">
-              Il peso attuale è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+  <div class="row gx-0">
+    <div class="col-12 col-row-forms">
+      <div class="row before-form">
 
-          <!------- INDIRIZZO -------->
-          <mat-form-field class="col-md-7">
-            <mat-label>Indirizzo</mat-label>
-            <input placeholder="Ex. Via Nanterre, 25" type="text" matInput [formControl]="addressFormControl">
-            <mat-error *ngIf="addressFormControl.hasError('required')">
-              L'indirizzo è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
-  
-          <!------- AREA -------->
-          <mat-form-field class="col-md-2">
-            <mat-label>Area</mat-label>
-            <input placeholder="Ex. A" type="text" matInput [formControl]="areaFormControl">
-            <mat-error *ngIf="areaFormControl.hasError('required')">
-              L'area è <strong>richiesta</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- PESO ATTUALE -------->
+        <mat-form-field class="col-md-7">
+          <mat-label>Peso attuale</mat-label>
+          <input placeholder="Ex. 25" type="text" matInput [formControl]="actualWeightFormControl">
+          <mat-error *ngIf="actualWeightFormControl.hasError('required')">
+            Il peso attuale è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!------- DISPONIBILE -------->
-          <mat-form-field class="col-md-6">
-            <mat-label>Disponibile</mat-label>
-            <input placeholder="Ex. true" type="text" matInput [formControl]="availableFormControl">
-            <mat-error *ngIf="availableFormControl.hasError('required')">
-              La disponibilità è <strong>richiesta</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- INDIRIZZO -------->
+        <mat-form-field class="col-md-7">
+          <mat-label>Indirizzo</mat-label>
+          <input placeholder="Ex. Via Nanterre, 25" type="text" matInput [formControl]="addressFormControl">
+          <mat-error *ngIf="addressFormControl.hasError('required')">
+            L'indirizzo è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!------- CITTÀ -------->
+        <!------- AREA -------->
+        <mat-form-field class="col-md-2">
+          <mat-label>Area</mat-label>
+          <input placeholder="Ex. A" type="text" matInput [formControl]="areaFormControl">
+          <mat-error *ngIf="areaFormControl.hasError('required')">
+            L'area è <strong>richiesta</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!------- DISPONIBILE -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Disponibile</mat-label>
+          <input placeholder="Inserire 'true' or 'false'" type="text" matInput [formControl]="availableFormControl">
+          <mat-error *ngIf="availableFormControl.hasError('required')">
+            La disponibilità è <strong>richiesta</strong>
+          </mat-error>
+          <mat-error *ngIf="availableFormControl.hasError('invalidAvailability')">
+            Inserire true o false
+          </mat-error>
+        </mat-form-field>
+
+        <!------- CITTÀ -------->
         <mat-form-field class="col-md-3">
-            <mat-label>Città</mat-label>
-            <input type="text" matInput [formControl]="cityFormControl" placeholder="Ex. Milano">
-            <mat-error *ngIf="cityFormControl.hasError('required')">
-              La città è <strong>richiesta</strong>
-            </mat-error>
-          </mat-form-field>
+          <mat-label>Città</mat-label>
+          <input type="text" matInput [formControl]="cityFormControl" placeholder="Ex. Milano">
+          <mat-error *ngIf="cityFormControl.hasError('required')">
+            La città è <strong>richiesta</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!------- LATITUDINE -------->
-          <mat-form-field class="col-md-6">
-            <mat-label>Latitudine</mat-label>
-            <input placeholder="Ex. 43.893142" type="text" matInput [formControl]="latitudineFormControl">
-            <mat-error *ngIf="latitudineFormControl.hasError('required')">
-              La latitudine è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- LATITUDINE -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Latitudine</mat-label>
+          <input placeholder="Ex. 43.893142" type="text" matInput [formControl]="latitudineFormControl">
+          <mat-error *ngIf="latitudineFormControl.hasError('required')">
+            La latitudine è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!------- LONGITUDINE -------->
-          <mat-form-field class="col-md-6">
-            <mat-label>Longitudine</mat-label>
-            <input placeholder="Ex. 12.895223" type="text" matInput [formControl]="longitudineFormControl">
-            <mat-error *ngIf="longitudineFormControl.hasError('required')">
-              La longitudine è <strong>richiesta</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- LONGITUDINE -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Longitudine</mat-label>
+          <input placeholder="Ex. 12.895223" type="text" matInput [formControl]="longitudineFormControl">
+          <mat-error *ngIf="longitudineFormControl.hasError('required')">
+            La longitudine è <strong>richiesta</strong>
+          </mat-error>
+        </mat-form-field>
 
-           <!------- LIMITE PERCENTUALE -------->
-           <mat-form-field class="col-md-6">
-            <mat-label>Limite percentuale</mat-label>
-            <input placeholder="Ex. 12.895223" type="text" matInput [formControl]="limitUsablePercentageFormControl">
-            <mat-error *ngIf="limitUsablePercentageFormControl.hasError('required')">
-              Il limite percentuale è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- LIMITE PERCENTUALE -------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Limite percentuale</mat-label>
+          <input placeholder="Ex. 90" type="text" matInput [formControl]="limitUsablePercentageFormControl">
+          <mat-error *ngIf="limitUsablePercentageFormControl.hasError('required')">
+            Il limite percentuale è <strong>richiesto</strong>
+          </mat-error>
+          <!--          <mat-error *ngIf="limitUsablePercentageFormControl.hasError('invalidPercentage')">-->
+          <mat-error
+            *ngIf="limitUsablePercentageFormControl.hasError('max') || limitUsablePercentageFormControl.hasError('min')">
+            Il limite percentuale deve essere un numero compreso tra {{minUsablePercentage}} e {{maxUsablePercentage}}
+          </mat-error>
+        </mat-form-field>
 
-          <!------- PESO MASSIMO -------->
-          <mat-form-field class="col-md-3">
-            <mat-label>Peso massimo (Kg)</mat-label>
-            <input placeholder="Ex. 200" type="text" matInput [formControl]="maxWeightFormControl">
-            <mat-error *ngIf="maxWeightFormControl.hasError('required')">
-              Il peso massimo del bidone è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- PESO MASSIMO -------->
+        <mat-form-field class="col-md-3">
+          <mat-label>Peso massimo (Kg)</mat-label>
+          <input placeholder="Ex. 200" type="text" matInput [formControl]="maxWeightFormControl">
+          <mat-error *ngIf="maxWeightFormControl.hasError('required')">
+            Il peso massimo del bidone è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!------- TEMPO -------->
-          <mat-form-field class="col-md-3">
-            <mat-label>Tempo (secondi)</mat-label>
-            <input placeholder="Ex. 35" type="text" matInput [formControl]="openingSecondsDurationFormControl">
-            <mat-error *ngIf="openingSecondsDurationFormControl.hasError('required')">
-              Il tempo di apertura del bidone è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- TEMPO -------->
+        <mat-form-field class="col-md-3">
+          <mat-label>Tempo (secondi)</mat-label>
+          <input placeholder="Ex. 35" type="text" matInput [formControl]="openingSecondsDurationFormControl">
+          <mat-error *ngIf="openingSecondsDurationFormControl.hasError('required')">
+            Il tempo di apertura del bidone è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <!------- TIPO RIFIUTO -------->
-          <mat-form-field class="col-md-6">
-            <mat-label>Tipo rifiuto</mat-label>
-            <input placeholder="Ex. paper" type="text" matInput [formControl]="typeFormControl">
-            <mat-error *ngIf="typeFormControl.hasError('required')">
-              Il tipo di rifiuto è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+        <!------- TIPO RIFIUTO -------->
+        <!--        <mat-form-field class="col-md-6">-->
+        <!--          <mat-label>Tipo rifiuto</mat-label>-->
+        <!--          <input placeholder="Ex. paper" type="text" matInput [formControl]="typeFormControl">-->
+        <!--          <mat-error *ngIf="typeFormControl.hasError('required')">-->
+        <!--            Il tipo di rifiuto è <strong>richiesto</strong>-->
+        <!--          </mat-error>-->
+        <!--        </mat-form-field>-->
 
-          <!------- CODICE POSTALE -------->
-          <mat-form-field class="col-md-2">
-            <mat-label>CAP</mat-label>
-            <input placeholder="Ex. 61122" type="text" matInput [formControl]="zipCodeFormControl">
-            <mat-error *ngIf="zipCodeFormControl.hasError('required')">
-              Il CAP è <strong>richiesto</strong>
-            </mat-error>
-          </mat-form-field>
+        <!-------->
+        <mat-form-field class="col-md-6">
+          <mat-label>Tipo rifiuto</mat-label>
+          <mat-select [formControl]="typeFormControl">
+            <ng-container *ngFor="let type of trashTypes">
+              <mat-option [value]="type">{{trashTypeManager.getItalianName(type)}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="typeFormControl.hasError('required')">
+            Il tipo di rifiuto è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
 
-          <div class="button-container">
-            <button class="col-12 application-button signup" mat-raised-button>Crea un nuovo bidone</button>
-          </div>
+        <!------- CODICE POSTALE -------->
+        <mat-form-field class="col-md-2">
+          <mat-label>CAP</mat-label>
+          <input placeholder="Ex. 61122" type="text" matInput [formControl]="zipCodeFormControl">
+          <mat-error *ngIf="zipCodeFormControl.hasError('required')">
+            Il CAP è <strong>richiesto</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="button-container">
+          <button class="col-12 application-button signup" mat-raised-button>Crea un nuovo bidone</button>
         </div>
       </div>
     </div>
-  </form>
-  
+  </div>
+</form>
