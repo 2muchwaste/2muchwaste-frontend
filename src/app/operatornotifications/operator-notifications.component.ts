@@ -43,7 +43,7 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
 
     this.subscriptionToNewNotification = this.userInfoService.operatorNewNotificationsSubjectObservable.subscribe(operatorNotifications => {
       console.log(this.CLASS_TAG + ": operatorNotification", operatorNotifications)
-      this.allNotifications = this.notifications = operatorNotifications
+      this.setNotifications(operatorNotifications)
     })
 
     this.subscriptionToUserSet = this.userInfoService.userSetObservable.subscribe(operatorResponse => {
@@ -57,7 +57,10 @@ export class OperatorNotificationsComponent implements OnInit, OnDestroy {
   }
 
   private setNotifications(operatorNotifications: OperatorNotificationAndDumpster[]) {
-    this.allNotifications = this.notifications = operatorNotifications
+    this.allNotifications = this.notifications = operatorNotifications.map(noti => {
+      noti.operatorNotification.date = new Date(noti.operatorNotification.date)
+      return noti
+    }).sort((noti1, noti2) => noti2.operatorNotification.date.getTime() - noti1.operatorNotification.date.getTime())
   }
 
   ngOnInit(): void {

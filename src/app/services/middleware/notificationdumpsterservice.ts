@@ -9,6 +9,7 @@ import {OperatorNotificationAndDumpster} from "../../models/operatornotification
   providedIn: 'root',
 })
 export class NotificationDumpsterService extends OperatorNotificationService {
+  private CLASS_TAG = "NotificationDumpsterService:";
   constructor(
     private httpR: HttpRequestService,
     private dumpsterService: DumpsterService,
@@ -17,20 +18,23 @@ export class NotificationDumpsterService extends OperatorNotificationService {
   }
 
   public getInformativeOperatorNotifications() {
+    console.log(this.CLASS_TAG," getInformativeOperatorNotifications");
     return new Observable<OperatorNotificationAndDumpster[]>(obs => {
       this.getOperatorNotifications().subscribe({
         next: (notifications) => {
           let x: OperatorNotificationAndDumpster[] = []
-          for (let i = 0; i < notifications.length; i++) {
-            this.dumpsterService.getDumpsterByID(notifications[i].dumpsterID).subscribe({
+          let len = 0
+          notifications.forEach(noti => {
+            this.dumpsterService.getDumpsterByID(noti.dumpsterID).subscribe({
               next: (res) => {
-                x.push(new OperatorNotificationAndDumpster(notifications[i], res))
-                if (i+1 >= notifications.length ){
+                x.push(new OperatorNotificationAndDumpster(noti, res))
+                len = len + 1
+                if (len >= notifications.length ){
                   obs.next(x)
                 }
               }
             })
-          }
+          })
         }
       })
     })

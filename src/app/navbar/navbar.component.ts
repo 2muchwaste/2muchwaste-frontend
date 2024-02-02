@@ -159,7 +159,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.CLASS_TAG + ": NUOVA NOTIFICA OPERATORE operatorNotification", operatorNotification)
         this.notificationDumpsterService.getInformativeOperatorNotifications().subscribe({
           next: (res) => {
-            this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = res
+            this.setOperatorNotifications(res)
             this.userInfoService.addOperatorNotifications(res)
           }
         })
@@ -168,7 +168,10 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setOperatorNotifications(operatorNotiDumpster: OperatorNotificationAndDumpster[]) {
-    this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = operatorNotiDumpster
+    this.userInfoService.operatorNotifications = this.operatorNotificationNotRead = operatorNotiDumpster.map(noti => {
+      noti.operatorNotification.date = new Date(noti.operatorNotification.date)
+      return noti
+    }).sort((noti1, noti2) => noti2.operatorNotification.date.getTime() - noti1.operatorNotification.date.getTime())
   }
 
   performBurgerButtonClick() {

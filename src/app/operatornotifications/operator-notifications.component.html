@@ -2,10 +2,11 @@
   <div class="col operator-notification-col">
     <div class="d-none d-md-block">
       <div class="row table-row-headers list-item-headers">
-        <div class="col-3">PROBLEMA</div>
-        <div class="col-3 date-header">STATO</div>
+        <div class="col-3">DATA</div>
+        <div class="col-2">PROBLEMA</div>
+        <div class="col-2 date-header">STATO</div>
         <div class="col-3 text-header">BIDONE</div>
-        <div class="col-3 text-header">TIPO</div>
+        <div class="col-2 text-header">TIPO</div>
       </div>
     </div>
 
@@ -13,17 +14,20 @@
     <ng-container *ngFor="let noti of (notifications | slice: lowValue : highValue)">
 
       <div class="row operatornotification-list-item">
-        <div class="col-12 col-sm-3 order-sm-3">
+        <div class="col-12 col-sm-3 order-sm-4">
           {{noti.dumpster.address + ", " + noti.dumpster.city}}
         </div>
-        <div class="col-4 col-sm-3 order-sm-1">
+        <div class="col-4 col-sm-2 order-sm-2">
           {{DumpsterErrorTypeManager.getItalianType(noti.operatorNotification.type)}}
         </div>
-        <div class="col-4 col-sm-3 order-sm-2">
+        <div class="col-4 col-sm-2 order-sm-3">
           {{OperatorNotificationStatusManager.getItalianStatus(noti.operatorNotification.status)}}
         </div>
-        <div class="col-4 col-sm-3 order-sm-4">
+        <div class="col-4 col-sm-2 order-sm-5">
           {{TrashTypeManager.getItalianName(noti.dumpster.type)}}
+        </div>
+        <div class="col-12 col-sm-3 order-sm-1 date-value">
+          {{noti.operatorNotification.date | date : "YYYY-MM-dd HH:mm" }}
         </div>
         <mat-divider></mat-divider>
       </div>
